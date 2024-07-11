@@ -42,7 +42,7 @@ class Day01Test {
     }
 
     @Nested
-    inner class GoogleAccountData {
+    inner class Solution {
 
         @Test
         fun `Part 1 - SOLVED`() {

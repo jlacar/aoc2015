@@ -6,6 +6,11 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestFactory
 
+private val puzzleInput = readResource("day02")
+    .map { line ->
+        line.split("x").map { it.toInt() }.toIntArray()
+    }
+
 class Day02Test {
 
     @Nested
@@ -35,19 +40,14 @@ class Day02Test {
 
     @Nested
     inner class Solution {
-        private val boxDimensions = readResource("day02").map { line ->
-            line.split("x").map { it.toInt() }.toIntArray()
-        }
-
         @Test
         fun `Part 1 - SOLVED`() {
-            assertEquals(1588178, Day02(boxDimensions).part1())
+            assertEquals(1588178, Day02(puzzleInput).part1())
         }
 
         @Test
         fun `Part 2 - SOLVED`() {
-            assertEquals(3783758, Day02(boxDimensions).part2())
+            assertEquals(3783758, Day02(puzzleInput).part2())
         }
     }
-
 }

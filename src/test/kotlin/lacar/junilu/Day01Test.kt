@@ -6,6 +6,8 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestFactory
 
+private val puzzleInput = readResource("day01")[0]
+
 class Day01Test {
 
     @Nested
@@ -41,18 +43,15 @@ class Day01Test {
 
     @Nested
     inner class GoogleAccountData {
-        val input = readResource("day01")[0]
 
         @Test
         fun `Part 1 - SOLVED`() {
-            assertEquals(280, Day01(input).part1())
+            assertEquals(280, Day01(puzzleInput).part1())
         }
 
         @Test
         fun `Part 2 - SOLVED`() {
-            val position = Day01(input).part2()
-
-            assertEquals(1797, position)
+            assertEquals(1797, Day01(puzzleInput).part2())
         }
     }
 }

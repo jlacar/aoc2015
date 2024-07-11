@@ -16,7 +16,7 @@ class Day02Test {
             intArrayOf(1, 1, 10) to 43
         ).map { (dimensions, expectedArea) ->
             dynamicTest("${dimensions.joinToString("x")} should have area $expectedArea") {
-                assertEquals(expectedArea, Day02(*dimensions).part1())
+                assertEquals(expectedArea, Day02(listOf(dimensions)).part1())
             }
         }
     }

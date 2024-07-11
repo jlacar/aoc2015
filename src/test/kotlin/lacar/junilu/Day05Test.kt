@@ -11,25 +11,50 @@ private val puzzleInput = readResource("Day05")
 class Day05Test {
     @Nested
     inner class Samples {
+        @Nested
+        inner class Nice {
+            @TestFactory
+            fun `Part 1`() = listOf(
+                "ugknbfddgicrmopn",
+                "aaa"
+            ).map { sample ->
+                DynamicTest.dynamicTest("$sample is nice") {
+                    assertEquals(1, Day05(listOf(sample)).part1())
+                }
+            }
 
-        @TestFactory
-        fun `Part 1 - nice`() = listOf(
-            "ugknbfddgicrmopn",
-            "aaa"
-        ).map { sample ->
-            DynamicTest.dynamicTest("$sample is nice") {
-                assertEquals(1, Day05(listOf(sample)).part1())
+            @TestFactory
+            fun `Part 2`() = listOf(
+                "qjhvhtzxzqqjkmpb",
+                "xxyxx"
+            ).map { sample ->
+                DynamicTest.dynamicTest("$sample is nice") {
+                    assertEquals(1, Day05(listOf(sample)).part1())
+                }
             }
         }
 
-        @TestFactory
-        fun `Part 1 - naughty`() = listOf(
-            "jchzalrnumimnmhp",
-            "haegwjzuvuyypxyu",
-            "dvszwmarrgswjxmb"
-        ).map { sample ->
-            DynamicTest.dynamicTest("$sample is naughty") {
-                assertEquals(0, Day05(listOf(sample)).part1())
+        @Nested
+        inner class Naughty {
+            @TestFactory
+            fun `Part 1`() = listOf(
+                "jchzalrnumimnmhp",
+                "haegwjzuvuyypxyu",
+                "dvszwmarrgswjxmb"
+            ).map { sample ->
+                DynamicTest.dynamicTest("$sample is naughty") {
+                    assertEquals(0, Day05(listOf(sample)).part1())
+                }
+            }
+
+            @TestFactory
+            fun `Part 2`() = listOf(
+                "uurcxstgmygtbstg",
+                "ieodomkazucvgmuy"
+            ).map { sample ->
+                DynamicTest.dynamicTest("$sample is naughty") {
+                    assertEquals(0, Day05(listOf(sample)).part2())
+                }
             }
         }
     }
@@ -39,6 +64,11 @@ class Day05Test {
         @Test
         fun `Part 1 - SOLVED`() {
             assertEquals(258, Day05(puzzleInput).part1())
+        }
+
+        @Test
+        fun `Part 2 - `() {
+            assertEquals(0, Day05(puzzleInput).part2())
         }
     }
 }

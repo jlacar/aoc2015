@@ -8,8 +8,6 @@ import org.junit.jupiter.api.TestFactory
 
 class Day04Test {
 
-    private val puzzleInput = "ckczppom"
-
     @Nested
     inner class Samples {
 
@@ -21,6 +19,21 @@ class Day04Test {
             dynamicTest("$input -> $expected") {
                 assertEquals(expected, Day04(input).part1())
             }
+        }
+    }
+
+    @Nested
+    inner class Solution {
+        private val puzzleInput = "ckczppom"
+
+        @Test
+        fun `Part 1 - SOLVED`() {
+            assertEquals(117946, Day04(puzzleInput).part1())
+        }
+
+        @Test
+        fun `Part 2`() {
+            assertEquals(1, Day04(puzzleInput).part2())
         }
     }
 }

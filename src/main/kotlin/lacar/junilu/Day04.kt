@@ -3,13 +3,12 @@ package lacar.junilu
 import java.security.MessageDigest
 
 class Day04(private val secretKey: String) : Solution<Int>() {
-    override fun part1(): Int {
-        return (1..Int.MAX_VALUE).first { secretKey.md5(it).startsWith("00000") }
-    }
+    override fun part1() = mineFor("00000")
 
-    override fun part2(): Int {
-        return (1..Int.MAX_VALUE).first { secretKey.md5(it).startsWith("000000") }
-    }
+    override fun part2() = mineFor("000000")
+
+    private fun mineFor(prefix: String): Int =
+        (1..Int.MAX_VALUE).first { secretKey.md5(it).startsWith(prefix) }
 }
 
 @OptIn(ExperimentalStdlibApi::class)

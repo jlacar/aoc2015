@@ -24,7 +24,7 @@ class Day01Test {
             ")())())" to -3
         ).map { (input, expectedLevel) ->
             DynamicTest.dynamicTest("$input should give level $expectedLevel") {
-                assertEquals(expectedLevel, Day01(input, "sample input").part1())
+                assertEquals(expectedLevel, Day01(input).part1())
             }
         }
 
@@ -34,7 +34,7 @@ class Day01Test {
             "()())" to 5
         ).map { (input, expectedPosition) ->
             DynamicTest.dynamicTest("$input should give position $expectedPosition") {
-                assertEquals(expectedPosition, Day01(input, "sample input").part2())
+                assertEquals(expectedPosition, Day01(input).part2())
             }
         }
     }

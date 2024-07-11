@@ -67,8 +67,8 @@ class Day05Test {
         }
 
         @Test
-        fun `Part 2 - `() {
-            assertEquals(0, Day05(puzzleInput).part2())
+        fun `Part 2 - SOLVED`() {
+            assertEquals(53, Day05(puzzleInput).part2())
         }
     }
 }

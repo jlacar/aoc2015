@@ -45,15 +45,14 @@ class Day01Test {
 
         @Test
         fun `Part 1 - SOLVED`() {
-            assertEquals(280, Day01(input, "Using google account data").part1())
+            assertEquals(280, Day01(input).part1())
         }
 
         @Test
         fun `Part 2 - SOLVED`() {
-            val position = Day01(input, "Using google account data").part2()
+            val position = Day01(input).part2()
 
             assertEquals(1797, position)
         }
     }
-
 }

@@ -1,6 +1,6 @@
 package lacar.junilu
 
-class Day01(val input: String, override val description: String) : Solution() {
+class Day01(val input: String) : Solution() {
     override fun part1(): Int = input.count { it == '(' } - input.count { it == ')' }
 
     private fun delta(c: Char) = if (c == '(') 1 else -1

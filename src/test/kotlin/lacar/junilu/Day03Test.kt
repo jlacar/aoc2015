@@ -38,9 +38,13 @@ class Day03Test {
     @Nested
     inner class Solution {
         @Test
-        fun `Part 1`() {
-            assertEquals(0, Day03(puzzleInput).part1())
+        fun `Part 1 - SOLVED`() {
+            assertEquals(2565, Day03(puzzleInput).part1())
         }
 
+        @Test
+        fun `Part 2 - SOLVED`() {
+            assertEquals(2639, Day03(puzzleInput).part2())
+        }
     }
 }

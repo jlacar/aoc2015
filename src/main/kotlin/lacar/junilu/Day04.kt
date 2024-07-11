@@ -8,7 +8,7 @@ class Day04(private val secretKey: String) : Solution<Int>() {
     }
 
     override fun part2(): Int {
-        TODO("Not yet implemented")
+        return (1..Int.MAX_VALUE).first { secretKey.md5(it).startsWith("000000") }
     }
 }
 

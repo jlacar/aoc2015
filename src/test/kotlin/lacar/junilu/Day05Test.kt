@@ -29,7 +29,7 @@ class Day05Test {
                 "xxyxx"
             ).map { sample ->
                 DynamicTest.dynamicTest("$sample is nice") {
-                    assertEquals(1, Day05(listOf(sample)).part1())
+                    assertEquals(1, Day05(listOf(sample)).part2())
                 }
             }
         }

@@ -3,9 +3,10 @@ package lacar.junilu
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.DynamicTest.dynamicTest
 import org.junit.jupiter.api.Nested
+import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestFactory
 
-private val puzzleInput = readResource("day03")
+private val puzzleInput = readResource("day03").first()
 
 class Day03Test {
     @Nested
@@ -21,10 +22,25 @@ class Day03Test {
                 assertEquals(expectedCount, Day03(directions).part1())
             }
         }
+
+        @TestFactory
+        fun `Part 2`() = listOf(
+            "^v" to 3,
+            "^>v<" to 3,
+            "^v^v^v^v^v" to 11
+        ).map { (directions, expectedCount) ->
+            dynamicTest("$directions should visit $expectedCount houses") {
+                assertEquals(expectedCount, Day03(directions).part2())
+            }
+        }
     }
 
     @Nested
     inner class Solution {
+        @Test
+        fun `Part 1`() {
+            assertEquals(0, Day03(puzzleInput).part1())
+        }
 
     }
 }

@@ -13,7 +13,11 @@ class Day02(private val boxDimensions: List<IntArray>) : Solution<Int>() {
         return areas.sumOf { 2 * it } + areas.min()
     }
 
-    override fun part2(): Int {
-        TODO("Not yet implemented")
+    override fun part2() = boxDimensions.sumOf { ribbonNeeded(it) }
+
+    private fun ribbonNeeded(dims: IntArray): Int {
+        val (w, l, h) = dims
+        val bow = w * l * h
+        return dims.sumOf { 2 * it } - 2 * dims.max() + bow
     }
 }

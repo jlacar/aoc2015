@@ -3,7 +3,10 @@ package lacar.junilu
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.DynamicTest
 import org.junit.jupiter.api.Nested
+import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestFactory
+
+private val puzzleInput = readResource("Day05")
 
 class Day05Test {
     @Nested
@@ -33,6 +36,9 @@ class Day05Test {
 
     @Nested
     inner class Solution {
-
+        @Test
+        fun `Part 1 - SOLVED`() {
+            assertEquals(258, Day05(puzzleInput).part1())
+        }
     }
 }

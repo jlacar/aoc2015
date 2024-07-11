@@ -8,7 +8,8 @@ class Day02(private val boxDimensions: List<IntArray>) : Solution<Int>() {
     override fun part1() = boxDimensions.sumOf { wrapperNeeded(it) }
 
     private fun wrapperNeeded(dims: IntArray): Int {
-        val areas = listOf(dims[0] * dims[1], dims[0] * dims[2], dims[1] * dims[2])
+        val (w, l, h) = dims
+        val areas = listOf(w * l, w * h, l * h)
         return areas.sumOf { 2 * it } + areas.min()
     }
 

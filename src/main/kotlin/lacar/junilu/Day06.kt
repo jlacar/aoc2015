@@ -22,16 +22,16 @@ class Day06(private val instructions: List<String>) : Solution<Int>() {
         }
         return lights
     }
+
+    private fun toCorner(s: String): Corner {
+        val (row, col) = s.split(",")
+        return Pair(row.toInt(), col.toInt())
+    }
 }
 
 interface Day06Part {
     fun perform(command: String, qualifier: String, topCorner: Corner, bottomCorner: Corner)
     fun howMany(): Int
-}
-
-private fun toCorner(s: String): Corner {
-    val (row, col) = s.split(",")
-    return Pair(row.toInt(), col.toInt())
 }
 
 private class Part1 : Day06Part {

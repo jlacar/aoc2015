@@ -40,7 +40,7 @@ private class Part1 : Day06Part {
     override fun howMany(): Int = lights.sumOf { row -> row.count { it } }
 
     override fun perform(command: String, qualifier: String, topCorner: Corner, bottomCorner: Corner) {
-        val action = action(command, qualifier)
+        val action = actionFor(command, qualifier)
         for (row in topCorner.first..bottomCorner.first) {
             for (column in topCorner.second..bottomCorner.second) {
                 lights[row][column] = action(lights[row][column])
@@ -48,7 +48,7 @@ private class Part1 : Day06Part {
         }
     }
 
-    private fun action(action: String, qualifier: String): (Boolean) -> Boolean = when (action) {
+    private fun actionFor(action: String, qualifier: String): (Boolean) -> Boolean = when (action) {
         "toggle" -> { state -> !state }
         "turn" -> if (qualifier == "on") { _ -> true } else { _ -> false }
         else -> { state -> state }
@@ -61,7 +61,7 @@ private class Part2 : Day06Part {
     override fun howMany(): Int = brights.sumOf { row -> row.sumOf { it } }
 
     override fun perform(command: String, qualifier: String, topCorner: Corner, bottomCorner: Corner) {
-        val action = action(command, qualifier)
+        val action = actionFor(command, qualifier)
         for (row in topCorner.first..bottomCorner.first) {
             for (column in topCorner.second..bottomCorner.second) {
                 brights[row][column] = action(brights[row][column])
@@ -69,7 +69,7 @@ private class Part2 : Day06Part {
         }
     }
 
-    private fun action(action: String, qualifier: String): (Int) -> Int = when (action) {
+    private fun actionFor(action: String, qualifier: String): (Int) -> Int = when (action) {
         "toggle" -> { intensity -> intensity + 2 }
         "turn" -> if (qualifier == "on") { i -> i + 1 } else { i -> max(i - 1, 0) }
         else -> { state -> state }

@@ -8,21 +8,27 @@ typealias Corner = Pair<Int, Int>
  * Day 6: Probably a Fire Hazard
  */
 class Day06(private val instructions: List<String>) : Solution<Int>() {
-    override fun part1() = executeInstructionsFor(Part1()).howMany()
-    override fun part2() = executeInstructionsFor(Part2()).howMany()
+    override fun part1() = with(Part1()) {
+        instructions.forEach { details -> perform(Command(details)) }
+        totalOf { row -> row.count { it } }
+    }
 
-    private fun executeInstructionsFor(lights: Day06Part): Day06Part {
-        instructions.forEach { details -> lights.perform(Command(details)) }
-        return lights
+    override fun part2() = with(Part2()) {
+        instructions.forEach { details -> perform(Command(details)) }
+        totalOf { row -> row.sum() }
     }
 }
 
 data class Command(val details: String) {
-    val parts = details.split(" ")
+    private val parts = details.split(" ")
+    private val topCorner = toCorner(parts[parts.lastIndex - 2])
+    private val bottomCorner = toCorner(parts.last())
+
     val action = parts[0]
     val qualifier = parts[1]
-    val topCorner = toCorner(parts[parts.lastIndex - 2])
-    val bottomCorner = toCorner(parts.last())
+
+    fun rowRange() = topCorner.first..bottomCorner.first
+    fun columnRange() = topCorner.second..bottomCorner.second
 
     private fun toCorner(s: String): Corner {
         val (row, col) = s.split(",")
@@ -30,47 +36,37 @@ data class Command(val details: String) {
     }
 }
 
-interface Day06Part {
-    fun perform(command: Command)
-    fun howMany(): Int
-}
+interface Day06Part<T> {
+    val grid: Array<Array<T>>
 
-private class Part1 : Day06Part {
-    private val lights = Array(1000) { BooleanArray(1000) }
-
-    override fun howMany(): Int = lights.sumOf { row -> row.count { it } }
-
-    override fun perform(command: Command) {
-        val action = actionFor(command.action, command.qualifier)
-        for (row in command.topCorner.first..command.bottomCorner.first) {
-            for (column in command.topCorner.second..command.bottomCorner.second) {
-                lights[row][column] = action(lights[row][column])
+    fun perform(command: Command) = with(command) {
+        val action = actionFor(action, qualifier)
+        for (row in rowRange()) {
+            for (column in columnRange()) {
+                grid[row][column] = action(grid[row][column])
             }
         }
     }
 
-    private fun actionFor(action: String, qualifier: String): (Boolean) -> Boolean = when (action) {
+    fun actionFor(action: String, qualifier: String): (T) -> T
+
+    fun totalOf(op: (Array<T>) -> Int): Int = grid.sumOf { row -> op(row) }
+}
+
+private class Part1 : Day06Part<Boolean> {
+    override val grid = Array(1000) { Array<Boolean>(1000) { false } }
+
+    override fun actionFor(action: String, qualifier: String): (Boolean) -> Boolean = when (action) {
         "toggle" -> { state -> !state }
         "turn" -> if (qualifier == "on") { _ -> true } else { _ -> false }
         else -> { state -> state }
     }
 }
 
-private class Part2 : Day06Part {
-    private val brights = Array(1000) { IntArray(1000) }
+private class Part2 : Day06Part<Int> {
+    override val grid = Array(1000) { Array<Int>(1000) { 0 } }
 
-    override fun howMany(): Int = brights.sumOf { row -> row.sumOf { it } }
-
-    override fun perform(command: Command) {
-        val action = actionFor(command.action, command.qualifier)
-        for (row in command.topCorner.first..command.bottomCorner.first) {
-            for (column in command.topCorner.second..command.bottomCorner.second) {
-                brights[row][column] = action(brights[row][column])
-            }
-        }
-    }
-
-    private fun actionFor(action: String, qualifier: String): (Int) -> Int = when (action) {
+    override fun actionFor(action: String, qualifier: String): (Int) -> Int = when (action) {
         "toggle" -> { intensity -> intensity + 2 }
         "turn" -> if (qualifier == "on") { i -> i + 1 } else { i -> max(i - 1, 0) }
         else -> { intensity -> intensity }

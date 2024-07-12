@@ -54,7 +54,7 @@ interface Day06Part<T> {
 }
 
 private class Part1 : Day06Part<Boolean> {
-    override val grid = Array(1000) { Array<Boolean>(1000) { false } }
+    override val grid = Array(1000) { Array(1000) { false } }
 
     override fun actionFor(action: String, qualifier: String): (Boolean) -> Boolean = when (action) {
         "toggle" -> { state -> !state }
@@ -64,7 +64,7 @@ private class Part1 : Day06Part<Boolean> {
 }
 
 private class Part2 : Day06Part<Int> {
-    override val grid = Array(1000) { Array<Int>(1000) { 0 } }
+    override val grid = Array(1000) { Array(1000) { 0 } }
 
     override fun actionFor(action: String, qualifier: String): (Int) -> Int = when (action) {
         "toggle" -> { intensity -> intensity + 2 }

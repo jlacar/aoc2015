@@ -17,7 +17,7 @@ class Day06(private val instructions: List<String>) : Solution<Int>() {
     }
 }
 
-data class Command(instr: String) {
+data class Command(val instr: String) {
     val parts = instr.split(" ")
     val action = parts[0]
     val qualifier = parts[1]

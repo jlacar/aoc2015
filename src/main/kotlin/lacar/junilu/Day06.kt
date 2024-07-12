@@ -72,6 +72,6 @@ private class Part2 : Day06Part {
     private fun actionFor(action: String, qualifier: String): (Int) -> Int = when (action) {
         "toggle" -> { intensity -> intensity + 2 }
         "turn" -> if (qualifier == "on") { i -> i + 1 } else { i -> max(i - 1, 0) }
-        else -> { state -> state }
+        else -> { intensity -> intensity }
     }
 }

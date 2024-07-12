@@ -12,13 +12,13 @@ class Day06(private val instructions: List<String>) : Solution<Int>() {
     override fun part2() = executeInstructionsFor(Part2()).howMany()
 
     private fun executeInstructionsFor(lights: Day06Part): Day06Part {
-        instructions.forEach { instr -> lights.perform(Command(instr)) }
+        instructions.forEach { details -> lights.perform(Command(details)) }
         return lights
     }
 }
 
-data class Command(val instr: String) {
-    val parts = instr.split(" ")
+data class Command(val details: String) {
+    val parts = details.split(" ")
     val action = parts[0]
     val qualifier = parts[1]
     val topCorner = toCorner(parts[parts.lastIndex - 2])

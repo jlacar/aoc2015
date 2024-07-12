@@ -31,6 +31,18 @@ class Day06Test {
                 assertEquals(expected, Day06(input).part1())
             }
         }
+
+        @TestFactory
+        fun `Part 2`() = listOf(
+            "turn on 0,0 through 0,0".lines() to 1,
+            "toggle 0,0 through 0,0".lines() to 2,
+            "toggle 0,0 through 999,999".lines() to 2_000_000,
+
+        ).map { (input, expected) ->
+            DynamicTest.dynamicTest("Part 1: $input -> $expected") {
+                assertEquals(expected, Day06(input).part2())
+            }
+        }
     }
 
     @Nested
@@ -38,6 +50,11 @@ class Day06Test {
         @Test
         fun `Part 1 - SOLVED`() {
             assertEquals(543903, Day06(puzzleInput).part1())
+        }
+
+        @Test
+        fun `Part 2 - SOLVED`() {
+            assertEquals(14687245, Day06(puzzleInput).part2())
         }
     }
 }

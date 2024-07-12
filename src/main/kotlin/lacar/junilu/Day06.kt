@@ -12,16 +12,17 @@ class Day06(private val instructions: List<String>) : Solution<Int>() {
     override fun part2() = executeInstructionsFor(Part2()).howMany()
 
     private fun executeInstructionsFor(lights: Day06Part): Day06Part {
-        instructions.forEach { instr ->
-            val parts = instr.split(" ")
-            val action = parts[0]
-            val qualifier = parts[1]
-            val topCorner = toCorner(parts[parts.lastIndex - 2])
-            val bottomCorner = toCorner(parts.last())
-            lights.perform(action, qualifier, topCorner, bottomCorner)
-        }
+        instructions.forEach { instr -> lights.perform(Command(instr)) }
         return lights
     }
+}
+
+data class Command(instr: String) {
+    val parts = instr.split(" ")
+    val action = parts[0]
+    val qualifier = parts[1]
+    val topCorner = toCorner(parts[parts.lastIndex - 2])
+    val bottomCorner = toCorner(parts.last())
 
     private fun toCorner(s: String): Corner {
         val (row, col) = s.split(",")
@@ -30,7 +31,7 @@ class Day06(private val instructions: List<String>) : Solution<Int>() {
 }
 
 interface Day06Part {
-    fun perform(command: String, qualifier: String, topCorner: Corner, bottomCorner: Corner)
+    fun perform(command: Command)
     fun howMany(): Int
 }
 
@@ -39,10 +40,10 @@ private class Part1 : Day06Part {
 
     override fun howMany(): Int = lights.sumOf { row -> row.count { it } }
 
-    override fun perform(command: String, qualifier: String, topCorner: Corner, bottomCorner: Corner) {
-        val action = actionFor(command, qualifier)
-        for (row in topCorner.first..bottomCorner.first) {
-            for (column in topCorner.second..bottomCorner.second) {
+    override fun perform(command: Command) {
+        val action = actionFor(command.action, command.qualifier)
+        for (row in command.topCorner.first..command.bottomCorner.first) {
+            for (column in command.topCorner.second..command.bottomCorner.second) {
                 lights[row][column] = action(lights[row][column])
             }
         }
@@ -60,10 +61,10 @@ private class Part2 : Day06Part {
 
     override fun howMany(): Int = brights.sumOf { row -> row.sumOf { it } }
 
-    override fun perform(command: String, qualifier: String, topCorner: Corner, bottomCorner: Corner) {
-        val action = actionFor(command, qualifier)
-        for (row in topCorner.first..bottomCorner.first) {
-            for (column in topCorner.second..bottomCorner.second) {
+    override fun perform(command: Command) {
+        val action = actionFor(command.action, command.qualifier)
+        for (row in command.topCorner.first..command.bottomCorner.first) {
+            for (column in command.topCorner.second..command.bottomCorner.second) {
                 brights[row][column] = action(brights[row][column])
             }
         }

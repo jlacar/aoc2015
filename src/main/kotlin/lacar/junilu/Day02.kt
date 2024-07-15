@@ -1,7 +1,7 @@
 package lacar.junilu
 
 /**
- * Day 2: I Was Told There Would Be No Math
+ * Aoc 2015 - Day 2: I Was Told There Would Be No Math
  */
 class Day02(private val boxDimensions: List<IntArray>) : Solution<Int>() {
 

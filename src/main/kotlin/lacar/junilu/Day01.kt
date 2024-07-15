@@ -1,5 +1,8 @@
 package lacar.junilu
 
+/**
+ * AoC 2015 - Day 1: Not Quite Lisp
+ */
 class Day01(private val input: String) : Solution<Int>() {
     override fun part1() = input.count { it == '(' } - input.count { it == ')' }
 

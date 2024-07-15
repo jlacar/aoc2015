@@ -2,6 +2,9 @@ package lacar.junilu
 
 import kotlin.math.abs
 
+/**
+ * AoC 2015 - Day 5: Doesn't He Have Intern-Elves For This?
+ */
 class Day05(private val strings: List<String>) : Solution<Int>() {
 
     // --- PART 1 ---

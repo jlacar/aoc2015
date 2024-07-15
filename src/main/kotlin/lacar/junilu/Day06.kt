@@ -5,7 +5,7 @@ import kotlin.math.max
 typealias Corner = Pair<Int, Int>
 
 /**
- * Day 6: Probably a Fire Hazard
+ * AoC 2015 - Day 6: Probably a Fire Hazard
  */
 class Day06(private val instructions: List<String>) : Solution<Int>() {
     override fun part1() = with(Part1()) {

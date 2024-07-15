@@ -2,6 +2,9 @@ package lacar.junilu
 
 import java.rmi.UnexpectedException
 
+/**
+ * AoC 2015 - Day 7: Some Assembly Required
+ */
 class Day07(private val instructions: List<String>) : Solution<Int>() {
 
     private val circuit = Circuit.assemble(instructions)

@@ -2,6 +2,9 @@ package lacar.junilu
 
 import java.security.MessageDigest
 
+/**
+ * AoC 2015 - Day 4: The Ideal Stocking Stuffer
+ */
 class Day04(private val secretKey: String) : Solution<Int>() {
     override fun part1() = mineFor("00000")
 

@@ -22,10 +22,7 @@ class Day03(private val directions: String) : Solution<Int>() {
 
     override fun part2(): Int {
         val (santaDirections, roboSantaDirections) = splitUp(directions)
-        return (listOf(Pair(0,0)) +
-                housesVisited(santaDirections) +
-                housesVisited(roboSantaDirections))
-            .distinct().count()
+        return (housesVisited(santaDirections) + housesVisited(roboSantaDirections)).distinct().count()
     }
 
     private fun splitUp(directions: String): Pair<String, String> =

@@ -1,7 +1,10 @@
 package lacar.junilu
 
-class Day09(distances: List<Day9Segment>): Solution<Int>() {
+class Day09(val distances: List<Day9Segment>): Solution<Int>() {
     override fun part1(): Int {
+//        val cities = distances.mapTo(mutableSetOf<String>()) {
+//
+//        }
         TODO("Not yet implemented")
     }
 

@@ -15,9 +15,7 @@ class Day02(private val boxDimensions: List<IntArray>) : Solution<Int>() {
 
     override fun part2() = boxDimensions.sumOf { ribbonNeeded(it) }
 
-    private fun ribbonNeeded(dims: IntArray): Int {
-        val bow = dims.fold(1) { acc, i -> acc * i }
-        val smallestPerimeter = dims.sumOf { 2 * it } - 2 * dims.max()
-        return smallestPerimeter + bow
-    }
+    private fun ribbonNeeded(dims: IntArray): Int =
+        dims.sumOf { 2 * it } - 2 * dims.max() +
+        dims.fold(1) { acc, i -> acc * i }
 }

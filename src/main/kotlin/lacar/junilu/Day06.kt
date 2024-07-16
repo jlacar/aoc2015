@@ -9,17 +9,17 @@ typealias Corner = Pair<Int, Int>
  */
 class Day06(private val instructions: List<String>) : Solution<Int>() {
     override fun part1() = with(Part1()) {
-        instructions.forEach { details -> perform(CommandDay6(details)) }
+        instructions.forEach { perform(Day6Instruction(it)) }
         totalOf { row -> row.count { it } }
     }
 
     override fun part2() = with(Part2()) {
-        instructions.forEach { details -> perform(CommandDay6(details)) }
+        instructions.forEach { perform(Day6Instruction(it)) }
         totalOf { row -> row.sum() }
     }
 }
 
-data class CommandDay6(val details: String) {
+data class Day6Instruction(val details: String) {
     private val parts = details.split(" ")
     private val topCorner = toCorner(parts[parts.lastIndex - 2])
     private val bottomCorner = toCorner(parts.last())
@@ -39,7 +39,7 @@ data class CommandDay6(val details: String) {
 sealed interface Day06Part<T> {
     val grid: Array<Array<T>>
 
-    fun perform(command: CommandDay6) = with(command) {
+    fun perform(command: Day6Instruction) = with(command) {
         val action = actionFor(action, qualifier)
         for (row in rowRange()) {
             for (column in columnRange()) {

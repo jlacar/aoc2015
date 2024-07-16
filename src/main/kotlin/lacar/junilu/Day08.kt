@@ -13,13 +13,9 @@ class Day08(val input: List<String>) : Solution<Int>() {
 
     override fun part2(): Int = input.sumOf { it.encoded().length - it.length }
 
-    private fun String.encoded(): String {
-        return this
+    private fun String.encoded(): String = this
             .let { backslashes -> Regex("""\\""").replace(backslashes, """\\\\""") }
             .let { doubleQuotes -> Regex("\"").replace(doubleQuotes, """\\"""") }
             .let { """"$it"""" }
-    }
 
 }
-
-

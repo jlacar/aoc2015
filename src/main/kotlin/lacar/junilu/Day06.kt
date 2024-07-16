@@ -8,15 +8,9 @@ typealias Corner = Pair<Int, Int>
  * AoC 2015 - Day 6: Probably a Fire Hazard
  */
 class Day06(private val instructions: List<String>) : Solution<Int>() {
-    override fun part1() = with(Part1()) {
-        instructions.forEach { perform(Day6Instruction(it)) }
-        totalOf { row -> row.count { it } }
-    }
+    override fun part1() = Part1().perform(instructions).totalOf { row -> row.count { it } }
 
-    override fun part2() = with(Part2()) {
-        instructions.forEach { perform(Day6Instruction(it)) }
-        totalOf { row -> row.sum() }
-    }
+    override fun part2() = Part2().perform(instructions).totalOf { row -> row.sum() }
 }
 
 data class Day6Instruction(val details: String) {
@@ -39,13 +33,18 @@ data class Day6Instruction(val details: String) {
 sealed interface Day06Part<T> {
     val grid: Array<Array<T>>
 
-    fun perform(command: Day6Instruction) = with(command) {
-        val action = actionFor(action, qualifier)
-        for (row in rowRange()) {
-            for (column in columnRange()) {
-                grid[row][column] = action(grid[row][column])
+    fun perform(instructions: List<String>): Day06Part<T> {
+        instructions.forEach { instruction ->
+            with (Day6Instruction(instruction)) {
+                val action = actionFor(action, qualifier)
+                for (row in rowRange()) {
+                    for (column in columnRange()) {
+                        grid[row][column] = action(grid[row][column])
+                    }
+                }
             }
         }
+        return this
     }
 
     fun actionFor(action: String, qualifier: String): (T) -> T

@@ -11,9 +11,7 @@ class Day08(val input: List<String>) : Solution<Int>() {
             .let { allBackslashes -> Regex("""\\\\""").replace(allBackslashes, "?") }
             .let { allHexCodes -> Regex("""\\x[0-9a-f]{2}""").replace(allHexCodes, "?") }
 
-    override fun part2(): Int {
-        return input.sumOf { it.encoded().length - it.length }
-    }
+    override fun part2(): Int = input.sumOf { it.encoded().length - it.length }
 
     private fun String.encoded(): String {
         return this

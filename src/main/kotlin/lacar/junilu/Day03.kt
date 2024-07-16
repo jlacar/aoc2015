@@ -6,6 +6,12 @@ package lacar.junilu
 class Day03(private val directions: String) : Solution<Int>() {
     override fun part1() = housesVisited(directions).distinct().count()
 
+    override fun part2() =
+        (housesVisited(directions.filterIndexed { index, _ -> index % 2 == 0 }) +
+         housesVisited(directions.filterIndexed { index, _ -> index % 2 == 1 }))
+        .distinct()
+        .count()
+
     private fun housesVisited(directions: String) =
         directions.runningFold(Pair(0, 0)) { currentHouse, ch ->
             when (ch) {
@@ -15,10 +21,4 @@ class Day03(private val directions: String) : Solution<Int>() {
                 else -> currentHouse.copy(second = currentHouse.second - 1)
             }
         }
-
-    override fun part2() =
-        (housesVisited(directions.filterIndexed { index, _ -> index % 2 == 0 }) +
-         housesVisited(directions.filterIndexed { index, _ -> index % 2 == 1 }))
-        .distinct()
-        .count()
 }

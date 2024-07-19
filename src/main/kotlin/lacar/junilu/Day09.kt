@@ -15,7 +15,7 @@ class Day09(private val segments: List<SantaRouteSegment>) : Solution<Int>() {
             segments.find { it.first == "$city1 to $city2" || it.first == "$city2 to $city1" }?.second ?: 0
         }
 
-    private fun allCities() = segments.flatMap { it.first.split(" to ").toList() }.distinct()
+    private fun allCities() = segments.flatMap { it.first.split(" to ") }.distinct()
 
     private fun allPossiblePaths(): List<List<String>> {
         val paths = mutableListOf<List<String>>()

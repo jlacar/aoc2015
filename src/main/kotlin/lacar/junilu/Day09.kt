@@ -6,13 +6,11 @@ private typealias SantaRouteSegment = Pair<String, Int>
 
 class Day09(private val segments: List<SantaRouteSegment>) : Solution<Int>() {
 
-    override fun part1(): Int = citiesIn(segments).let { cities ->
-        allPathsThrough(cities).minOfOrNull { eachPath -> distanceThrough(eachPath) } ?: 0
-    }
+    override fun part1() = allPathsThrough(citiesIn(segments))
+        .minOfOrNull { eachPath -> distanceThrough(eachPath) } ?: 0
 
-    override fun part2(): Int = citiesIn(segments).let { cities ->
-        allPathsThrough(cities).maxOfOrNull { eachPath -> distanceThrough(eachPath) } ?: 0
-    }
+    override fun part2() = allPathsThrough(citiesIn(segments))
+        .maxOfOrNull { eachPath -> distanceThrough(eachPath) } ?: 0
 
     private fun allPathsThrough(cities: Set<String>): List<List<String>> = permutations(cities.toList())
 

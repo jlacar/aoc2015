@@ -23,6 +23,19 @@ class Day09Test {
                 assertEquals(expectedShortest, Day09.using(segments.lines()).part1())
             }
         }
+
+        @TestFactory
+        fun `Part 2`() = listOf(
+            """
+            London to Dublin = 464
+            London to Belfast = 518
+            Dublin to Belfast = 141
+            """.trimIndent() to 982,
+        ).map { (segments, expectedShortest) ->
+            DynamicTest.dynamicTest("$segments -> shortest is $expectedShortest") {
+                assertEquals(expectedShortest, Day09.using(segments.lines()).part2())
+            }
+        }
     }
 
     @Nested
@@ -33,8 +46,8 @@ class Day09Test {
         }
 
         @Test
-        fun `Part 2 - `() {
-//            assertEquals(0, Day09.using(puzzleInput).part2())
+        fun `Part 2 - SOLVED `() {
+            assertEquals(736, Day09.using(puzzleInput).part2())
         }
     }
 }

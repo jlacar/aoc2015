@@ -9,7 +9,16 @@ class Day09(val segments: List<SantaRouteSegment>) : Solution<Int>() {
         allPathsThrough(cities).minOfOrNull { eachPath -> distanceThrough(eachPath) } ?: 0
     }
 
+    override fun part2(): Int = citiesIn(segments).let { cities ->
+        allPathsThrough(cities).maxOfOrNull { eachPath -> distanceThrough(eachPath) } ?: 0
+    }
+
     private fun allPathsThrough(cities: Set<String>): List<List<String>> = permutations(cities.toList())
+
+    private fun distanceThrough(cities: List<String>) = cities.windowed(2)
+        .sumOf { (city1, city2) ->
+            segments.find { it.first == "$city1 to $city2" || it.first == "$city2 to $city1" }?.second ?: 0
+        }
 
     private fun permutations(input: List<String>): List<List<String>> {
         val solutions = mutableListOf<List<String>>()
@@ -25,15 +34,6 @@ class Day09(val segments: List<SantaRouteSegment>) : Solution<Int>() {
             swap(input, i, index)
         }
     }
-
-    override fun part2(): Int {
-        TODO("Not yet implemented")
-    }
-
-    private fun distanceThrough(cities: List<String>) = cities.windowed(2)
-        .sumOf { (city1, city2) ->
-            segments.find { it.first == "$city1 to $city2" || it.first == "$city2 to $city1" }?.second ?: 0
-        }
 
     private fun citiesIn(segments: List<SantaRouteSegment>): Set<String> {
         return segments.fold(mutableSetOf()) { cities, segment ->

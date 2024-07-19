@@ -1,6 +1,5 @@
 package lacar.junilu
 
-import java.util.*
 import java.util.Collections.swap
 
 class Day09(val segments: List<SantaRouteSegment>) : Solution<Int>() {

@@ -2,6 +2,8 @@ package lacar.junilu
 
 import java.util.Collections.swap
 
+private typealias SantaRouteSegment = Pair<String, Int>
+
 class Day09(private val segments: List<SantaRouteSegment>) : Solution<Int>() {
 
     override fun part1(): Int = citiesIn(segments).let { cities ->
@@ -52,5 +54,3 @@ class Day09(private val segments: List<SantaRouteSegment>) : Solution<Int>() {
     }
 
 }
-
-typealias SantaRouteSegment = Pair<String, Int>

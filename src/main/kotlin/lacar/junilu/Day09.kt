@@ -1,21 +1,39 @@
 package lacar.junilu
 
-class Day09(val segments: List<SantaRouteSegment>): Solution<Int>() {
+import java.util.*
+import java.util.Collections.swap
 
-    override fun part1(): Int = citiesIn(segments).let { allCities ->
-        distancesOfPathsThrough(allCities).min()
+class Day09(val segments: List<SantaRouteSegment>) : Solution<Int>() {
+
+    override fun part1(): Int = citiesIn(segments).let { cities ->
+        allPathsThrough(cities).minOfOrNull { eachPath -> distanceThrough(eachPath) } ?: 0
+    }
+
+    private fun allPathsThrough(cities: Set<String>): List<List<String>> = permutations(cities.toList())
+
+    private fun permutations(input: List<String>): List<List<String>> {
+        val solutions = mutableListOf<List<String>>()
+        permutationsRecursive(input, 0, solutions)
+        return solutions
+    }
+
+    private fun permutationsRecursive(input: List<String>, index: Int, answers: MutableList<List<String>>) {
+        if (index == input.lastIndex) answers.add(input.toList())
+        for (i in index..input.lastIndex) {
+            swap(input, index, i)
+            permutationsRecursive(input, index + 1, answers)
+            swap(input, i, index)
+        }
     }
 
     override fun part2(): Int {
         TODO("Not yet implemented")
     }
 
-    private fun distancesOfPathsThrough(allCities: Set<String>): List<Int> {
-        val distances = listOf<Int>()
-        return distances
-    }
-
-    fun cities() = citiesIn(segments)
+    private fun distanceThrough(cities: List<String>) = cities.windowed(2)
+        .sumOf { (city1, city2) ->
+            segments.find { it.first == "$city1 to $city2" || it.first == "$city2 to $city1" }?.second ?: 0
+        }
 
     private fun citiesIn(segments: List<SantaRouteSegment>): Set<String> {
         return segments.fold(mutableSetOf()) { cities, segment ->

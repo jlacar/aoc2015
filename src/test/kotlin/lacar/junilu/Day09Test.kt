@@ -20,8 +20,7 @@ class Day09Test {
             """.trimIndent() to 605,
         ).map { (segments, expectedShortest) ->
             DynamicTest.dynamicTest("$segments -> shortest is $expectedShortest") {
-                assertEquals(3, Day09.using(segments.lines()).cities().size)
-//                assertEquals(expectedShortest, Day09.using(segments.lines()).part1())
+                assertEquals(expectedShortest, Day09.using(segments.lines()).part1())
             }
         }
     }
@@ -29,13 +28,13 @@ class Day09Test {
     @Nested
     inner class Solution {
         @Test
-        fun `Part 1 - `() {
-            assertEquals(8, Day09.using(puzzleInput).cities().size)
+        fun `Part 1 - SOLVED`() {
+            assertEquals(141, Day09.using(puzzleInput).part1())
         }
 
         @Test
         fun `Part 2 - `() {
-            assertEquals(0, Day09.using(puzzleInput).part2())
+//            assertEquals(0, Day09.using(puzzleInput).part2())
         }
     }
 }

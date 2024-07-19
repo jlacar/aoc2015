@@ -45,12 +45,10 @@ class Day09(private val segments: List<SantaRouteSegment>) : Solution<Int>() {
     }
 
     companion object {
-        fun using(input: List<String>) = Day09(
-            input.map { segment ->
-                val (cities, distance) = segment.split(" = ")
-                SantaRouteSegment(cities, distance.toInt())
-            }
-        )
+        fun using(input: List<String>) = Day09(input.map { segment ->
+            val (cities, distance) = segment.split(" = ")
+            SantaRouteSegment(cities, distance.toInt())
+        })
     }
 
 }

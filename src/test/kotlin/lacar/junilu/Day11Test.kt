@@ -5,8 +5,6 @@ import org.junit.jupiter.api.DynamicTest
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestFactory
-import kotlin.math.exp
-import kotlin.test.expect
 
 class Day11Test {
     @Nested
@@ -79,8 +77,8 @@ class Day11Test {
         }
 
         @Test
-        fun `Part 2 - `() {
-            assertEquals("", Day11().part2())
+        fun `Part 2 - SOLVED`() {
+            assertEquals("cqkaabcc", Day11("cqjxxyzz").part1())
         }
     }
 }

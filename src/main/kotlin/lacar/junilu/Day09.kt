@@ -4,6 +4,9 @@ import java.util.Collections.swap
 
 private typealias SantaRouteSegment = Pair<String, Int>
 
+/**
+ * AoC 2015 - Day 9: All in a Single Night
+ */
 class Day09(private val segments: List<SantaRouteSegment>) : Solution<Int>() {
 
     override fun part1() = allPossiblePaths().minOf { eachPath -> distanceThrough(eachPath) }

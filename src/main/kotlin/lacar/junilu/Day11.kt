@@ -28,5 +28,5 @@ class Day11(val password: String = "cqjxjnds") : Solution<String>() {
 
     private fun incWrap(c: Char): Char = if (c == 'z') 'A' else c.inc()
 
-    fun isValid(password: String): Boolean = true
+    fun isValid(password: String): Boolean = password.none { isIllegalCharacter(it) }
 }

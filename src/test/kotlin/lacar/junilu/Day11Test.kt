@@ -42,7 +42,7 @@ class Day11Test {
             "azwzzz" to "azxaaa"
         ).map { (password, expected) ->
             DynamicTest.dynamicTest("'$password' incr to '$expected'") {
-                assertEquals(expected, Day11(password).nextIncrement(password))
+                assertEquals(expected, Day11().nextIncrement(password))
             }
         }
     }

@@ -3,6 +3,7 @@ package lacar.junilu
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.DynamicTest
 import org.junit.jupiter.api.Nested
+import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestFactory
 
 class Day10Test {
@@ -24,8 +25,17 @@ class Day10Test {
         }
     }
 
+
     @Nested
     inner class Solution {
+        @Test
+        fun `Part 1 - SOLVED`() {
+            assertEquals(329356, Day10().part1())
+        }
 
+        @Test
+        fun `Part 2 - SOLVED`() {
+            assertEquals(4666278, Day10().part2())
+        }
     }
 }

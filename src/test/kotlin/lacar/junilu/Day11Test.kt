@@ -5,6 +5,8 @@ import org.junit.jupiter.api.DynamicTest
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestFactory
+import kotlin.math.exp
+import kotlin.test.expect
 
 class Day11Test {
     @Nested
@@ -22,14 +24,36 @@ class Day11Test {
         @TestFactory
         fun `Rejects invalid passwords`() = listOf(
             "iijklmmn" to "i and l",
-            "jjkllmno" to "o",
+            "aabccmno" to "o",
             "abbceffg" to "no 3 increasing letters",
-            "abbcegjk" to "only one pair, bb",
-            "abbbcgjk" to "no different overlapping pairs",
+            "abbcefgx" to "only one pair, bb",
+            "abbbcxyz" to "no different overlapping pairs",
             "abbcdbbk" to "no different overlapping pairs",
+            "abbcdbbA" to "uppercase letter 'A'",
+            "abbcdde"  to "only 7 characters",
+            "aabbcdeef" to "too many characters",
         ).map { (password, reasonToReject) ->
             DynamicTest.dynamicTest("Reject '$password' because it has $reasonToReject") {
                 assertFalse(Day11().isValid(password))
+            }
+        }
+
+        @TestFactory
+        fun `Calculates next password increment correctly`() = listOf(
+            "abcdefgh" to "abcdffaa",
+            "ghijklmn" to "ghjaabcc",
+        ).map { (password, expectedNext) ->
+            DynamicTest.dynamicTest("$password incr is $expectedNext") {
+                assertEquals(expectedNext, Day11(password).part1())
+            }
+        }
+
+        @TestFactory
+        fun `Accepts valid passwords`() = listOf(
+            "bbjjqqrs",
+        ).map { password ->
+            DynamicTest.dynamicTest("'$password' is valid") {
+                assertTrue(Day11().isValid(password))
             }
         }
 
@@ -50,8 +74,8 @@ class Day11Test {
     @Nested
     inner class Solution {
         @Test
-        fun `Part 1 - `() {
-            assertEquals("", Day11().part1())
+        fun `Part 1 - SOLVED`() {
+            assertEquals("cqjxxyzz", Day11().part1())
         }
 
         @Test

@@ -5,16 +5,14 @@ package lacar.junilu
  */
 class Day11(val password: String = "cqjxjnds") : Solution<String>() {
     override fun part1(): String {
-        TODO("Not yet implemented")
+        var newPassword = password
+        do { newPassword = newPassword.incr() } while (!isValid(newPassword))
+        return newPassword
     }
 
     override fun part2(): String {
         TODO("Not yet implemented")
     }
-
-    fun isIllegalCharacter(c: Char) = "ilo".contains(c)
-
-    val trios = "abcdefghijklmnopqrstuvwxyz".windowed(3).filter { it.none { c: Char -> isIllegalCharacter(c) } }
 
     fun nextIncrement(password: String): String = password.incr()
 
@@ -28,5 +26,25 @@ class Day11(val password: String = "cqjxjnds") : Solution<String>() {
 
     private fun incWrap(c: Char): Char = if (c == 'z') 'A' else c.inc()
 
-    fun isValid(password: String): Boolean = password.none { isIllegalCharacter(it) }
+    fun isValid(password: String) =
+        password.length == 8 &&
+        password.all { it in 'a'..'z' } &&
+        hasNoIllegalCharacters(password) &&
+        hasValidTrio(password) &&
+        hasPairOfDoubleLetters(password)
+
+    companion object {
+        private val validTrios = "abcdefghijklmnopqrstuvwxyz".windowed(3).filter { hasNoIllegalCharacters(it) }
+        private val doubleLetters = Regex("([a-z])\\1")
+
+        private fun hasValidTrio(password: String) = validTrios.any { trio -> password.contains(trio) }
+
+        private fun hasNoIllegalCharacters(str: String) = str.none { "ilo".contains(it) }
+
+        private fun hasPairOfDoubleLetters(password: String) = doubleLetters
+            .findAll(password, 0)
+            .map { matches -> matches.groupValues.first() }
+            .distinct().count() >= 2
+
+    }
 }

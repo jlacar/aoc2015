@@ -11,10 +11,15 @@ class Day11(val password: String = "cqjxjnds") : Solution<String>() {
     }
 
     override fun part2(): String {
-        TODO("Not yet implemented")
+        TODO("Not implemented")
     }
 
     fun nextIncrement(password: String): String = password.incr()
+
+    fun isValid(password: String) =
+        hasNoIllegalCharacters(password) &&
+        hasValidTrio(password) &&
+        hasPairOfDoubleLetters(password)
 
     private fun String.incr() =
         foldRight(StringBuilder()) { c, sb ->
@@ -25,13 +30,6 @@ class Day11(val password: String = "cqjxjnds") : Solution<String>() {
         }.reverse().toString().lowercase()
 
     private fun incWrap(c: Char): Char = if (c == 'z') 'A' else c.inc()
-
-    fun isValid(password: String) =
-        password.length == 8 &&
-        password.all { it in 'a'..'z' } &&
-        hasNoIllegalCharacters(password) &&
-        hasValidTrio(password) &&
-        hasPairOfDoubleLetters(password)
 
     companion object {
         private val validTrios = "abcdefghijklmnopqrstuvwxyz".windowed(3).filter { hasNoIllegalCharacters(it) }

@@ -32,6 +32,19 @@ class Day11Test {
                 assertFalse(Day11().isValid(password))
             }
         }
+
+        @TestFactory
+        fun `Increments password`() = listOf(
+            "a" to "b",
+            "z" to "a",
+            "czz" to "daa",
+            "wxyzz" to "wxzaa",
+            "azwzzz" to "azxaaa"
+        ).map { (password, expected) ->
+            DynamicTest.dynamicTest("'$password' incr to '$expected'") {
+                assertEquals(expected, Day11(password).nextIncrement(password))
+            }
+        }
     }
 
     @Nested

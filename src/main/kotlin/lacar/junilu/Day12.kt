@@ -2,6 +2,9 @@ package lacar.junilu
 
 import kotlinx.serialization.json.*
 
+/**
+ * AoC2015 - Day 12: JSAbacusFramework.io
+ */
 class Day12(val input: String) : Solution<Int>() {
 
     override fun part1() = """-?\d+""".toRegex().findAll(input)

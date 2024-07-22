@@ -7,10 +7,7 @@ class Day12(val input: String) : Solution<Int>() {
     override fun part1() = """-?\d+""".toRegex().findAll(input)
         .sumOf { matchResult -> matchResult.groupValues.first().toInt() }
 
-    override fun part2(): Int {
-        val jsonObject: JsonObject = Json.decodeFromString(input)
-        return sumOfNumbers(jsonObject)
-    }
+    override fun part2() = sumOfNumbers(Json.decodeFromString(input) as JsonObject)
 }
 
 private fun sumOfNumbers(jsonObject: JsonObject): Int =

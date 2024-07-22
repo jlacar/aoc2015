@@ -56,24 +56,28 @@ class Day12Test {
         @TestFactory
         fun `Part 2`() = listOf(
             """
-            { "a": [1, 2, 3], 
+            { "description": "has 'red' object value", 
+              "a": [1, 2, 3], 
               "b": 4, 
               "c": "red"
             }
             """.trimIndent() to 0,
 
             """
-            { "a": [1, 2, 3], 
+            { "description": "no 'red' object value",
+              "a": [1, 2, 3], 
               "b": 4, 
               "c": "yellow"
             }
             """.trimIndent() to 10,
 
             """
-            { "a": [1, 2, 3], 
+            { "description": "has 'red' in array, and in objects",
+              "a": ["these should be summed", 1, 2, 3, "red"], 
               "b": 4, 
               "c": "yellow",
               "d": {
+                "description": "these should not be summed",
                 "e": "red",
                 "f": 5,
                 "g": 6
@@ -81,7 +85,13 @@ class Day12Test {
               "h": {
                 "b": 7, 
                 "c": "yellow",
-                "d": [0, 1, 3]
+                "d": ["description: these should be summed", 0, 1, 3, "red"],
+                "e": {
+                  "description": "these should not be summed",
+                  "i": 1,
+                  "j": 55,
+                  "k": "red"
+                }
               }
             }
             """.trimIndent() to 21,

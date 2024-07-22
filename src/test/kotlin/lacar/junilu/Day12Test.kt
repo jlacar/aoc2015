@@ -1,10 +1,13 @@
 package lacar.junilu
 
+import kotlinx.serialization.json.*
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.DynamicTest
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestFactory
+
+private val puzzleInput = readResource("day12").first()
 
 class Day12Test {
     @Nested
@@ -19,6 +22,31 @@ class Day12Test {
             """[-1,{"a":1}]""" to 0,
             "{}" to 0,
             "[]" to 0,
+
+            """
+            { "a": [1, 2, 3], 
+              "b": 4, 
+              "c": "red"
+            }
+            """.trimIndent() to 10,
+
+            """
+            { "a": [1, 2, 3], 
+              "b": 4, 
+              "c": "yellow",
+              "d": {
+                "e": "red",
+                "f": 5,
+                "g": 6
+              },
+              "h": {
+                "b": 7, 
+                "c": "yellow",
+                "d": [0, 1, 3]
+              }
+            }
+            """.trimIndent() to 32,
+
         ).map { (input, expectedOutput) ->
             DynamicTest.dynamicTest("$input -> $expectedOutput") {
                 assertEquals(expectedOutput, Day12(input).part1())
@@ -27,13 +55,40 @@ class Day12Test {
 
         @TestFactory
         fun `Part 2`() = listOf(
-            """[1,{"c":"red","b":2},3]""" to 4,
-            """[1,2,3]""" to 6,
-            """[1,"red",5]""" to 6,
-            """{"d":"red","e":[1,2,3,4],"f":5}""" to 0,
-        ).map { (input, expectedOutput) ->
-            DynamicTest.dynamicTest("$input -> $expectedOutput") {
-                assertEquals(expectedOutput, Day12(input).part2())
+            """
+            { "a": [1, 2, 3], 
+              "b": 4, 
+              "c": "red"
+            }
+            """.trimIndent() to 0,
+
+            """
+            { "a": [1, 2, 3], 
+              "b": 4, 
+              "c": "yellow"
+            }
+            """.trimIndent() to 10,
+
+            """
+            { "a": [1, 2, 3], 
+              "b": 4, 
+              "c": "yellow",
+              "d": {
+                "e": "red",
+                "f": 5,
+                "g": 6
+              },
+              "h": {
+                "b": 7, 
+                "c": "yellow",
+                "d": [0, 1, 3]
+              }
+            }
+            """.trimIndent() to 21,
+
+            ).map { (jsonString: String, expectedOutput) ->
+            DynamicTest.dynamicTest("$jsonString -> $expectedOutput") {
+                assertEquals(expectedOutput, Day12(jsonString).part2())
             }
         }
     }
@@ -42,11 +97,12 @@ class Day12Test {
     inner class Solution {
         @Test
         fun `Part 1 - SOLVED`() {
-            assertEquals(111754, Day12(readResource("day12").first()).part1())
+            assertEquals(111754, Day12(puzzleInput).part1())
         }
+
         @Test
         fun `Part 2 - SOLVED`() {
-            assertEquals(1, Day12(readResource("day12").first()).part2())
+            assertEquals(65402, Day12(puzzleInput).part2())
         }
     }
 }

@@ -1,22 +1,24 @@
 # Day 12: JSAbacusFramework.io
 
-## Part 1
+Day 12 revolves around parsing JSON and getting the sum of all numbers in it.
+
+## Part 1 - Sum of all numbers
 
 Used Regular Expression in the [initial solution](https://github.com/jlacar/aoc2015/blob/86cd9e5421c02b9e8bd1a8a23f5aca11ea40e40c/src/main/kotlin/lacar/junilu/Day12.kt).
 
 It took a while to figure out how to iterate over the matches but after some experimentation, I ended up using `MatchResult.groupValues.first()` to access each whole number that was found.
 
-## Part 2
+## Part 2 - Skip any JSON object with a "red" property  
 
 My [initial solution](https://github.com/jlacar/aoc2015/blob/9a3210cae84cdc5de1e6ad4e6c48abd9a54d04e2/src/main/kotlin/lacar/junilu/Day12.kt) for the second part had a somewhat complex recursive structure.
 
 The first insight that helped me tighten up the logic was that the `deepSumOf()` function should be the entry point for the recursion instead of the `sumOfNumbers(JsonObject)` function. Doing this, I was able to eliminate the dynamic dispatch via function overloading and take advantage of the [automatic type casting](https://kotlinlang.org/docs/typecasts.html) in a `when` expression instead. 
 
-Also, I needed to declare the `element` parameter as a `JsonElement` instead of `JsonObject` so that the input string could be a Json array without the outermost curly braces `{...}` to make it into a JsonObject. This meant that the parsing logic had to be declared `JsonElement`:
+Also, I needed to declare the first parameter as a `JsonElement` instead of `JsonObject` so that the input string could be a Json array without the outermost curly braces `{...}` to make it a proper JsonObject. This meant that the parsing logic had to be declared with`JsonElement`:
 
     private val json = Json.decodeFromString<JsonElement>(input)
 
-If I used `JsonObject` as the generic type instead, the input string would be decoded as a `JsonObject` and some of the Part 1 examples that weren't JSON objects would cause a parsing exception to be thrown.
+If I used `JsonObject` as the generic type instead, the input string would be decoded as a `JsonObject` which caused some of the Part 1 examples that weren't JSON objects to throw a parsing exception.
 
 ## Aligning around a common solution
 

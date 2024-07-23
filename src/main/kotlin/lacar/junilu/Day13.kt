@@ -9,13 +9,13 @@ class Day13(private val happiness: Map<String, Int>) : Solution<Int> {
 
     private val allAttendees = peopleIn(happiness.keys)
 
-    override fun part1(): Int = allPossibleSeatingArrangements()
+    override fun part1(): Int = allPossibleSeatingArrangements(allAttendees)
         .maxOf { arrangement -> happinessFor(arrangement) }
 
     override fun part2(): Int = allPossibleSeatingArrangements(allAttendees + "Me")
         .maxOf { arrangement -> happinessFor(arrangement) }
 
-    private fun allPossibleSeatingArrangements(attendees: List<String> = allAttendees): List<List<String>> {
+    private fun allPossibleSeatingArrangements(attendees: List<String>): List<List<String>> {
         val paths = mutableListOf<List<String>>()
         permutationsOf(attendees, 0, paths)
         return paths

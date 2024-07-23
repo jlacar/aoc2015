@@ -36,16 +36,18 @@ There were three key insights that led to a successful refactoring of the logic 
 
 First, I added the `skip` function parameter to the `deepSumOf` function. This expected a predicate that would be used to check if the current element being processed should be skipped or not. Setting a default of `{ false }` simplified the call to `part1()`.  
 
-Second, I realized that it's better to declare the `element` parameter to `deepSumOf()` as a `JsonElement` instead of a `JsonObject`. By using the superclass type, I could let the  [automatic type casting](https://kotlinlang.org/docs/typecasts.html) in the `when` expression simplify the dispatching to the correct logic branch for further processing of the element.
+Second, I realized that it would be better to declare the first parameter to `deepSumOf()` as a `JsonElement` instead of a `JsonObject`. Using `JsonElement`, allowed me to use the  [automatic type casting](https://kotlinlang.org/docs/typecasts.html) in the `when` expression and simplify the dispatching to the correct logic branch to process the next level of nested elements.
 
-Third, I realized that the new `skip` parameter could be assigned a default value that was essentially a "noSkip" option so that the call the `deepSumOf()` in part 1 could be cleaner.
+Third, I realized that the new `skip` parameter could be assigned a default value that was essentially a "noSkip" option. The default made the call to `deepSumOf()` in part 1 much cleaner.
 
-Was quite happy with the [final solution](https://github.com/jlacar/aoc2015/blob/bdafeb1c0ded859faad2567ce2829524a7bfee46/src/main/kotlin/lacar/junilu/Day12.kt) I got to.
+I was quite happy with how the [final solution](http s://github.com/jlacar/aoc2015/blob/bdafeb1c0ded859faad2567ce2829524a7bfee46/src/main/kotlin/lacar/junilu/Day12.kt) turn out.
 
 ### Finishing touches
 
-Some of the last refactorings were done to make the code more expressive. This included adding an explaining variable for the JSON parsing expression, and renaming the main recursive function so that calls to it were more readable: 
+I did the last few refactorings to make the code more expressive. This included adding an explaining variable for the JSON parsing expression, and renaming the main recursive function so that calls to it were more readable: 
 
     private val json = Json.decodeFromString<JsonElement>(input) 
 
     override fun part1() = deepSumOfNumbersIn(json)
+
+I like using names that echo the language used in the problem statement. This makes it easier to create a mental model of the design as you read through the code and map the parts you're reading to your understanding of the problem.

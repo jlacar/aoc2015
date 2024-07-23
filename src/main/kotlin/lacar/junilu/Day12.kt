@@ -13,7 +13,7 @@ class Day12(val input: String) : Solution<Int>() {
     }
 }
 
-private fun deepSumOf(element: JsonElement, skip: (JsonObject) -> Boolean = { _ -> false }): Int =
+private fun deepSumOf(element: JsonElement, skip: (JsonObject) -> Boolean = { false }): Int =
     when (element) {
         is JsonPrimitive -> element.intOrNull ?: 0
         is JsonObject -> if (skip(element)) 0 else element.values.sumOf { deepSumOf(it, skip) }

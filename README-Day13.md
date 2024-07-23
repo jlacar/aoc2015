@@ -32,4 +32,6 @@ The only refactoring I needed to make Part 2 easier to implement was assigning a
 
 ## Finishing touches
 
+I decided to move the default value for the `attendees` parameter out of the function declaration. Having it in the actual call to `part()` makes the code's intention clearer, in my opinion. Also, it doesn't seem like a reasonable "default" value to use instead of `null`.
 
+Here's the [final solution](https://github.com/jlacar/aoc2015/blob/c86224fdb525ef98f11d61fd49d08cb1e55dbcbb/src/main/kotlin/lacar/junilu/Day13.kt) as of this writing.

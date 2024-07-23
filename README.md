@@ -30,7 +30,7 @@ These are links to notes on each of my solutions to [Advent of Code 2015](https:
 * Day 10
 * Day 11
 * [Day 12](README-Day12.md)
-* Day 13
+* [Day 13](README-Day13.md)
 * Day 14
 * Day 15
 * Day 16

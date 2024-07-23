@@ -36,15 +36,13 @@ The first problem I ran into when trying to convert Part 1 to use the JSON trave
 
 The `Json.decodeFromString()` function does care though and it will throw an exception if declared with a `JsonObject` type and input wasn't a proper JSON object, that is, the string didn't have "{ ... }" as the outermost level delimiter.
 
-The solution was to change the generic type from `decodeFromString<JsonObject>` to `decodeFromString<JsonElement>`. This accepted the all example inputs in part 1.
+The solution was to change the generic type from `decodeFromString<JsonObject>` to `decodeFromString<JsonElement>`. This successfully parsed all the example inputs in part 1.
 
 ### Adding a predicate parameter to `deepSumOf()`
 
 Next, I added the `skip` parameter to the `deepSumOf` function. This expected a predicate that would be used to check if the current element being processed should be skipped or not. Setting a default of `{ false }` simplified the call to `part1()`.
 
 I also realized that it would be better to declare the first parameter to `deepSumOf()` as a `JsonElement` instead of a `JsonObject`. Using `JsonElement` allowed me to take advantage of   [automatic type casting](https://kotlinlang.org/docs/typecasts.html) in the `when` expression and simplify the dispatching to the correct logic branch to process the next level of nested elements.
-
-I was quite happy with how the [final solution](http s://github.com/jlacar/aoc2015/blob/bdafeb1c0ded859faad2567ce2829524a7bfee46/src/main/kotlin/lacar/junilu/Day12.kt) turn out.
 
 ### Finishing touches
 
@@ -55,3 +53,5 @@ I did the last few refactorings to make the code more expressive. This included 
     override fun part1() = deepSumOfNumbersIn(json)
 
 I like using names that echo the language used in the problem statement. This makes it easier to create a mental model of the design as you read through the code and map the parts you're reading to your understanding of the problem.
+
+I was quite happy with how the [final solution](http s://github.com/jlacar/aoc2015/blob/bdafeb1c0ded859faad2567ce2829524a7bfee46/src/main/kotlin/lacar/junilu/Day12.kt) turned out.

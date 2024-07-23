@@ -30,15 +30,19 @@ The difference in the solutions of the two parts was a little smelly to me, with
 
 It seemed like it should be possible to use a common core of logic for both parts, with the only difference between the two parts being the condition to skip any JSON objects that have an element with a value of "red".
 
-### High-order functions to the rescue
+### The correct Json type for Parsing the input 
 
-There were three key insights that led to a successful refactoring of the logic to find numbers in the JSON.
+The first problem I ran into when trying to convert Part 1 to use the JSON traversal logic was that the parsing failed for input that wasn't a full-fledged JSON object. Some of the examples were simple JSON arrays. The Regex solution worked with these because it didn't really care about proper JSON structure. 
 
-First, I added the `skip` function parameter to the `deepSumOf` function. This expected a predicate that would be used to check if the current element being processed should be skipped or not. Setting a default of `{ false }` simplified the call to `part1()`.  
+The `Json.decodeFromString()` function does care though and it will throw an exception if declared with a `JsonObject` type and input wasn't a proper JSON object, that is, the string didn't have "{ ... }" as the outermost level delimiter.
 
-Second, I realized that it would be better to declare the first parameter to `deepSumOf()` as a `JsonElement` instead of a `JsonObject`. Using `JsonElement`, allowed me to use the  [automatic type casting](https://kotlinlang.org/docs/typecasts.html) in the `when` expression and simplify the dispatching to the correct logic branch to process the next level of nested elements.
+The solution was to change the generic type from `decodeFromString<JsonObject>` to `decodeFromString<JsonElement>`. This accepted the all example inputs in part 1.
 
-Third, I realized that the new `skip` parameter could be assigned a default value that was essentially a "noSkip" option. The default made the call to `deepSumOf()` in part 1 much cleaner.
+### Adding a predicate parameter to `deepSumOf()`
+
+Next, I added the `skip` parameter to the `deepSumOf` function. This expected a predicate that would be used to check if the current element being processed should be skipped or not. Setting a default of `{ false }` simplified the call to `part1()`.
+
+I also realized that it would be better to declare the first parameter to `deepSumOf()` as a `JsonElement` instead of a `JsonObject`. Using `JsonElement` allowed me to take advantage of   [automatic type casting](https://kotlinlang.org/docs/typecasts.html) in the `when` expression and simplify the dispatching to the correct logic branch to process the next level of nested elements.
 
 I was quite happy with how the [final solution](http s://github.com/jlacar/aoc2015/blob/bdafeb1c0ded859faad2567ce2829524a7bfee46/src/main/kotlin/lacar/junilu/Day12.kt) turn out.
 

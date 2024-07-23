@@ -18,7 +18,7 @@ class Day13(input: Map<String, Int>) : Solution<Int>() {
                 val (name1, _, sign, units, name2) = line
                     .replace("happiness units by sitting next to ", "")
                     .split(" ")
-                "$name1 to $name2" to (if (sign == "gain") 1 else -1) * units.toInt()
+                "$name1 $name2" to (if (sign == "gain") 1 else -1) * units.toInt()
             }.toMap()
         )
 

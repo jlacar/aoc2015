@@ -28,7 +28,7 @@ The difference in the solutions of the two parts was a little smelly to me. It s
 
 There were three key insights that led to a successful refactoring of the logic to use a common function.
 
-First, I added the `skip` function parameter to the `deepSumOf` function. This expected a predicate that would be used to check if the current element being processed should be skipped or not. Settign the default to `{ false }` made call in Part 1 simpler.  
+First, I added the `skip` function parameter to the `deepSumOf` function. This expected a predicate that would be used to check if the current element being processed should be skipped or not. Setting a default of `{ false }` simplified the call to `part1()`.  
 
 Second, I realized that it's better to declare the `element` parameter to `deepSumOf()` as a `JsonElement` instead of a `JsonObject`. By using the superclass type, I could let the  [automatic type casting](https://kotlinlang.org/docs/typecasts.html) in the `when` expression simplify the dispatching to the correct logic branch for further processing of the element.
 

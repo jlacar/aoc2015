@@ -10,7 +10,13 @@ It took a while to figure out how to iterate over the matches but after some exp
 
 My [initial solution](https://github.com/jlacar/aoc2015/blob/9a3210cae84cdc5de1e6ad4e6c48abd9a54d04e2/src/main/kotlin/lacar/junilu/Day12.kt) for the second part had a somewhat complex recursive structure.
 
-First insight that helped me tighten up the logic was that the `deepSumOf()` function should be the entry point for the recursion instead of the `sumOfNumbers(JsonObject)` function. Doing this, I was able to eliminate the dynamic dispatch via function overloading and took advantage of the [automatic type casting](https://kotlinlang.org/docs/typecasts.html) in a `when` expression instead.
+The first insight that helped me tighten up the logic was that the `deepSumOf()` function should be the entry point for the recursion instead of the `sumOfNumbers(JsonObject)` function. Doing this, I was able to eliminate the dynamic dispatch via function overloading and take advantage of the [automatic type casting](https://kotlinlang.org/docs/typecasts.html) in a `when` expression instead. 
+
+Also, I needed to declare the `element` parameter as a `JsonElement` instead of `JsonObject` so that the input string could be a Json array without the outermost curly braces `{...}` to make it into a JsonObject. This meant that the parsing logic had to be declared `JsonElement`:
+
+    private val json = Json.decodeFromString<JsonElement>(input)
+
+If I used `JsonObject` as the generic type instead, the input string would be decoded as a `JsonObject` and some of the Part 1 examples that weren't JSON objects would cause a parsing exception to be thrown.
 
 ## Aligning around a common solution
 
@@ -20,9 +26,9 @@ The difference in the solutions of the two parts was a little smelly to me. It s
 
 There were three key insights that led to a successful refactoring of the logic to use a common function.
 
-First, I added a function parameter to the `deepSumOf` function. 
+First, I added the `skip` function parameter to the `deepSumOf` function. This expected a predicate that would be used to check if the current element being processed should be skipped or not. Settign the default to `{ false }` made call in Part 1 simpler.  
 
-Second, I realized that it's better to declare the `element` parameter to `deepSumOf()` as a `JsonElement` instead of a `JsonObject`. By using the superclass type, I could let the automatic type casting in the `when` expression simplify the dispatching to the correct logic branch for further processing of the element.
+Second, I realized that it's better to declare the `element` parameter to `deepSumOf()` as a `JsonElement` instead of a `JsonObject`. By using the superclass type, I could let the  [automatic type casting](https://kotlinlang.org/docs/typecasts.html) in the `when` expression simplify the dispatching to the correct logic branch for further processing of the element.
 
 Third, I realized that the new `skip` parameter could be assigned a default value that was essentially a "noSkip" option so that the call the `deepSumOf()` in part 1 could be cleaner.
 

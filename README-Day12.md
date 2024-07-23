@@ -54,4 +54,4 @@ I did the last few refactorings to make the code more expressive. This included 
 
 I like using names that echo the language used in the problem statement. This makes it easier to create a mental model of the design as you read through the code and map the parts you're reading to your understanding of the problem.
 
-I was quite happy with how the [final solution](http s://github.com/jlacar/aoc2015/blob/bdafeb1c0ded859faad2567ce2829524a7bfee46/src/main/kotlin/lacar/junilu/Day12.kt) turned out.
+I was quite happy with how the [final solution](https://github.com/jlacar/aoc2015/blob/bdafeb1c0ded859faad2567ce2829524a7bfee46/src/main/kotlin/lacar/junilu/Day12.kt) turned out.

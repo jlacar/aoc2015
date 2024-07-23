@@ -26,4 +26,4 @@ Second, I realized that it's better to declare the `element` parameter to `deepS
 
 Third, I realized that the new `skip` parameter could be assigned a default value that was essentially a "noSkip" option so that the call the `deepSumOf()` in part 1 could be cleaner.
 
-Was quite happy with the final solution I got to.
+Was quite happy with the [final solution](https://github.com/jlacar/aoc2015/blob/bdafeb1c0ded859faad2567ce2829524a7bfee46/src/main/kotlin/lacar/junilu/Day12.kt) I got to.

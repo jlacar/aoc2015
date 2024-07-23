@@ -7,15 +7,15 @@ import java.util.Collections.swap
  */
 class Day13(private val happiness: Map<String, Int>) : Solution<Int> {
 
-    private val everyone = peopleIn(happiness.keys)
+    private val allAttendees = peopleIn(happiness.keys)
 
     override fun part1(): Int = allPossibleSeatingArrangements()
-        .maxOf { arrangement: List<String> -> happinessPointsFor(arrangement) }
+        .maxOf { arrangement -> happinessFor(arrangement) }
 
-    override fun part2(): Int = allPossibleSeatingArrangements(everyone + "Me")
-        .maxOf { arrangement: List<String> -> happinessPointsFor(arrangement) }
+    override fun part2(): Int = allPossibleSeatingArrangements(allAttendees + "Me")
+        .maxOf { arrangement -> happinessFor(arrangement) }
 
-    private fun allPossibleSeatingArrangements(attendees: List<String> = everyone): List<List<String>> {
+    private fun allPossibleSeatingArrangements(attendees: List<String> = allAttendees): List<List<String>> {
         val paths = mutableListOf<List<String>>()
         permutationsOf(attendees, 0, paths)
         return paths
@@ -30,7 +30,7 @@ class Day13(private val happiness: Map<String, Int>) : Solution<Int> {
         }
     }
 
-    private fun happinessPointsFor(arrangement: List<String>): Int =
+    private fun happinessFor(arrangement: List<String>): Int =
         arrangement.windowed(2).sumOf { (person1, person2) ->
             netHappinessFor(person1, person2)
         } + netHappinessFor(arrangement.first(), arrangement.last())

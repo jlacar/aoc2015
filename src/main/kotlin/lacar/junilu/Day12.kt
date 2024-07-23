@@ -5,7 +5,7 @@ import kotlinx.serialization.json.*
 /**
  * AoC 2015 - Day 12: JSAbacusFramework.io
  */
-class Day12(val input: String) : Solution<Int>() {
+class Day12(val input: String) : Solution<Int> {
     private val json = Json.decodeFromString<JsonElement>(input)
 
     override fun part1() = deepSumOfNumbersIn(json)

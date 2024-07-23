@@ -7,7 +7,7 @@ typealias Corner = Pair<Int, Int>
 /**
  * AoC 2015 - Day 6: Probably a Fire Hazard
  */
-class Day06(private val instructions: List<String>) : Solution<Int>() {
+class Day06(private val instructions: List<String>) : Solution<Int> {
     override fun part1() = Part1().perform(instructions).totalOf { row -> row.count { it } }
 
     override fun part2() = Part2().perform(instructions).totalOf { row -> row.sum() }

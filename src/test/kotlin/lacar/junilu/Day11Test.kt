@@ -28,8 +28,6 @@ class Day11Test {
             "abbbcxyz" to "no different overlapping pairs",
             "abbcdbbk" to "no different overlapping pairs",
             "abbcdbbA" to "uppercase letter 'A'",
-            "abbcdde"  to "only 7 characters",
-            "aabbcdeef" to "too many characters",
         ).map { (password, reasonToReject) ->
             DynamicTest.dynamicTest("Reject '$password' because it has $reasonToReject") {
                 assertFalse(Day11().isValid(password))

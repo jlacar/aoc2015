@@ -3,7 +3,7 @@ package lacar.junilu
 /**
  * Aoc 2015 - Day 2: I Was Told There Would Be No Math
  */
-class Day02(private val boxDimensions: List<IntArray>) : Solution<Int>() {
+class Day02(private val boxDimensions: List<IntArray>) : Solution<Int> {
 
     override fun part1() = boxDimensions.sumOf { wrapperNeeded(it) }
 

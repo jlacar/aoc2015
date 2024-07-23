@@ -5,7 +5,7 @@ import java.security.MessageDigest
 /**
  * AoC 2015 - Day 4: The Ideal Stocking Stuffer
  */
-class Day04(private val secretKey: String) : Solution<Int>() {
+class Day04(private val secretKey: String) : Solution<Int> {
     override fun part1() = mineFor("00000")
 
     override fun part2() = mineFor("000000")

@@ -3,7 +3,7 @@ package lacar.junilu
 /**
  * AoC 2015 - Day 8: Matchsticks
  */
-class Day08(val input: List<String>) : Solution<Int>() {
+class Day08(val input: List<String>) : Solution<Int> {
     override fun part1(): Int = input.sumOf { it.length - it.decoded().length }
 
     private fun String.decoded(): String = drop(1).dropLast(1)

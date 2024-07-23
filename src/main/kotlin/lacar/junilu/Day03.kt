@@ -3,7 +3,7 @@ package lacar.junilu
 /**
  * AoC 2015 - Day 3: Perfectly Spherical Houses in a Vacuum
  */
-class Day03(private val directions: String) : Solution<Int>() {
+class Day03(private val directions: String) : Solution<Int> {
     override fun part1() = housesVisited(directions).distinct().count()
 
     override fun part2() =

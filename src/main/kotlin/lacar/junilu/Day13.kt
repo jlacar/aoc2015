@@ -3,7 +3,7 @@ package lacar.junilu
 /**
  * AoC 2015 - Day 13: Knights of the Dinner Table
  */
-class Day13(input: Map<String, Int>) : Solution<Int>() {
+class Day13(input: Map<String, Int>) : Solution<Int> {
     override fun part1(): Int {
         TODO("Not yet implemented")
     }

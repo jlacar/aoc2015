@@ -3,7 +3,7 @@ package lacar.junilu
 /**
  * AoC 2015 - Day 10: Elves Look, Elves Say
  */
-class Day10(val input: String = "3113322113") : Solution<Int>() {
+class Day10(val input: String = "3113322113") : Solution<Int> {
     override fun part1(): Int = lookSay(40)
     override fun part2(): Int = lookSay(50)
 

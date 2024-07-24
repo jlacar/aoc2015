@@ -34,5 +34,10 @@ class Day14Test {
         fun `Part 1 - SOLVED`() {
             assertEquals(2660, Day14.using(puzzleInput, 2503).part1())
         }
+
+        @Test
+        fun `Part 2 - SOLVED`() {
+            assertEquals(1256, Day14.using(puzzleInput, 2503).part2())
+        }
     }
 }

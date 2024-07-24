@@ -2,6 +2,9 @@ package lacar.junilu
 
 import kotlin.math.min
 
+/**
+ * AoC 2015 - Day 14: Reindeer Olympics
+ */
 class Day14(private val reindeerData: List<ReindeerData>, private val raceTime: Int) : Solution<Int> {
 
     override fun part1() = reindeerData.maxOf { it.distanceFlownIn(raceTime) }

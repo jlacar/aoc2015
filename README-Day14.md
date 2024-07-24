@@ -113,9 +113,9 @@ That is, at i = 10 for example, the maximum of all the values at index 10 in the
 
 [9] Finally, we return the accumulated scores to the caller, `part2()`.
 
-In many of the cases where I have successfully refactored from imperative style to functional style code, one of the often-used functions is the `fold()` function which comes with almost every class that can be iterated over. `fold()` gives us a way to eliminate the need to mutate variables and maintain state.
+When I'm trying to refactor from imperative style to functional style code, I often end up using the `fold()` function which comes with almost every class that can be iterated over in Kotlin. The `fold()` function provides a way to eliminate the need to mutate variables and maintain state.
 
-Here's the Part 2 logic after many small moves toward a functional implementation:
+Here's the Part 2 logic after applying a series of small moves toward a functional implementation:
 
     override fun part2() = racePoints().maxOf { it.value }
 
@@ -141,28 +141,28 @@ Here's the Part 2 logic after many small moves toward a functional implementatio
 
 Now `part2()` consists of a single expression to calculate the race points and get the maximum value.
 
-In `racePoints()`, we start with a range of `(1..raceTime)` and perform a `fold()` on it. We start the fold with a map that uses the reindeer collection as its key with `0` as each entry's initial value. We call the accumulator variable `points` and the index variable `second`.
+In `racePoints()`, we use `fold()` on the range of seconds in the race, `(1..raceTime)`, to do calculations for every second. We initialize`fold()` with a map created with `reindeerStats.associatedWith { 0 }` which is essentially a scoreboard for all the reindeer and each of them starts with a score of `0`. 
 
-We then get distance traveled by the lead reindeer into the `leadDistance` variable. Iterating over the `points` map, we award a point to each reindeer that has traveled that `leadDistance` at the given `second`.
+We use the name `points` for the accumulator variable and `second` for the iteration variable.
 
-We need to use `.toMap()` at the end of this expression because the fold operation will expect the return value of the lambda to be the same type as the initial value passed to `fold()`.
+The first statement in the `fold()` body calculates the maximum distance traveled by any reindeer at that `second` during the race. This value is assigned to `leadDistance`. Iterating over the `points` map, we award a point to any reindeer that has traveled `leadDistance` at that `second`.
 
-The state is entirely captured in the accumulator variable, `points`, which is passed along to each successive iteration of the `fold()` operation.
+The `.toMap()` at the end of the `points.map { ... }` expression is needed to convert the resulting `List` to a `Map`, which is the type the `fold` operation expects in the last expression in its body. This is the same type as the value used to initialize `fold()`.
 
-In the `ReindeerStats` data class, I extracted the expressions that represent the full flight segment time and the partial flight segment time so that `secondsFlyingAt()` function could be fully composed.
+In the `ReindeerStats` data class, I extracted the expressions that represent the full flight segment time and the partial flight segment time so that `secondsFlyingAt()` function could be fully composed. I think this improves the readability of the code.
 
 ## To refactor or not to refactor?
 
-Some people might look at the resulting code and think that I refactored/extracted too far. I disagree. 
+Some people might look at the resulting code and think that I went to far in refactoring/extracting functions/methods. I disagree.
 
-Our focus as developers should be to write expressive and readable that is easy to understand and easy to change. Code whose signal is obscured by the details of the implementation tends to slow down anyone reading and trying to understand the code. This creates friction in the development process and adds to the cost of the software. The more your code can tell a story at a high level of abstraction, the easier it is to understand what it's trying to do and the easier it will be to adapt to changes in requirements.
+My focus as a developer is to write expressive and readable that is easy to understand and easy to change. Code whose signal is obscured by the details of the implementation tends to slow down anyone reading and trying to understand it. This creates [friction in the development process](https://learning.oreilly.com/library/view/managing-technical-debt/9780135646052/ch01.xhtml) and adds to the cost of the software. The more your code can tell a story at a high level of abstraction, the easier it is to understand what it's trying to do and the easier it will be to adapt to changes in requirements.
 
-Another common objection is around performance. I have met developers who argue that adding function/method calls creates a deeper call stack and thus impacts the program's performance. To this I say again, our primary goal as developers is to write code that is readable and understandable.
+Another common objection is around performance. I have met developers who argue that having many function/method calls results in a deeper call stack and thus impacts the program's performance. To this I say again, our primary goal as developers is to write code that is readable and understandable.
 
-As a developer, I have wasted more time reading code poorly-factored code than I care to admit. The cost of working with hard-to-understand code far eclipses the cost of a few milliseconds overhead caused by multiple function/method calls. 
+As a developer, I have wasted more time reading code poorly-factored code than I care to account for. In my opinion, the cost of working with hard-to-understand code far eclipses the cost of a few milliseconds overhead caused by a few extra frames on the call stack.
 
-If you're really worried about performance, use a profiler to identify the actual bottlenecks in your code. When you use a profiler instead of your gut to find performance bottlenecks, you'll usually find out that the bottlenecks aren't really where you thought they would be. And they're not usually the ones your gut/intuition told you they'd be.
+If you're really worried about performance, use a profiler to identify the actual bottlenecks in your code. When you use a profiler instead of your gut to find performance bottlenecks, you'll usually find out that the bottlenecks aren't really where you thought were and they're usually not the bottlenecks your gut/intuition told you they would be.
 
-Also, a good optimizing compiler has a better chance of automatically improving performance by inlining code at the points of call. If you focus on extracting code to small methods, you'll actually be helping the compiler find more of those kinds of opportunities than if you leave big chunks of complicated and nested code alone because your gut/intuition told you that additional function/method calls will create too much overhead. 
+Additionally, a good optimizing compiler has a much better chance of automatically improving performance by inlining small methods/functions at the points of call. If you focus on extracting code to small units, you'll actually be helping the compiler find more of those kinds of opportunities than if you leave big chunks of complicated and nested code alone because your gut/intuition tells you that additional function/method calls will create too much overhead. 
 
-Again, we developers generally suck at optimizing with our gut and intuition alone and when we do, we're  usually wrong.
+Again, we developers generally suck at optimizing with our gut and intuition alone and when we do, we're usually wrong.

@@ -28,23 +28,141 @@ I put this function in the `ReindeerStats` data class because it has all the inf
 
 ## Part 2 - What's the highest score?
 
-In this part, we need to calculate the winner based on points given based on the distance traveled at every second throughout the race. Reindeer get a point for every second they have traveled the farthest, that is, they are in the lead. If multiple reindeer are tied for the lead on any given second, they each get a point. This means we need to calculate the distance flown by each reindeer for every second of the race.
+In this part, we need to calculate the winner based on points given for having the lead at any point during the race. Reindeer get a point for every second they are in the lead. If multiple reindeer are tied for the lead on any given second, they each get one point. This means we need to calculate the distance flown by each reindeer at every second of the race.
 
-The first surprise I got was finding out that the `distanceFlownIn()` implementation that gave me a correct answer for part 1 was actually incorrect. After some analysis, I realized that the formula I was using was based on the number of _full segments_ of flight time rather than the actual number of seconds in flight. I guess I just got lucky with my puzzle input and got the correct answer anyway. That luck didn't hold out for Part 2 though so I had to analyze what was going on and fix it.
+This is where I found out that the `distanceFlownIn()` implementation from part 1 was actually incorrect, despite having earned a gold star for the correct answer. After some analysis, I realized that the formula I was using was based on the number of _full segments_ of flight time rather than the actual number of seconds in flight. I suppose I just got lucky with my puzzle input and got the correct answer anyway. That luck didn't hold out for Part 2 though so I had to figure out what was wrong and fix it.
 
-This is the formula that ended up working for both Parts 1 & 2:
+As mentioned earlier, the mistake was that the calculation I used was based on the number of cycles flown at any given time during the race. This would only work if the eventual winner was at rest at the end of the race. Otherwise, the calculation could potentially give incorrect results, depending on the configurations involved.
+
+The correct approach was to work out how many seconds each reindeer has been flying at the specified point in time. This is the formula that ended up working for both Parts 1 & 2:
 
         fun distanceFlownIn(raceTime: Int) = speed * secondsFlyingDuring(raceTime)
 
         private fun secondsFlyingDuring(raceTime: Int) =
             raceTime / cycleTime * flightTime + min(flightTime, raceTime % cycleTime)
 
-I suppose I could refactor `secondsFlyingDuring(raceTime)` to make it clearer
+Using this formula, I got correct answers for both Part 2 and Part 1. I would later refactor this for clarity. More on that later.
 
-        private fun secondsFlyingDuring(raceTime: Int) =
-            secondsInfullFlight(raceTime) + secondsInPartialFlight(raceTime)
-
-        private fun fullFlight(
 ## Refactoring from Imperative to Functional
 
-TBD
+My [initial solution](https://github.com/jlacar/aoc2015/blob/4f792e594600ae2051bd0137781cf90ba8cbafeb/src/main/kotlin/lacar/junilu/Day14.kt) to simulate a race and assign points to the lead reindeer was very much done in the imperative style. It worked but it seemed a little too long and somewhat complicated to me, especially for a Kotlin program. Here's the code with some markers.
+
+    override fun part2(): Int {
+        // [1]
+        val scores = raceByPointSystem()
+
+        // [2]
+        return scores.values.maxOf { it }
+    }
+
+    private fun raceByPointSystem(): Map<ReindeerData, Int> {
+        // [3]
+        val scores = reindeerData.associateWith { 0 }.toMutableMap() 
+
+        // [4]
+        val distances = reindeerData.associateWith { it.distancesForEachSecondDuring(raceTime) }
+
+        // [5]
+        (0 until raceTime).forEach { i ->
+
+            // [6]
+            val maxDistanceSoFar = distances.maxOf { (_, progress) -> progress[i] }
+
+            // [7]
+            distances.forEach { (reindeer, distances) ->
+
+                // [8]
+                if (distances[i] == maxDistanceSoFar) scores[reindeer] = scores[reindeer]!!.inc()
+            }
+        }
+
+        // [9]
+        return scores
+    }
+
+    ...
+
+    [10]
+    // in ReindeerData:
+    fun distancesForEachSecondDuring(raceTime: Int): List<Int> =
+        (1..raceTime).map { time -> distanceFlownIn(time) }
+    
+This was my thought process in coming up with this:
+
+[1] Create a `raceByPointSystem()` function to encapsulate the logic for the Part 2 race rules.
+
+[2] The highest score in the collection returned would be the answer to Part 2.  
+
+These two statements made `part2()` a reasonably well-composed function that stated the intent of the code at a very high level of abstraction.
+
+Inside the `raceByPointSystem()` function, 
+
+[3] Create a `Map<ReindeerStats, Int>` to track points earned by each reindeer
+
+[4] Create a `Map<ReindeerStats, List<Int>>` to track distances traveled by each reindeer throughout the race. A good portion of work is done at [10] in the `distancesForEachSecondDuring(raceTime)` function, which called on each reindeer to generate a list of distances it traveled for each second of the race. The function signature clearly states that intent.
+
+[5] Use a range to iterate over the seconds in the race. For each second, do [6] to [8]
+
+[6] Using parameter destructuring, we extract the list of distances into the `progress` variable. We ignore the key value because we don't need it for this step. We use the `progress` variable to get the maximum distance traveled at the point in time represented by the variable `i`. 
+
+That is, at i = 10 for example, the maximum of all the values at index 10 in the lists of distances will be calculated. This is the distance the leading reindeer has traveled at that point in time. We assign that to the `maxDistanceSoFar` variable. 
+
+[7] Having found the lead reindeer's distance traveled, we then iterate over the list of distances again and see which reindeer is/are in the lead at that point. Now we do need the map key and assign it to `reindeer`. 
+
+[8] We use `reindeer` to find the correct reindeer in the `scores` map to increment the score of each one that has traveled `maxDistanceSoFar` at that point.
+
+[9] Finally, we return the accumulated scores to the caller, `part2()`.
+
+In many of the cases where I have successfully refactored from imperative style to functional style code, one of the often-used functions is the `fold()` function which comes with almost every class that can be iterated over. `fold()` gives us a way to eliminate the need to mutate variables and maintain state.
+
+Here's the Part 2 logic after many small moves toward a functional implementation:
+
+    override fun part2() = racePoints().maxOf { it.value }
+
+    private fun racePoints(): Map<ReindeerStats, Int> =
+        (1..raceTime).fold(reindeerStats.associateWith { 0 }) { points, second ->
+            val leadDistance = reindeerStats.maxOf { it.distanceFlownAt(second) }
+            points.map { (reindeer, currentScore) ->
+                reindeer to currentScore + (if (reindeer.distanceFlownAt(second) == leadDistance) 1 else 0)
+            }.toMap()
+        }
+
+    // ...
+
+    data class ReindeerStats(val speed: Int, val flightTime: Int, val restTime: Int) {
+        private val cycleTime = flightTime + restTime
+        fun distanceFlownAt(raceTime: Int) = speed * secondsFlyingAt(raceTime)
+
+        private fun secondsFlyingAt(raceTime: Int) = fullFlightTime(raceTime) + partialFlightTime(raceTime)
+        private fun fullFlightTime(raceTime: Int) = raceTime / cycleTime * flightTime
+        private fun partialFlightTime(raceTime: Int) = min(flightTime, raceTime % cycleTime)
+        
+    }
+
+Now `part2()` consists of a single expression to calculate the race points and get the maximum value.
+
+In `racePoints()`, we start with a range of `(1..raceTime)` and perform a `fold()` on it. We start the fold with a map that uses the reindeer collection as its key with `0` as each entry's initial value. We call the accumulator variable `points` and the index variable `second`.
+
+We then get distance traveled by the lead reindeer into the `leadDistance` variable. Iterating over the `points` map, we award a point to each reindeer that has traveled that `leadDistance` at the given `second`.
+
+We need to use `.toMap()` at the end of this expression because the fold operation will expect the return value of the lambda to be the same type as the initial value passed to `fold()`.
+
+The state is entirely captured in the accumulator variable, `points`, which is passed along to each successive iteration of the `fold()` operation.
+
+In the `ReindeerStats` data class, I extracted the expressions that represent the full flight segment time and the partial flight segment time so that `secondsFlyingAt()` function could be fully composed.
+
+## To refactor or not to refactor?
+
+Some people might look at the resulting code and think that I refactored/extracted too far. I disagree. 
+
+Our focus as developers should be to write expressive and readable that is easy to understand and easy to change. Code whose signal is obscured by the details of the implementation tends to slow down anyone reading and trying to understand the code. This creates friction in the development process and adds to the cost of the software. The more your code can tell a story at a high level of abstraction, the easier it is to understand what it's trying to do and the easier it will be to adapt to changes in requirements.
+
+Another common objection is around performance. I have met developers who argue that adding function/method calls creates a deeper call stack and thus impacts the program's performance. To this I say again, our primary goal as developers is to write code that is readable and understandable.
+
+As a developer, I have wasted more time reading code poorly-factored code than I care to admit. The cost of working with hard-to-understand code far eclipses the cost of a few milliseconds overhead caused by multiple function/method calls. 
+
+If you're really worried about performance, use a profiler to identify the actual bottlenecks in your code. When you use a profiler instead of your gut to find performance bottlenecks, you'll usually find out that the bottlenecks aren't really where you thought they would be. And they're not usually the ones your gut/intuition told you they'd be.
+
+Also, a good optimizing compiler has a better chance of automatically improving performance by inlining code at the points of call. If you focus on extracting code to small methods, you'll actually be helping the compiler find more of those kinds of opportunities than if you leave big chunks of complicated and nested code alone because your gut/intuition told you that additional function/method calls will create too much overhead. 
+
+Again, we developers generally suck at optimizing with our gut and intuition alone and when we do, we're  usually wrong.

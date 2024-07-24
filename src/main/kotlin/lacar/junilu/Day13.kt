@@ -9,16 +9,16 @@ class Day13(private val happiness: Map<String, Int>) : Solution<Int> {
 
     private val allAttendees = peopleIn(happiness.keys)
 
-    override fun part1(): Int = allPossibleSeatingArrangements(allAttendees)
+    override fun part1(): Int = allPossibleSeatingArrangementsOf(allAttendees)
         .maxOf { arrangement -> happinessFor(arrangement) }
 
-    override fun part2(): Int = allPossibleSeatingArrangements(allAttendees + "Me")
+    override fun part2(): Int = allPossibleSeatingArrangementsOf(allAttendees + "Me")
         .maxOf { arrangement -> happinessFor(arrangement) }
 
-    private fun allPossibleSeatingArrangements(attendees: List<String>): List<List<String>> {
-        val paths = mutableListOf<List<String>>()
-        permutationsOf(attendees, 0, paths)
-        return paths
+    private fun allPossibleSeatingArrangementsOf(attendees: List<String>): List<List<String>> {
+        val arrangements = mutableListOf<List<String>>()
+        permutationsOf(attendees, 0, arrangements)
+        return arrangements
     }
 
     private fun permutationsOf(people: List<String>, index: Int, soFar: MutableList<List<String>>) {

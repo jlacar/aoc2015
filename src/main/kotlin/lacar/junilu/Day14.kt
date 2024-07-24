@@ -11,18 +11,13 @@ class Day14(private val reindeerStats: List<ReindeerStats>, private val raceTime
 
     override fun part2() = racePoints().maxOf { it.value }
 
-    private fun racePoints(): Map<ReindeerStats, Int> {
-        val points = reindeerStats.associateWith { 0 }.toMutableMap()
-        (1..raceTime).forEach { second ->
+    private fun racePoints(): Map<ReindeerStats, Int> =
+        (1..raceTime).fold(reindeerStats.associateWith { 0 }) { points, second ->
             val leadDistance = reindeerStats.maxOf { it.distanceFlownIn(second) }
-            points.forEach { (reindeerStat, currentScore) ->
-                if (reindeerStat.distanceFlownIn(second) == leadDistance) {
-                    points[reindeerStat] = currentScore + 1
-                }
-            }
+            points.map { (stats, currentScore) ->
+                stats to currentScore + (if (stats.distanceFlownIn(second) == leadDistance) 1 else 0)
+            }.toMap()
         }
-        return points
-    }
 
     companion object {
         fun using(input: List<String>, raceTime: Int) = Day14(

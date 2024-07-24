@@ -16,7 +16,7 @@ class Day14(private val reindeerStats: List<ReindeerStats>, private val raceTime
         (1..raceTime).forEach { second ->
             val leadDistance = reindeerStats.maxOf { it.distanceFlownIn(second) }
             points.forEach { (reindeerStat, currentScore) ->
-                if (reindeerStat.distanceFlownIn(second) >= leadDistance) {
+                if (reindeerStat.distanceFlownIn(second) == leadDistance) {
                     points[reindeerStat] = currentScore + 1
                 }
             }

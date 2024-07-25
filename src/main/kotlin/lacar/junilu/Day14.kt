@@ -16,7 +16,7 @@ class Day14(private val reindeerData: List<ReindeerData>, private val raceTime: 
             val distances = reindeerData.associateWith { it.distanceFlownIn(second) }
             val leadersDistance = distances.values.maxOf { it }
             scores.map { (reindeer, points) ->
-                reindeer to points + if (distances[reindeer] == leadersDistance) 1 else 0
+                reindeer to if (distances[reindeer] == leadersDistance) points + 1 else points
             }.toMap()
         }
     }

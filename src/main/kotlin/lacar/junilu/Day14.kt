@@ -6,10 +6,7 @@ class Day14(private val reindeerData: List<ReindeerData>, private val raceTime: 
 
     override fun part1() = reindeerData.maxOf { it.distanceFlownIn(raceTime) }
 
-    override fun part2(): Int {
-        val scores = raceByPointSystem()
-        return scores.values.maxOf { it }
-    }
+    override fun part2(): Int = raceByPointSystem().values.maxOf { it }
 
     private fun raceByPointSystem(): Map<ReindeerData, Int> {
         return (1..raceTime).fold(reindeerData.associateWith { 0 }) { scores, second ->

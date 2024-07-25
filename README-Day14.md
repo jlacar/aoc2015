@@ -115,7 +115,8 @@ That is, at i = 10 for example, the maximum of all the values at index 10 in the
 
 When I'm trying to refactor from imperative style to functional style code, I often end up using the `fold()` function which comes with almost every class that can be iterated over in Kotlin. The `fold()` function provides a way to eliminate the need to mutate variables and maintain state.
 
-Here's the Part 2 logic after applying a series of small moves toward a functional implementation:
+
+After applying a series of small moves toward a functional implementation, I ended up with this implementation:
 
     override fun part2() = racePoints().maxOf { it.value }
 

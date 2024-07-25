@@ -115,7 +115,7 @@ That is, at i = 10 for example, the maximum of all the values at index 10 in the
 
 When I'm trying to refactor from imperative style to functional style code, I often end up using the `fold()` function which comes with almost every class that can be iterated over in Kotlin. The `fold()` function provides a way to eliminate the need to mutate variables and maintain state.
 
-I created [a branch](https://github.com/jlacar/aoc2015/blob/refactor-day14-pt2-to-functional/src/main/kotlin/lacar/junilu/Day14.kt) to capture the series of refactoring moves I made to transform this into functional-style code.
+I created [a branch](https://github.com/jlacar/aoc2015/blob/refactor-day14-pt2-to-functional/src/main/kotlin/lacar/junilu/Day14.kt) to capture the series of refactoring moves I made to transform this into functional-style code. Blah
 
 I ended up with this implementation:
 

@@ -15,9 +15,9 @@ class Day14(private val reindeerData: List<ReindeerData>, private val raceTime: 
         val scores = reindeerData.associateWith { 0 }.toMutableMap()
         (0 until raceTime).forEach { i ->
             val maxDistanceSoFar = reindeerData.maxOf { it.distanceFlownIn(i + 1) }
-            scores.forEach { (reindeer, distances) ->
+            scores.forEach { (reindeer, currentScore) ->
                 if (reindeer.distanceFlownIn(i + 1) == maxDistanceSoFar) {
-                    scores[reindeer] = scores[reindeer]!!.inc()
+                    scores[reindeer] = currentScore.inc()
                 }
             }
         }

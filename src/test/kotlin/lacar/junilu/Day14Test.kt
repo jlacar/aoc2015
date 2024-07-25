@@ -12,8 +12,8 @@ class Day14Test {
         @Test
         fun `Comet wins`() {
             val sample = Day14(listOf(
-                Day14.ReindeerStats(speed = 14, flightTime = 10, restTime = 127),
-                Day14.ReindeerStats(speed = 16, flightTime = 11, restTime = 162)
+                Day14.Reindeer(speed = 14, flightTime = 10, restTime = 127),
+                Day14.Reindeer(speed = 16, flightTime = 11, restTime = 162)
             ), 1000)
             assertEquals(1120, sample.part1())
         }
@@ -21,8 +21,8 @@ class Day14Test {
         @Test
         fun `Dancer wins`() {
             val sample = Day14(listOf(
-                Day14.ReindeerStats(speed = 14, flightTime = 10, restTime = 127),
-                Day14.ReindeerStats(speed = 16, flightTime = 11, restTime = 162)
+                Day14.Reindeer(speed = 14, flightTime = 10, restTime = 127),
+                Day14.Reindeer(speed = 16, flightTime = 11, restTime = 162)
             ), 1000)
             assertEquals(689, sample.part2())
         }

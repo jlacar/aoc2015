@@ -5,32 +5,36 @@ import kotlin.math.min
 /**
  * AoC 2015 - Day 14: Reindeer Olympics
  */
-class Day14(private val reindeerStats: List<ReindeerStats>, private val raceTime: Int) : Solution<Int> {
+class Day14(private val reindeer: List<Reindeer>, private val raceTime: Int) : Solution<Int> {
 
-    override fun part1() = reindeerStats.maxOf { it.distanceFlownAt(raceTime) }
+    override fun part1() = reindeer.maxOf { it.distanceFlownAt(raceTime) }
 
     override fun part2() = racePoints().values.max()
 
-    private fun racePoints(): Map<ReindeerStats, Int> =
-        (1..raceTime).fold(reindeerStats.associateWith { 0 }) { points, second ->
-            val distances = reindeerStats.associateWith { it.distanceFlownAt(second) }
-            val leadersDistance = distances.values.max()
-            points.map { (reindeer, points) ->
-                reindeer to if (distances[reindeer] == leadersDistance) points + 1 else points
-            }.toMap()
+    private fun racePoints(): Map<Reindeer, Int> =
+        (1..raceTime).fold(reindeer.associateWith { 0 }) { points, second ->
+            award(points, reindeer.associateWith { it.distanceFlownAt(second) })
         }
+
+    private fun award(points: Map<Reindeer, Int>, distances: Map<Reindeer, Int>): Map<Reindeer, Int>
+    {
+        val leadersDistance = distances.values.max()
+        return points.map { (reindeer, leaderPoints) ->
+            reindeer to if (distances[reindeer] == leadersDistance) leaderPoints + 1 else leaderPoints
+        }.toMap()
+    }
 
     companion object {
         fun using(input: List<String>, raceTime: Int) = Day14(
             input.map { line ->
                 val parts = line.split(" ")
-                ReindeerStats(speed = parts[3].toInt(), flightTime = parts[6].toInt(), parts[13].toInt())
+                Reindeer(speed = parts[3].toInt(), flightTime = parts[6].toInt(), parts[13].toInt())
             },
             raceTime
         )
     }
 
-    data class ReindeerStats(val speed: Int, val flightTime: Int, val restTime: Int) {
+    data class Reindeer(val speed: Int, val flightTime: Int, val restTime: Int) {
         private val cycleTime = flightTime + restTime
         fun distanceFlownAt(raceTime: Int) = speed * secondsFlyingAt(raceTime)
 
@@ -49,7 +53,7 @@ class Day14(private val reindeerStats: List<ReindeerStats>, private val raceTime
     }
 
     fun showFlyingOrRestingAt(tSeconds: Int) {
-        reindeerStats.forEach {
+        reindeer.forEach {
             val status = if (it.isFlyingAt(tSeconds)) "flying" else "resting"
             println("\t$it is $status and has flown ${it.distanceFlownAt(tSeconds)} kms")
         }
@@ -63,8 +67,8 @@ fun main() {
 
     Day14(
         listOf(
-            Day14.ReindeerStats(speed = 14, flightTime = 10, restTime = 127),
-            Day14.ReindeerStats(speed = 16, flightTime = 11, restTime = 162)
+            Day14.Reindeer(speed = 14, flightTime = 10, restTime = 127),
+            Day14.Reindeer(speed = 16, flightTime = 11, restTime = 162)
         ), 1000)
 //      .showFlyingOrRestingAt(11)
       .showFlightStatusThrough(140)

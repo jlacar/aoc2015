@@ -115,9 +115,14 @@ That is, at i = 10 for example, the maximum of all the values at index 10 in the
 
 When I'm trying to refactor from imperative style to functional style code, I often end up using the `fold()` function which comes with almost every class that can be iterated over in Kotlin. The `fold()` function provides a way to eliminate the need to mutate variables and maintain state.
 
-I created [a branch](https://github.com/jlacar/aoc2015/blob/refactor-day14-pt2-to-functional/src/main/kotlin/lacar/junilu/Day14.kt) to capture the series of refactoring moves I made to transform this into functional-style code. Blah
+I created [a branch](https://github.com/jlacar/aoc2015/blob/refactor-day14-pt2-to-functional/src/main/kotlin/lacar/junilu/Day14.kt) to capture the series of refactoring moves I made to transform this into functional-style code. 
 
-I ended up with this implementation:
+I think the main things I look for when considering a refactoring toward a more functional style are:
+1. Is there iteration involved? Can it be replaced by some kind of map/reduce operation?
+2. Is there some kind of accumulation of calculated values involved? Can we use a fold operation instead?
+3. Is there some kind of selection involved? Can we use functions that take predicates?
+
+In this case, it was a 'Yes' to all three. This strongly suggested that a `fold()` operation might help simplify the logic and make the code more functional. That's exactly how I ended up with this implementation:
 
     override fun part2() = racePoints().maxOf { it.value }
 
@@ -144,15 +149,23 @@ I ended up with this implementation:
 
 Now `part2()` consists of a single expression to calculate the race points and get the maximum value.
 
-In `racePoints()`, we use `fold()` on the range of seconds in the race, `(1..raceTime)`, to do calculations for every second. We initialize`fold()` with a map created with `reindeerStats.associatedWith { 0 }` which is essentially a scoreboard for all the reindeer and each of them starts with a score of `0`. 
+In `racePoints()`, we use `fold()` on the range of seconds in the race, `(1..raceTime)`, to do the distance and point awarding calculations for every second. 
 
-We use the name `points` for the accumulator variable and `second` for the iteration variable.
+We initialize`fold()` with a map created with `reindeerStats.associatedWith { 0 }` which is essentially a scoreboard for all the reindeer with each starting with a score of `0`. 
 
-The first statement in the `fold()` body calculates the maximum distance traveled by any reindeer at that `second` during the race. This value is assigned to `leadDistance`. Iterating over the `points` map, we award a point to any reindeer that has traveled `leadDistance` at that `second`.
+We use the name `points` for the fold accumulator variable and `second` for the iteration element variable.
 
-The `.toMap()` at the end of the `points.map { ... }` expression is needed to convert the resulting `List` to a `Map`, which is the type the `fold` operation expects in the last expression in its body. This is the same type as the value used to initialize `fold()`.
+The first statement in the `fold()` body creates a map of reindeer associated with their respective distances flown at the given second of the race. The we capture maximum of those distances in `leadersDistance`. 
 
-In the `ReindeerStats` data class, I extracted the expressions that represent the full flight segment time and the partial flight segment time so that `secondsFlyingAt()` function could be fully composed. I think this improves the readability of the code.
+Next, we iterate over the scoreboard and award a point to any reindeer that is at the lead distance.
+
+The `.toMap()` at the end of the `points.map { ... }` expression is necessary because the last statement in the fold body must evaluate to the same type as the expression used to initialize the `fold()` operation.
+
+In the `ReindeerStats` data class, I extracted the expressions that represent the full flight segment time and the partial flight segment time that goes into calculating the result of `secondsFlyingAt()`. 
+
+We need to consider that at any given second, a reindeer could be in the middle of flying but hasn't yet reached their maximum `flightTime`. For example, if a reindeer had a `flightTime` of `10` and a `restTime` of `30`, then at 45 seconds into the race, they would be in the "flying" part of their second fly/rest cycle. That is, they would have flown for 10 seconds, rested for 30 seconds, then flown for 5 seconds with another 5 seconds of flying left. 
+
+Extracting the expressions for full flight time and partial flight time makes `secondsFlyingAt()` a fully composed function which I think improves the readability of the code.
 
 ## To refactor or not to refactor?
 
@@ -169,3 +182,30 @@ If you're really worried about performance, use a profiler to identify the actua
 Additionally, a good optimizing compiler has a much better chance of automatically improving performance by inlining small methods/functions at the points of call. If you focus on extracting code to small units, you'll actually be helping the compiler find more of those kinds of opportunities than if you leave big chunks of complicated and nested code alone because your gut/intuition tells you that additional function/method calls will create too much overhead. 
 
 Again, we developers generally suck at optimizing with our gut and intuition alone and when we do, we're usually wrong.
+
+Case in point, I refactored `racePoints()` once more by extracting the logic for awarding points to the leaders to its own function, giving me this:
+
+    override fun part2() = racePoints().values.max()
+
+    private fun racePoints(): Map<Reindeer, Int> =
+        (1..raceTime).fold(reindeer.associateWith { 0 }) { points, second ->
+            award(points, reindeer.associateWith { it.distanceFlownAt(second) })
+        }
+
+    private fun award(points: Map<Reindeer, Int>, distances: Map<Reindeer, Int>): Map<Reindeer, Int>
+    {
+        val leadersDistance = distances.values.max()
+        return points.map { (reindeer, leaderPoints) ->
+            reindeer to if (distances[reindeer] == leadersDistance) leaderPoints + 1 else leaderPoints
+        }.toMap()
+    }
+
+Now I have the code really layers the story:
+
+Layer 1: (highest level abstraction): Get the maximum of race point values
+
+Layer 2: (still high-level, with a few more details): Starting with zero points for all reindeer, for each second in the race, award points based on the distances flown at that each second
+
+Layer 3: Get the maximum distance flown and award a point to any reindeer who have flown that far
+
+Can an optimizing compiler automatically inline this if it sees that it will significantly improve performance? I'm sure it could. Is it easier to read/digest? I think it is because each function has a singular intent that I can quickly map and reconcile with its implementation. Reading this kind of code makes me trust it more and have more confidence that it is correct. If tests reveal there's a bug, I'll be able to zero in on the bug much faster.

@@ -7,28 +7,13 @@ import java.util.Collections.swap
  */
 class Day13(private val happiness: Map<String, Int>) : Solution<Int> {
 
-    private val allAttendees = peopleIn(happiness.keys)
+    private val allAttendees = happiness.keys.map { it.split(" ").first() }.distinct()
 
-    override fun part1(): Int = allPossibleSeatingArrangementsOf(allAttendees)
+    override fun part1(): Int = allAttendees.permutations()
         .maxOf { arrangement -> happinessFor(arrangement) }
 
-    override fun part2(): Int = allPossibleSeatingArrangementsOf(allAttendees + "Me")
+    override fun part2(): Int = (allAttendees + "Me").permutations()
         .maxOf { arrangement -> happinessFor(arrangement) }
-
-    private fun allPossibleSeatingArrangementsOf(attendees: List<String>): List<List<String>> {
-        val arrangements = mutableListOf<List<String>>()
-        permutationsOf(attendees, 0, arrangements)
-        return arrangements
-    }
-
-    private fun permutationsOf(people: List<String>, index: Int, soFar: MutableList<List<String>>) {
-        if (index == people.lastIndex) soFar.add(people.toList())
-        for (i in index..people.lastIndex) {
-            swap(people, index, i)
-            permutationsOf(people, index + 1, soFar)
-            swap(people, i, index)
-        }
-    }
 
     private fun happinessFor(arrangement: List<String>): Int =
         arrangement.windowed(2).sumOf { (person1, person2) ->
@@ -48,7 +33,5 @@ class Day13(private val happiness: Map<String, Int>) : Solution<Int> {
                 "$name1 $name2" to (if (sign == "gain") 1 else -1) * units.toInt()
             }.toMap()
         )
-
-        fun peopleIn(input: Iterable<String>) = input.map { it.split(" ").first() }.distinct()
     }
 }

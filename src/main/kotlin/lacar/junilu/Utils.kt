@@ -17,16 +17,23 @@ fun <T> List<T>.permutations(): List<List<T>> {
 
     return tail.permutations()
         .fold(mutableListOf()) { allPerms, perm ->
-            (0..perm.size).fold(allPerms) { subPerms, i ->
-                subPerms.add(perm.subList(0, i) + head + perm.subList(i, perm.size))
-                subPerms
+            (0..perm.size).fold(allPerms) { acc, i ->
+                acc.add(perm.subList(0, i) + head + perm.subList(i, perm.size))
+                acc
             }
         }
 }
 
 fun main() {
-    println(listOf("oneThing").permutations().also { println("Permutations (${it.size})") })
-    println(listOf(1, 2, 3, 4, 5).permutations().also { println("Permutations (${it.size}):") })
-    println("abc".toList().permutations().also { println("Permutations (${it.size}):") })
-    println(emptyList<Int>().permutations().also { println("Permutations (${it.size}):") })
+    fun demo(aList: List<Any>) {
+        val perms = aList.permutations()
+        println("""${aList}.permutations (size=${perms.size}) = 
+            |${perms.joinToString("\n")}""".trimMargin())
+        println()
+    }
+    demo(emptyList())
+    demo(listOf("oneThing"))
+    demo(listOf('0', '1'))
+    demo("abc".toList())
+    demo(listOf(1, 2, 3, 4))
 }

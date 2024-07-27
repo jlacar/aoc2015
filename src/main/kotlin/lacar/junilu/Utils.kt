@@ -11,11 +11,11 @@ val <T> List<T>.tail: List<T>
  *
  * Adapted from Python: https://inventwithpython.com/recursion/chapter6.html
  */
-fun <T> List<T>.permutations(indent: Int = 0): List<List<T>> {
+fun <T> List<T>.permutations(): List<List<T>> {
     if (isEmpty()) return emptyList()
     if (size == 1) return listOf(this)
 
-    return tail.permutations(indent + 1)
+    return tail.permutations()
         .fold(mutableListOf()) { allPerms, perm ->
             (0..perm.size).fold(allPerms) { subPerms, i ->
                 subPerms.add(perm.subList(0, i) + head + perm.subList(i, perm.size))

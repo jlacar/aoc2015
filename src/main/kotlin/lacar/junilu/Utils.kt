@@ -17,8 +17,10 @@ fun <T> List<T>.permutations(): List<List<T>> {
     val outerHead = head
     return tail.permutations()
         .fold(mutableListOf()) { allPerms, perm ->
-            (0..perm.size).fold(allPerms) { acc, i ->
-                acc.apply { add(perm.subList(0, i) + outerHead + perm.subList(i, perm.size)) }
+            allPerms.apply {
+                (0..perm.size).forEach { i ->
+                    add(perm.subList(0, i) + outerHead + perm.subList(i, perm.size))
+                }
             }
         }
 }

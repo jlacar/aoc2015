@@ -9,7 +9,8 @@ val <T> List<T>.tail: List<T>
 /**
  * Recursively calculate permutations of the specified list
  *
- * Adapted from Python: https://inventwithpython.com/recursion/chapter6.html
+ * Adapted from Python: https://inventwithpython.com/recursion/chapter6.html and feedback
+ * from https://www.reddit.com/r/Kotlin/comments/1edxill/seeing_some_strange_behavior_with_apply_scope/
  */
 fun <T> List<T>.permutations(): List<List<T>> {
     if (isEmpty()) return emptyList()

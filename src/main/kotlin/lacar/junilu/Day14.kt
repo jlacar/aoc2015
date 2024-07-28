@@ -25,13 +25,16 @@ class Day14(private val reindeer: List<Reindeer>, private val raceTime: Int) : S
     }
 
     companion object {
-        fun using(input: List<String>, raceTime: Int) = Day14(
-            input.map { line ->
-                val parts = line.split(" ")
-                Reindeer(speed = parts[3].toInt(), flightTime = parts[6].toInt(), parts[13].toInt())
-            },
-            raceTime
-        )
+        fun using(input: List<String>, raceTime: Int) = Day14(reindeerFrom(input), raceTime)
+
+        private fun reindeerFrom(input: List<String>) = input.map { line ->
+            val parts = line.split(" ")
+            Reindeer(
+                speed = parts[3].toInt(),
+                flightTime = parts[6].toInt(),
+                restTime = parts[13].toInt()
+            )
+        }
     }
 
     data class Reindeer(val speed: Int, val flightTime: Int, val restTime: Int) {

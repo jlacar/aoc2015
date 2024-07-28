@@ -18,8 +18,7 @@ fun <T> List<T>.permutations(): List<List<T>> {
     return tail.permutations()
         .fold(mutableListOf()) { allPerms, perm ->
             (0..perm.size).fold(allPerms) { acc, i ->
-                acc.add(perm.subList(0, i) + head + perm.subList(i, perm.size))
-                acc
+                acc.also { it.add(perm.subList(0, i) + head + perm.subList(i, perm.size)) }
             }
         }
 }

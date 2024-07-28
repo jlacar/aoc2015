@@ -43,3 +43,59 @@ These are links to notes on each of my solutions to [Advent of Code 2015](https:
 * Day 23
 * Day 24
 * Day 25
+
+## Utilities 
+
+There are some basic operations that come in handy in solving these problems. One such operation is calculating permutations. I looked around for some implementations and I found [one that was workable](https://inventwithpython.com/recursion/chapter6.html), although it was written in Python. No biggie, converting Python code to Kotlin is fairly straightforward. 
+
+This is the Python code, without the informational print statements:
+
+    def getPerms(chars, indent=0):
+        if len(chars) == 1:
+        return [chars]
+    
+        # RECURSIVE CASE
+        permutations = []
+        head = chars[0]
+        tail = chars[1:]
+        tailPermutations = getPerms(tail, indent + 1)
+        for tailPerm in tailPermutations:
+            for i in range(len(tailPerm) + 1):
+                newPerm = tailPerm[0:i] + head + tailPerm[i:]
+                permutations.append(newPerm)
+        return permutations
+
+This was easily translated to Kotlin but there were a few changes I made in the process. I kept with the general approach but added one guard clause for an empty list, which I'd expect to return an empty list. The Python implementation is done in an imperative style. I translated this to a more functional style.
+
+The first thing I did was to add a couple of extension properties, `head` and `tail` to `List<T>`. I got these off of a StackOverflow thread I happened upon while looking for permutations solutions in Kotlin, of which there were surprisingly few.
+
+    val <T> List<T>.head: T
+        get() = first()
+    
+    val <T> List<T>.tail: List<T>
+        get() = drop(1)
+
+I also made `permutations()` an function of `List<T>`:
+
+    fun <T> List<T>.permutations(): List<List<T>> { ... }
+
+Then I added a check for the "zero" case where the list was empty. I'd expect `permutations()` to return an empty list here. I kept the "one" base case, of course, where a list with only one element returns the list itself as its only permutation.
+
+For the recursive part of the logic, the `head` and `tail` extension properties really helped simplify and clarify the Kotlin logic. 
+
+Using `fold()` operations instead of for-loops allowed me streamline the Kotlin code. Specifically, I eliminated or inlined the temporary variables. The `permutations` variable from the Python code was now the outer `fold()` operation's accumulator variable, initialized in call to `fold()` itself. The `tailPermutations` variable became an inline call `tail.permutations()` which because the receive of the outer `fold()` operation.
+
+The inner for-loop from Python also became a `fold()` operation. With the `+` operator overloaded for `List<T>`, adding the elements of each permutation together was easy. The only thing that looks a little weird is the 
+
+    fun <T> List<T>.permutations(): List<List<T>> {
+        if (isEmpty()) return emptyList()
+        if (size == 1) return listOf(this)
+
+        return tail.permutations()
+            .fold(mutableListOf()) { allPerms, perm ->
+                (0..perm.size).fold(allPerms) { acc, i ->
+                    acc.add(perm.subList(0, i) + head + perm.subList(i, perm.size))
+                    acc
+                }
+            }
+    }

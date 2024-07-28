@@ -14,14 +14,13 @@ val <T> List<T>.tail: List<T>
 fun <T> List<T>.permutations(): List<List<T>> {
     if (isEmpty()) return emptyList()
     if (size == 1) return listOf(this)
-
+    val allPerms = mutableListOf<List<T>>()
     return tail.permutations()
-        .fold(mutableListOf()) { allPerms, perm ->
+        .forEach { perm ->
             (0..perm.size).mapTo(allPerms) { i ->
                 perm.subList(0, i) + head + perm.subList(i, perm.size)
             }
-        }
-
+        }.let { allPerms }
 }
 
 fun main() {

@@ -19,7 +19,7 @@ class Day09Test {
             Dublin to Belfast = 141
             """.trimIndent() to 605,
         ).map { (segments, expectedShortest) ->
-            DynamicTest.dynamicTest("$segments -> shortest is $expectedShortest") {
+            DynamicTest.dynamicTest("$segments -> shortest route should be $expectedShortest") {
                 assertEquals(expectedShortest, Day09.using(segments.lines()).part1())
             }
         }
@@ -31,9 +31,9 @@ class Day09Test {
             London to Belfast = 518
             Dublin to Belfast = 141
             """.trimIndent() to 982,
-        ).map { (segments, expectedShortest) ->
-            DynamicTest.dynamicTest("$segments -> shortest is $expectedShortest") {
-                assertEquals(expectedShortest, Day09.using(segments.lines()).part2())
+        ).map { (segments, expectedLongest) ->
+            DynamicTest.dynamicTest("$segments -> longest route should be $expectedLongest") {
+                assertEquals(expectedLongest, Day09.using(segments.lines()).part2())
             }
         }
     }

@@ -28,9 +28,9 @@ fun main() {
         val perms = aList.permutations()
         println(perms.size)
     }
-    demo(emptyList())
-    demo(listOf("oneThing"))
-    demo(listOf('0', '1'))
-    demo("abc".toList())
-    demo(listOf(1, 2, 3, 4, 6, 7))
+//    demo("abc".toList())
+//    demo(emptyList())
+//    demo(listOf("oneThing"))
+//    demo(listOf('0', '1'))
+    demo(listOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10))
 }

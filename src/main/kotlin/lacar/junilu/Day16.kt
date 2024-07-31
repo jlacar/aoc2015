@@ -24,9 +24,9 @@ class Day16(private val auntSues: List<Map<String, Int>>) : Solution<Int> {
         allHerThings.haveMatchingQuantitiesIn(traceAnalysis)
     } + 1
 
-    override fun part2(): Int {
-        TODO("Not yet implemented")
-    }
+    override fun part2() = auntSues.indexOfFirst { allHerThings ->
+        allHerThings.haveQuantitiesConsistentWith(traceAnalysis)
+    } + 1
 
     companion object {
         fun using(input: List<String>) = Day16(auntSuesThingsFrom(input))
@@ -41,7 +41,20 @@ class Day16(private val auntSues: List<Map<String, Int>>) : Solution<Int> {
         }
 
         private fun Map<String, Int>.haveMatchingQuantitiesIn(traceAnalysis: Map<String, Int>) =
-            all { traceAnalysis[it.key]!! == it.value }
+            all { (key, value) -> traceAnalysis[key]!! == value }
+
+        private fun Map<String, Int>.haveQuantitiesConsistentWith(traceAnalysis: Map<String, Int>) =
+            all { (key, value) ->
+                when (key) {
+                    "cats",
+                    "trees" -> value > traceAnalysis[key]!!
+
+                    "pomeranians",
+                    "goldfish" -> value < traceAnalysis[key]!!
+
+                    else -> traceAnalysis[key]!! == value
+                }
+            }
     }
 
     // SCRATCH AREA

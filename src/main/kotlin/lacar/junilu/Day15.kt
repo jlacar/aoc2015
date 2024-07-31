@@ -6,26 +6,19 @@ import kotlin.math.min
 class Day15(private val ingredients: List<Ingredient>, private val teaspoonsTotal: Int) : Solution<Int> {
 
     override fun part1(): Int {
-        val scores = mutableListOf(0)
-        val portions = proportions(ingredients.size, teaspoonsTotal).iterator()
+        val portions = proportions(ingredients.size, teaspoonsTotal)
         val properties = listOf("capacity", "durability", "flavor", "texture")
-        while (portions.hasNext()) {
-            scores.add(cookieScore(portions.next(), properties))
-        }
-        return scores.max()
+        return portions.maxOf { portion -> cookieScore(portion, properties) }
     }
 
     override fun part2(): Int {
-        val scores = mutableListOf(0)
-        val portions = proportions(ingredients.size, teaspoonsTotal).iterator()
+        val portions = proportions(ingredients.size, teaspoonsTotal)
         val properties = listOf("capacity", "durability", "flavor", "texture", "calories")
-        while (portions.hasNext()) {
-            val score = cookieScore(portions.next(), properties) { prop: String, sum: Int ->
+        return portions.maxOf { portion ->
+            cookieScore(portion, properties) { prop: String, sum: Int ->
                 if (prop == properties.last()) sum == 500 else true
             }
-            scores.add(score)
         }
-        return scores.max()
     }
 
     private fun cookieScore(
@@ -68,11 +61,10 @@ fun proportions(parts: Int, total: Int): Sequence<IntArray> = sequence {
     val start = if (parts == 1) total else 0
 
     for (i in (start..total)) {
-        val remaining = total - i
-        if (parts - 1 > 0) {
-            val remProps = proportions(parts - 1, remaining).iterator()
-            while (remProps.hasNext()) {
-                yield(intArrayOf(i) + remProps.next())
+        if (parts > 1) {
+            val remaining = proportions(parts - 1, total - i).iterator()
+            while (remaining.hasNext()) {
+                yield(intArrayOf(i) + remaining.next())
             }
         } else {
             yield(intArrayOf(i))

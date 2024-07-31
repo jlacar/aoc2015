@@ -37,6 +37,16 @@ fun main() {
     demo(listOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10))
 }
 
+/**
+ * Converts a string representing a key-value pair into a Pair.
+ *
+ * Use this as a convenient way to create map entries whose values need to be converted
+ *
+ * Example:
+ * <code>
+ *      keyValuePair("a: 2", ": ", String::toInt)   // Pair("a", 2)
+ * </code>
+ */
 fun <R> keyValuePair(item: String, delimiters: String, transform: (String) -> R): Pair<String, R> {
     val (name, value) = item.split(delimiters)
     return name to transform(value)

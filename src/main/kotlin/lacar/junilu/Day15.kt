@@ -42,16 +42,17 @@ class Day15(private val ingredients: List<Ingredient>, private val teaspoonsTota
     }
 
     companion object {
-        fun using(input: List<String>, teaspoonsTotal: Int): Day15 {
-            val ingredients = input.map { line ->
-                Ingredient(
-                    line.substringAfter(": ").split(", ")
-                        .associate { keyValuePair(it, " ", String::toInt) }
-                )
-            }
+        fun using(input: List<String>, teaspoonsTotal: Int) = Day15 (
+            input.map { Ingredient(properties(it)) },
+            teaspoonsTotal
+        )
 
-            return Day15(ingredients, teaspoonsTotal)
-        }
+        private fun properties(line: String) = toKeyValuePairMap(
+            line.substringAfter(": "),
+            itemDelimiter = ", ",
+            keyValueDelimiter = " ",
+            transform = String::toInt
+        )
     }
 
     data class Ingredient(val props: Map<String, Int>) {

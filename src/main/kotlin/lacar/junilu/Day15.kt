@@ -27,13 +27,13 @@ class Day15(private val ingredients: List<Ingredient>, private val teaspoonsTota
     private fun cookieScore(
         portions: IntArray,
         properties: List<String>,
-        filter: (String, Int) -> Boolean = { _, _ -> true }
+        select: (String, Int) -> Boolean = { _, _ -> true }
     ): Int {
         val portionScores = portions.mapIndexed { i, portionSize -> ingredients[i].scoreFor(portionSize) }
         val propertySums = properties.map { property ->
             portionScores.sumOf { score: Map<String, Int> ->
                 score.getOrDefault(property, 0)
-            }.let { sum -> if (filter(property, sum)) sum else 0 }
+            }.let { sum -> if (select(property, sum)) sum else 0 }
         }
         return propertySums.take(4).fold(1) { acc, sum -> acc * max(0, sum) } *
                 min(1, propertySums.last())

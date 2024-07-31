@@ -3,6 +3,9 @@ package lacar.junilu
 import kotlin.math.max
 import kotlin.math.min
 
+/**
+ * AoC 2015 Day 15: Science for Hungry People
+ */
 class Day15(private val ingredients: List<Ingredient>, private val teaspoonsTotal: Int) : Solution<Int> {
 
     override fun part1(): Int {

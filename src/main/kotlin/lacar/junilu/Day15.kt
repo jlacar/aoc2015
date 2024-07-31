@@ -9,19 +9,21 @@ import kotlin.math.min
 class Day15(private val ingredients: List<Ingredient>, private val teaspoonsTotal: Int) : Solution<Int> {
 
     override fun part1(): Int {
-        val portions = proportions(ingredients.size, teaspoonsTotal)
         val properties = listOf("capacity", "durability", "flavor", "texture")
-        return portions.maxOf { portion -> cookieScore(portion, properties) }
+        return proportions(ingredients.size, teaspoonsTotal)
+            .maxOf { portion ->
+                cookieScore(portion, properties)
+            }
     }
 
     override fun part2(): Int {
-        val portions = proportions(ingredients.size, teaspoonsTotal)
         val properties = listOf("capacity", "durability", "flavor", "texture", "calories")
-        return portions.maxOf { portion ->
-            cookieScore(portion, properties) { prop: String, sum: Int ->
-                if (prop == properties.last()) sum == 500 else true
+        return proportions(ingredients.size, teaspoonsTotal)
+            .maxOf { portion ->
+                cookieScore(portion, properties) { prop: String, sum: Int ->
+                    if (prop == properties.last()) sum == 500 else true
+                }
             }
-        }
     }
 
     private fun cookieScore(

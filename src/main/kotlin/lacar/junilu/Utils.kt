@@ -36,3 +36,8 @@ fun main() {
 //    demo(listOf('0', '1'))
     demo(listOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10))
 }
+
+fun <R> keyValuePair(item: String, delimiters: String, transform: (String) -> R): Pair<String, R> {
+    val (name, value) = item.split(delimiters)
+    return name to transform(value)
+}

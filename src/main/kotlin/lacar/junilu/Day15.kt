@@ -46,10 +46,7 @@ class Day15(private val ingredients: List<Ingredient>, private val teaspoonsTota
             val ingredients = input.map { line ->
                 Ingredient(
                     line.substringAfter(": ").split(", ")
-                        .mapTo(mutableListOf()) { prop ->
-                            val (name, units) = prop.split(" ")
-                            name to units.toInt()
-                        }.toMap()
+                        .associate { keyValuePair(it, " ", String::toInt) }
                 )
             }
 

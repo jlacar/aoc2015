@@ -61,12 +61,12 @@ fun proportions(parts: Int, total: Int): Sequence<IntArray> = sequence {
     val start = if (parts == 1) total else 0
 
     for (portionSize in (start..total)) {
-        if (parts > 1) {
+        if (parts <= 1) {
+            yield(intArrayOf(portionSize))
+        }  else {
             for (portion in proportions(parts - 1, total - portionSize)) {
                 yield(intArrayOf(portionSize) + portion)
             }
-        } else {
-            yield(intArrayOf(portionSize))
         }
     }
 }

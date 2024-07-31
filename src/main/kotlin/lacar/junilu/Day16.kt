@@ -3,7 +3,7 @@ package lacar.junilu
 /**
  * AoC 2015 - Day 16: Aunt Sue
  */
-class Day16(val auntSues: List<Map<String, Int>>) : Solution<Int> {
+class Day16(private val auntSues: List<Map<String, Int>>) : Solution<Int> {
 
     private val traceAnalysis =
         """
@@ -39,6 +39,9 @@ class Day16(val auntSues: List<Map<String, Int>>) : Solution<Int> {
                 String::toInt
             )
         }
+
+        private fun Map<String, Int>.haveMatchingQuantitiesIn(traceAnalysis: Map<String, Int>) =
+            all { traceAnalysis[it.key]!! == it.value }
     }
 
     // SCRATCH AREA
@@ -49,9 +52,6 @@ class Day16(val auntSues: List<Map<String, Int>>) : Solution<Int> {
     private fun showAnalysis() = println("Analysis $traceAnalysis")
 
 }
-
-private fun Map<String, Int>.haveMatchingQuantitiesIn(traceAnalysis: Map<String, Int>) =
-    all { traceAnalysis[it.key]!! == it.value }
 
 fun main() {
     Day16(listOf()).scratch()

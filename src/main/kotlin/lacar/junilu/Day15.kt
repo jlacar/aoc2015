@@ -1,31 +1,46 @@
 package lacar.junilu
 
 import kotlin.math.max
+import kotlin.math.min
 
 class Day15(private val ingredients: List<Ingredient>, private val teaspoonsTotal: Int) : Solution<Int> {
 
     override fun part1(): Int {
         val scores = mutableListOf(0)
         val portions = proportions(ingredients.size, teaspoonsTotal).iterator()
+        val properties = listOf("capacity", "durability", "flavor", "texture")
         while (portions.hasNext()) {
-            scores.add(cookieScore(portions.next()))
+            scores.add(cookieScore(portions.next(), properties))
         }
         return scores.max()
     }
 
-    fun cookieScore(portions: IntArray): Int {
-        val propertiesPart1 = listOf("capacity", "durability", "flavor", "texture")
-        val ingredientScores = portions.mapIndexed { i, teaspoons -> ingredients[i].scoreFor(teaspoons) }
-        val propertySums = propertiesPart1.map { property ->
-            ingredientScores.sumOf { score: Map<String, Int> ->
-                score.getOrDefault(property, 0)
+    override fun part2(): Int {
+        val scores = mutableListOf(0)
+        val portions = proportions(ingredients.size, teaspoonsTotal).iterator()
+        val properties = listOf("capacity", "durability", "flavor", "texture", "calories")
+        while (portions.hasNext()) {
+            val score = cookieScore(portions.next(), properties) { prop: String, sum: Int ->
+                if (prop == properties.last()) sum == 500 else true
             }
+            scores.add(score)
         }
-        return propertySums.fold(1) { acc, sum -> acc * max(0, sum) }
+        return scores.max()
     }
 
-    override fun part2(): Int {
-        TODO("Not yet implemented")
+    private fun cookieScore(
+        portions: IntArray,
+        properties: List<String>,
+        filter: (String, Int) -> Boolean = { _, _ -> true }
+    ): Int {
+        val portionScores = portions.mapIndexed { i, portionSize -> ingredients[i].scoreFor(portionSize) }
+        val propertySums = properties.map { property ->
+            portionScores.sumOf { score: Map<String, Int> ->
+                score.getOrDefault(property, 0)
+            }.let { sum -> if (filter(property, sum)) sum else 0 }
+        }
+        return propertySums.take(4).fold(1) { acc, sum -> acc * max(0, sum) } *
+                min(1, propertySums.last())
     }
 
     companion object {
@@ -36,7 +51,7 @@ class Day15(private val ingredients: List<Ingredient>, private val teaspoonsTota
                         .mapTo(mutableListOf()) { prop ->
                             val (name, units) = prop.split(" ")
                             name to units.toInt()
-                        }.toMap()
+                        }.toMap().also { println("ingredients: $it") }
                 )
             }
 

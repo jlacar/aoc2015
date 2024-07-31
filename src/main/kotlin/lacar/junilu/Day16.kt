@@ -5,8 +5,7 @@ package lacar.junilu
  */
 class Day16(private val auntSues: List<Map<String, Int>>) : Solution<Int> {
 
-    private val traceAnalysis =
-        """
+    private val traceAnalysis = """
         children: 3
         cats: 7
         samoyeds: 2
@@ -17,11 +16,10 @@ class Day16(private val auntSues: List<Map<String, Int>>) : Solution<Int> {
         trees: 3
         cars: 2
         perfumes: 1
-        """.trimIndent().lines()
-            .associate { keyValuePair(it, ": ", String::toInt) }
+        """.trimIndent().lines().associate { keyValuePair(it, ": ", String::toInt) }
 
     override fun part1() = auntSues.indexOfFirst { allHerThings ->
-        allHerThings.haveMatchingQuantitiesIn(traceAnalysis)
+        allHerThings.haveQuantitiesThatMatch(traceAnalysis)
     } + 1
 
     override fun part2() = auntSues.indexOfFirst { allHerThings ->
@@ -33,25 +31,18 @@ class Day16(private val auntSues: List<Map<String, Int>>) : Solution<Int> {
 
         private fun auntSuesThingsFrom(input: List<String>) = input.map { line ->
             toKeyValuePairMap(
-                line.substringAfter(": "),
-                itemDelimiter = ", ",
-                keyValueDelimiter = ": ",
-                String::toInt
+                line.substringAfter(": "), itemDelimiter = ", ", keyValueDelimiter = ": ", String::toInt
             )
         }
 
-        private fun Map<String, Int>.haveMatchingQuantitiesIn(traceAnalysis: Map<String, Int>) =
+        private fun Map<String, Int>.haveQuantitiesThatMatch(traceAnalysis: Map<String, Int>) =
             all { (key, value) -> traceAnalysis[key]!! == value }
 
         private fun Map<String, Int>.haveQuantitiesConsistentWith(traceAnalysis: Map<String, Int>) =
             all { (key, value) ->
                 when (key) {
-                    "cats",
-                    "trees" -> value > traceAnalysis[key]!!
-
-                    "pomeranians",
-                    "goldfish" -> value < traceAnalysis[key]!!
-
+                    "cats", "trees" -> value > traceAnalysis[key]!!
+                    "pomeranians", "goldfish" -> value < traceAnalysis[key]!!
                     else -> traceAnalysis[key]!! == value
                 }
             }

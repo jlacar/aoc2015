@@ -36,14 +36,14 @@ class Day16(private val auntSues: List<Map<String, Int>>) : Solution<Int> {
         }
 
         private fun Map<String, Int>.haveQuantitiesThatMatch(traceAnalysis: Map<String, Int>) =
-            all { (key, value) -> traceAnalysis[key]!! == value }
+            all { (compound, quantity) -> traceAnalysis[compound]!! == quantity }
 
         private fun Map<String, Int>.haveQuantitiesConsistentWith(traceAnalysis: Map<String, Int>) =
-            all { (key, value) ->
-                when (key) {
-                    "cats", "trees" -> value > traceAnalysis[key]!!
-                    "pomeranians", "goldfish" -> value < traceAnalysis[key]!!
-                    else -> traceAnalysis[key]!! == value
+            all { (compound, quantity) ->
+                when (compound) {
+                    "cats", "trees" -> quantity > traceAnalysis[compound]!!
+                    "pomeranians", "goldfish" -> quantity < traceAnalysis[compound]!!
+                    else -> traceAnalysis[compound]!! == quantity
                 }
             }
     }

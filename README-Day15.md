@@ -44,7 +44,12 @@ There always seems some data in the input that ends up being irrelevant to the s
 
 ## Part 1 - Find the best cookie
 
-
+Tightening up the iterations, inlining, expressive code, choosing names from the problem domain to tell a clear, cohesive story
 
 ## Part 2 - Find the best cookie with exactly 500 calories 
 
+High-order functions, defaults for function parameters, and calling a function parameter.
+
+## Kotlin Sequences and `yield`
+
+Discuss the `sequence()` function and how `yield` works almost but not quite like `return` - what are the (n-1) level details around these?  

@@ -31,7 +31,7 @@ My Kotlin adaptation was very similar:
                     yield(intArrayOf(portionSize) + portion)
                 }
             }
-//        }
+        }
     }
 
 Of course, I changed some of the names, to protect the innocent.

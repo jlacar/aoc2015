@@ -6,6 +6,8 @@ The only tricky part to this problem was that the list items (all the different 
 
 Since Kotlin has 0-based indices, I needed to adjust for that, hence the `+ 1` term at the end of the expressions in both parts.
 
+This is one of the few Advent of Code problems I've seen that doesn't have any example scenarios, so the test for this likewise does not have the usual examples tests.
+
 # Part 1 - Exact matches for quantities found in the trace report
 
 This part asks you to find the index of the first Aunt Sue whose list of things exactly match the quantities that showed up in the trace analysis report. 
@@ -30,7 +32,9 @@ In this part, we're given additional criteria. I used the same construct as befo
         allHerThings.haveQuantitiesConsistentWith(traceAnalysis)
     } + 1
 
-Again, clear, expressive, and intention-revealing code makes itself easy to understand.
+In `haveQuantitiesConsistentWith()`, a `when` expression handles the different ways to evaluate the quantities to determine a match. 
+
+One thing that puzzles me is the null-safety checks. I thought Kotlin would see that an expression had already been checked for null and that any code after that would "know" that it was null-safe. However, IntelliJ kept flagging the code so I had to use the `!!` operator to get rid of the compiler warnings.
 
 # Input parsing utility functions are paying off
 

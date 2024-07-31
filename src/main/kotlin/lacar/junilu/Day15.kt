@@ -47,7 +47,7 @@ class Day15(private val ingredients: List<Ingredient>, private val teaspoonsTota
                         .mapTo(mutableListOf()) { prop ->
                             val (name, units) = prop.split(" ")
                             name to units.toInt()
-                        }.toMap().also { println("ingredients: $it") }
+                        }.toMap()
                 )
             }
 

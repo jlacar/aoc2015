@@ -51,3 +51,12 @@ fun <R> keyValuePair(item: String, delimiters: String, transform: (String) -> R)
     val (name, value) = item.split(delimiters)
     return name to transform(value)
 }
+
+fun <R> toKeyValuePairMap(
+    list: String,
+    itemDelimiter: String,
+    keyValueDelimiter: String,
+    transform: (String) -> R): Map<String, R> =
+
+    list.split(itemDelimiter)
+        .associate { keyValuePair(it, keyValueDelimiter, transform) }

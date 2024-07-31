@@ -62,9 +62,8 @@ fun proportions(parts: Int, total: Int): Sequence<IntArray> = sequence {
 
     for (i in (start..total)) {
         if (parts > 1) {
-            val remaining = proportions(parts - 1, total - i).iterator()
-            while (remaining.hasNext()) {
-                yield(intArrayOf(i) + remaining.next())
+            proportions(parts - 1, total - i).forEach {
+                yield(intArrayOf(i) + it)
             }
         } else {
             yield(intArrayOf(i))

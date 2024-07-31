@@ -47,16 +47,4 @@ class Day16(private val auntSues: List<Map<String, Int>>) : Solution<Int> {
                 }
             }
     }
-
-    // SCRATCH AREA
-    fun scratch() {
-        showAnalysis()
-    }
-
-    private fun showAnalysis() = println("Analysis $traceAnalysis")
-
-}
-
-fun main() {
-    Day16(listOf()).scratch()
 }

@@ -20,7 +20,9 @@ class Day16(val auntSues: List<Map<String, Int>>) : Solution<Int> {
         """.trimIndent().lines()
             .associate { keyValuePair(it, ": ", String::toInt) }
 
-    override fun part1() = auntSues.indexOfFirst { it.hasEnoughToMatch(traceAnalysis) } + 1
+    override fun part1() = auntSues.indexOfFirst { allHerThings ->
+        allHerThings.haveMatchingQuantitiesIn(traceAnalysis)
+    } + 1
 
     override fun part2(): Int {
         TODO("Not yet implemented")
@@ -48,7 +50,7 @@ class Day16(val auntSues: List<Map<String, Int>>) : Solution<Int> {
 
 }
 
-private fun Map<String, Int>.hasEnoughToMatch(traceAnalysis: Map<String, Int>) =
+private fun Map<String, Int>.haveMatchingQuantitiesIn(traceAnalysis: Map<String, Int>) =
     all { traceAnalysis[it.key]!! == it.value }
 
 fun main() {

@@ -60,13 +60,13 @@ class Day15(private val ingredients: List<Ingredient>, private val teaspoonsTota
 fun proportions(parts: Int, total: Int): Sequence<IntArray> = sequence {
     val start = if (parts == 1) total else 0
 
-    for (i in (start..total)) {
+    for (portionSize in (start..total)) {
         if (parts > 1) {
-            proportions(parts - 1, total - i).forEach {
-                yield(intArrayOf(i) + it)
+            for (portion in proportions(parts - 1, total - portionSize)) {
+                yield(intArrayOf(portionSize) + portion)
             }
         } else {
-            yield(intArrayOf(i))
+            yield(intArrayOf(portionSize))
         }
     }
 }

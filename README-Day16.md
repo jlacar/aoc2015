@@ -16,8 +16,8 @@ The most convenient function I could think of to use here was the [`all`](https:
 
 Choosing good names so the code will tell the story clearly, I had this expression:
 
-    auntSues.indexOfFirst { allHerThings ->
-        allHerThings.haveQuantitiesThatMatch(traceAnalysis)
+    auntSues.indexOfFirst { auntSueWhoseList ->
+        auntSueWhoseList.hasEqualQuantitiesIn(traceAnalysis)
     } + 1
 
 As mentioned above, the `+ 1` at the end adjusts for a 1-based identification number.
@@ -28,11 +28,11 @@ I created an extension function for `Map<String, Int>`, `haveQuantitiesThatMatch
 
 In this part, we're given additional criteria. I used the same construct as before and added another extension function for `Map<String, Int>` so I could write this expression:
 
-    auntSues.indexOfFirst { allHerThings ->
-        allHerThings.haveQuantitiesConsistentWith(traceAnalysis)
+    auntSues.indexOfFirst { auntSueWhoseList ->
+        auntSueWhoseList.hasQuantitiesConsistentWith(traceAnalysis)
     } + 1
 
-In `haveQuantitiesConsistentWith()`, a `when` expression handles the different ways to evaluate the quantities to determine a match. 
+In `hasQuantitiesConsistentWith()`, I used a `when` expression to handle the different ways of checking the quantities for a match. 
 
 One thing that puzzles me is the null-safety checks. I thought Kotlin would see that an expression had already been checked for null and that any code after that would "know" that it was null-safe. However, IntelliJ kept flagging the code so I had to use the `!!` operator to get rid of the compiler warnings.
 

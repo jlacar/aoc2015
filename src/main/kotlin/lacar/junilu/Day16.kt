@@ -18,12 +18,12 @@ class Day16(private val auntSues: List<Map<String, Int>>) : Solution<Int> {
         perfumes: 1
         """.trimIndent().lines().associate { keyValuePair(it, ": ", String::toInt) }
 
-    override fun part1() = auntSues.indexOfFirst { allHerThings ->
-        allHerThings.haveQuantitiesThatMatch(traceAnalysis)
+    override fun part1() = auntSues.indexOfFirst { auntSueWhoseList ->
+        auntSueWhoseList.hasEqualQuantitiesIn(traceAnalysis)
     } + 1
 
-    override fun part2() = auntSues.indexOfFirst { allHerThings ->
-        allHerThings.haveQuantitiesConsistentWith(traceAnalysis)
+    override fun part2() = auntSues.indexOfFirst { auntSueWhoseList ->
+        auntSueWhoseList.hasQuantitiesConsistentWith(traceAnalysis)
     } + 1
 
     companion object {
@@ -35,10 +35,10 @@ class Day16(private val auntSues: List<Map<String, Int>>) : Solution<Int> {
             )
         }
 
-        private fun Map<String, Int>.haveQuantitiesThatMatch(traceAnalysis: Map<String, Int>) =
+        private fun Map<String, Int>.hasEqualQuantitiesIn(traceAnalysis: Map<String, Int>) =
             all { (compound, quantity) -> traceAnalysis[compound]!! == quantity }
 
-        private fun Map<String, Int>.haveQuantitiesConsistentWith(traceAnalysis: Map<String, Int>) =
+        private fun Map<String, Int>.hasQuantitiesConsistentWith(traceAnalysis: Map<String, Int>) =
             all { (compound, quantity) ->
                 when (compound) {
                     "cats", "trees" -> quantity > traceAnalysis[compound]!!

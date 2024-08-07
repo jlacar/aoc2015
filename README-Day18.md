@@ -10,11 +10,13 @@ My first approach was to iterate over the possible offsets using an `IntRange` o
 
 Later, I realized this was too complicated and it would be simpler to just iterate through a list of eight possible offsets of neighbors. This allowed me to eliminate the check for `(0, 0)` offsets, leaving me with just the on-grid check.
 
+See notes below for details of the refactoring.
+
 ## Part 2
 
 This part adds a rule that the cells at the four corners of the grid are always on. Wanting to avoid duplication, I added a `transform` parameter to the `animate()` function. This would be used to decorate the grid with the four lit corners for `part2()`. I used an identity lambda as the default transformation so that it also worked without changing the call in `part1()`.
 
-See below for details of the refactoring.
+See notes below for details of the refactoring.
 
 ## Notes
 
@@ -139,6 +141,88 @@ The effort of silently filling in gaps like that is what basically constitutes c
 Notice, too, that the arrangement of the extracted functions follow what Kent Beck refers to in his "_Tidy First?_" book as the "reading order", with the assumption that you read from top to bottom. 
 
 As much as possible, I like to put private methods as close as I can to the place where they are first referenced as I read the code from top to bottom. When done consistently, using proximity and reading/encounter order can make it much easier to see how parts of the code are related to each other.
+
+## Sometimes a little judicious hard-coding is better
+
+As mentioned earlier, my first approach to counting how many neighboring lights were on was to use an `IntRange` and nested loops. 
+
+    private fun Grid.litAround(row: Int, col: Int): Int {
+        val offsets = -1..1
+        return offsets.sumOf { rowOffset ->
+            val r = row + rowOffset                 
+            offsets.count { colOffset ->
+                val c = col + colOffset
+                if (isValidNeighbor(r, c, row, col)) 
+                    this[r][c]
+                else 
+                    false
+            }
+        }
+    }
+
+    private fun Grid.isValidNeighbor(
+        r: Int,
+        c: Int,
+        row: Int,
+        col: Int
+    ) = r in this.indices && c in this[row].indices && (r != row || c != col)
+
+The first thing that struck me smelly about this code was, of course, that it was difficult to scan and quickly understand. The friction in `Grid.litAround()` comes mostly from everything after the line with `return` on it. Scanning it, `sumOf`, `count`, and `isValidNeighbor()` are what stand out to me, but it's hard to sift through all the rests to get a clear idea of the story.
+
+One way to reduce the noise in code is to eliminate temporary variables, of which there are two: `r` and `c`, whose names only hint at their relationships with `row`/`rowOffset` and `col`/`colOffset`, respectively. Not very good names, I admit. 
+
+The hint that I could eliminate them comes from how they're passed to `isValidNeighbor()` along with `row` and `col`, which are part of their respective values. I tried this:
+
+    private fun Grid.litAround(row: Int, col: Int): Int {
+        val offsets = -1..1
+        return offsets.sumOf { rowOffset ->
+            offsets.count { colOffset ->
+                if (isValidNeighbor(row + rowOffset, col + colOffset, row, col))
+                    this[row + rowOffset][col + colOffset]
+                else
+                    false
+                }
+            }
+        }
+
+This only moved the noise into the inner loop, tidying up the outer loop a little bit. It still didn't make the code clear enough but now I could see a way to reveal intent by extracting the `if-else` expression.
+
+    private fun Grid.litAround(row: Int, col: Int): Int {
+        val offsets = -1..1
+        return offsets.sumOf { rowOffset ->
+            offsets.count { colOffset ->
+                isLightOnAt(row, rowOffset, col, colOffset)
+            }
+        }
+
+    private fun isLightOnAt(row: Int, rowOffset: Int, col: Int, colOffset: Int) =
+        if (isValidNeighbor(row + rowOffset, col + colOffset, row, col)
+            this[row + rowOffset][col + colOffset]
+        else
+            false
+
+The long parameter list and the redundancy of the values of those parameters was really starting to bother me. However, it also occurred to me that there were really only eight pairs of offsets. It might be easier if I just kind of hard-coded those offset pairs instead of using two loops to iterate through the offset permutations. So here's what I got:
+
+    private val offsets = listOf(
+        Pair(-1, -1), Pair(-1, 0), Pair(-1, 1),
+        Pair( 0, -1),              Pair( 0, 1),
+        Pair( 1, -1), Pair( 1, 0), Pair( 1, 1)
+    )
+
+    private fun Grid.litNeighborsOf(row: Int, col: Int): Int =
+        offsets.count { (rOffset, cOffset) ->
+            isLightOnAt(row + rOffset, col + cOffset)
+        }
+
+With some creative formatting and the flexibility of IntelliJ IDEA to go with custom formatting, and some shifting in the perspective of the names, this reads so much better now.
+
+This also simplifies the check I need to make to ensure I'm accessing a valid grid element.
+
+    private fun Grid.isLightOnAt(row: Int, col: Int) =
+        if (isOnGrid(row, col)) this[row][col] else false
+
+    private fun Grid.isOnGrid(row: Int, col: Int) = 
+        row in this.indices && col in this[row].indices
 
 ## Function parameters and parameter defaults
 

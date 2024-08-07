@@ -18,11 +18,11 @@ This part adds a rule that the lights at the four corners of the grid are always
 
 See notes below for details of the refactoring.
 
-## Notes
+## Refactoring Notes
 
-Anyone who is familiar with Conway's Game of Life will find this problem relatively easy. Aside from a little snag I ran into in part 2 which I'll explain in more detail below, it didn't take me long to solve both parts. 
+Anyone who is familiar with Conway's Game of Life will find this problem relatively easy to solve. Aside from a little snag I ran into in part 2 which I'll explain in more detail below, it didn't take me long to earn gold stars for both parts. 
 
-Refactoring for clarity was, as always, the most fun part of this exercise where I spent the bulk of my time messing around.
+Refactoring for clarity was, as always, the most fun part of this exercise and where I spent the bulk of my time messing around with it.
 
 ### Focus on Clarity First
 

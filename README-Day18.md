@@ -4,11 +4,17 @@
 
 ## Part 1
 
-A straightforward GoL to find the state after 100 steps (generations). 
+Pretty straightforward GoL implementation: find the state after 100 steps (generations). The bulk of the computing is in counting how many neighbors of a cell are lit.
+
+My first approach was to iterate over the possible offsets using an `IntRange` of `-1..1`. This required nested loops to go through the permutations of row and column offsets. I also needed some checks to ignore off-grid and the "self" coordinates with offsets of `(0, 0)`. 
+
+Later, I realized this was too complicated and it would be simpler to just iterate through a list of eight possible offsets of neighbors. This allowed me to eliminate the check for `(0, 0)` offsets, leaving me with just the on-grid check.
 
 ## Part 2
 
-This part adds a rule that the cells at four corners of the grid are always on.
+This part adds a rule that the cells at the four corners of the grid are always on. Wanting to avoid duplication, I added a `transform` parameter to the `animate()` function. This would be used to decorate the grid with the four lit corners for `part2()`. I used an identity lambda as the default transformation so that it also worked without changing the call in `part1()`.
+
+See below for details of the refactoring.
 
 ## Notes
 
@@ -133,3 +139,6 @@ The effort of silently filling in gaps like that is what basically constitutes c
 Notice, too, that the arrangement of the extracted functions follow what Kent Beck refers to in his "_Tidy First?_" book as the "reading order", with the assumption that you read from top to bottom. 
 
 As much as possible, I like to put private methods as close as I can to the place where they are first referenced as I read the code from top to bottom. When done consistently, using proximity and reading/encounter order can make it much easier to see how parts of the code are related to each other.
+
+## Function parameters and parameter defaults
+

@@ -62,15 +62,21 @@ Despite having only a few lines of declarative (vs. imperative) style code, this
 
 The only phrase in the problem statement that we can immediately connect to the code is `initialConfiguration`. Other references to `steps`, `nextStep` and `count` functions also hint at a connection but understanding the code as a whole takes a few seconds of parsing and piecing the parts together to form a coherent story in our heads.
 
-A big part of the problem is that `fold()` and `flatten()` both sit squarely in the technical solution space rather than the abstract problem space. While they are key parts of the technical solution, they have little to no connection to the abstract ideas from the problem statement.
+Most of the cognitive load, which I often refer to as "friction", is caused by the `fold()` and `flatten()` operations. Both of these sit squarely in the technical solution space rather than the abstract problem space. 
 
-Compare that to the refactored version of the code:
+The function `part1()` is a high-level function and as a reader, my main focus is gaining a high-level understanding, not so much the implementation details. I want to be able to connect what I'm reading with my understanding of the problem at a very high-level of abstraction. While they are key parts of the technical solution, `fold()` and `flatten()` have little to no connection to the abstract ideas from the problem statement.
+
+Now, compare that to the refactored version:
 
     override fun part1(): Int = initialConfiguration
         .animate(steps)
         .howManyAreOn()
 
 The story this code tells is now very clearly a direct reflection of the ideas presented in the problem statement. There is virtually no cognitive load for the reader who is trying to correlate the code to the problem.
+
+#### One way to read the refactored code
+
+> (_Given an_) **initial configuration**, **animate** (_the grid through this many_) **steps** (_and count_) **how many** (_lights_) **are on**.
 
 ## Step-by-Step Refactoring/Tidying 
 
@@ -124,23 +130,21 @@ I also converted the `nextStep()` function into an extension function of `Grid`.
 
 ## Make the code tell a clear and coherent story
 
-The refactored `part1()` code tells a clear story that can be easily mapped to the problem statement. There are a couple of ways you can read it.
-
-> (_Given an_) **initial configuration** (_of lights_), **animate** (_through the given number of_) **steps** (_and count_) **how many** (_lights_) **are on**.
-
-or 
+The refactored `part1()` code tells a clear story that can be easily mapped to the problem statement. There are a few ways you can read it, [one of which I showed earlier](#one-way-to-read-the-refactored-code). Here's another way:
 
 > (_Given an_) **initial configuration** (_of lights, count_) **how many** (_lights_) **are on** (_after_) **animating** (_the grid through the given number of_) **steps**.
 
-Both of these readings are clear and in agreement with the problem statement. 
+The point is that the words you're reading have very little to do with the implementation details of the solution but rather with the _intent_ of the program. 
 
 The italicized words in parentheses are what you might reasonably expect your brain to silently "fill in" as you read the code. Our brains naturally do this, often without us being conscious of it.
 
-The effort of silently filling in gaps like that is what basically constitutes cognitive load. The harder our brain has to work to fill in those gaps to formulate a coherent story, the more cognitive load you experience.  
+The effort of silently filling in gaps like that is what basically constitutes cognitive load. The harder your brain has to work to fill in those gaps to formulate a coherent story, the more cognitive load you experience.  
 
-Notice, too, that the arrangement of the extracted functions follow what Kent Beck refers to in his "_Tidy First?_" book as the "reading order", with the assumption that you read from top to bottom. 
+Notice, too, that the arrangement of the extracted functions follow what Kent Beck refers to in his "_Tidy First?_" book as the "reading order", with the assumption that you read the code from top to bottom. 
 
-As much as possible, I like to put private methods as close as I can to the place where they are first referenced as I read the code from top to bottom. When done consistently, using proximity and reading/encounter order can make it much easier to see how parts of the code are related to each other.
+As much as possible, I like to put private methods as close as I can to the place where they are first referenced. When done consistently and using proximity and reading/encounter order, I can make the experience that of a gradual and progressive building of understanding. 
+
+Non-trivial programs are inherently difficult to understand. Being sensitive to what other people might experience as they read the code can really help you see good ways to make the code clearer, cleaner, and easier to work with.
 
 ## Sometimes a little judicious hard-coding is better
 

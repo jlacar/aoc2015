@@ -9,17 +9,19 @@ private typealias Grid = List<GridRow>
 
 class Day18(private val initialState: Grid, private val steps: Int) : Solution<Int> {
 
-    override fun part1(): Int = initialState.animate(steps).howManyAreOn()
-
-    override fun part2(): Int = initialState
-        .animate(steps) { grid ->
-            listOf(turnOnEnds(grid.first())) +
-            grid.subList(1, grid.lastIndex) +
-            listOf(turnOnEnds(grid.last()))
-        }
+    override fun part1(): Int = initialState
+        .animate(steps)
         .howManyAreOn()
 
-    private fun turnOnEnds(row: GridRow) = listOf(true) + row.subList(1, row.lastIndex) + listOf(true)
+    override fun part2(): Int = initialState
+        .animate(steps) { grid -> grid.turnOnCorners() }
+        .howManyAreOn()
+
+    private fun Grid.turnOnCorners() =
+        listOf(turnOnEnds(first())) + subList(1, lastIndex) + listOf(turnOnEnds(last()))
+
+    private fun turnOnEnds(row: GridRow) =
+        listOf(true) + row.subList(1, row.lastIndex) + listOf(true)
 
     private fun Grid.animate(steps: Int, transform: (Grid) -> Grid = { it }): Grid
         = (1..steps).fold(transform(this)) { grid, _ -> transform(grid.nextStep()) }

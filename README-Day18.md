@@ -4,7 +4,7 @@
 
 ## Part 1
 
-Pretty straightforward GoL implementation: find the state after 100 steps (generations). The bulk of the computing is in counting how many neighbors around a light are lit.
+Pretty straightforward GoL implementation: find the state after 100 steps (generations). The bulk of the computing is in counting how many neighbors around a light are on.
 
 My first approach was to iterate over the possible offsets using an `IntRange` of `-1..1`. This required nested loops to go through the permutations of row and column offsets. I also needed some checks to ignore off-grid and the "self" coordinates with offsets of `(0, 0)`. 
 

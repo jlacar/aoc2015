@@ -7,13 +7,13 @@ package lacar.junilu
 private typealias GridRow = List<Boolean>
 private typealias Grid = List<GridRow>
 
-class Day18(private val initialState: Grid, private val steps: Int) : Solution<Int> {
+class Day18(private val initialConfiguration: Grid, private val steps: Int) : Solution<Int> {
 
-    override fun part1(): Int = initialState
+    override fun part1(): Int = initialConfiguration
         .animate(steps)
         .howManyAreOn()
 
-    override fun part2(): Int = initialState
+    override fun part2(): Int = initialConfiguration
         .animate(steps) { grid -> grid.turnOnCorners() }
         .howManyAreOn()
 

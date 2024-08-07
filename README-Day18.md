@@ -10,7 +10,7 @@ My first approach was to iterate over the possible offsets using an `IntRange` o
 
 Later, I realized this was too complicated and it would be simpler to just iterate through a list of eight possible offsets of neighbors. This allowed me to eliminate the check for `(0, 0)` offsets, leaving me with just the on-grid check.
 
-See [notes below](#sometimes-a-little-judicious-hard-coding-is-better) for details of the refactoring.
+See the ["Sometimes a little judicious hard-coding is better"](#sometimes-a-little-judicious-hard-coding-is-better) section below for details of the refactoring.
 
 ## Part 2
 

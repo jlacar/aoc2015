@@ -40,7 +40,7 @@ Using words and phrases from the problem space, avoiding technical jargon, and h
 
 In summary, the clearer, simpler, and less technically-oriented code is, the easier it is to relate it to the _intent_ of the program and gain a good understanding of what it does.
 
-### Cognitive Dissonance: An Example from Day 18
+### Cognitive Load: An Example from Day 18
 
 To illustrate the cognitive load imposed by code that is laden with technical details, let's take a look at my initial solution to Part 1 of Day 18.
 

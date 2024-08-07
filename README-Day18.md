@@ -10,7 +10,7 @@ My first approach was to iterate over the possible offsets using an `IntRange` o
 
 Later, I realized this was too complicated and it would be simpler to just iterate through a list of eight possible offsets of neighbors. This allowed me to eliminate the check for `(0, 0)` offsets, leaving me with just the on-grid check.
 
-See notes below for details of the refactoring.
+See [notes below](#sometimes-a-little-judicious-hard-coding-is-better) for details of the refactoring.
 
 ## Part 2
 
@@ -142,7 +142,7 @@ Notice, too, that the arrangement of the extracted functions follow what Kent Be
 
 As much as possible, I like to put private methods as close as I can to the place where they are first referenced as I read the code from top to bottom. When done consistently, using proximity and reading/encounter order can make it much easier to see how parts of the code are related to each other.
 
-## Sometimes a little judicious hard-coding is better
+## [Sometimes a little judicious hard-coding is better]
 
 As mentioned earlier, my first approach to counting how many neighboring lights were on was to use an `IntRange` and nested loops. 
 

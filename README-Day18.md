@@ -214,11 +214,13 @@ The long parameter list for `isLightOnAt` and the redundancy of their values was
             isLightOnAt(row + rOffset, col + cOffset)
         }
 
-IntelliJ IDEA's flexibility in formatting allowed to format the offset pairs list into a square with an empty spot in the middle to represent the light whose neighbors we're checking. That and some tweaks to the function names makes the code read so much better now.
+IntelliJ IDEA's flexibility in formatting allowed me to format the list of offset pairs to form, creating a visual cue for what they meant. The empty spot in the middle represents the light whose neighbors we're checking. With a few tweaks to the function names, the code is now much easier to read and comprehend.
 
-> (_Given the_) **offsets** (_of a light's neighbors_), **count** (_how many of those_) **lights are on**.
+This is how I read it:
 
-This also simplifies the checks I need to make to ensure I'm accessing a valid grid coordinate.
+> (_Given the_) **offsets** (_of a light's neighbors_), **count** (_how many of those_) **lights are on**. (That's how many) **lit neighbors of** (_the light at_) **(row, col)** (_has_). 
+
+This refactoring also simplifies the checks I need to make to ensure I'm only checking valid grid coordinates.
 
     private fun Grid.isLightOnAt(row: Int, col: Int) =
         if (isOnGrid(row, col)) this[row][col] else false

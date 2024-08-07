@@ -116,11 +116,11 @@ Next, I wanted to clarify the intent of the `fold` operation. Once again, I did 
         .howManyAreOn()
      
     private fun Grid.animate(steps: Int) = 
-        = (1..steps).fold(this) { grid, _ -> grid.nextStep() }
+        (1..steps).fold(this) { grid, _ -> grid.nextStep() }
 
     private fun Grid.howManyAreOn() = flatten().count { it }
 
-I also converted the `nextStep()` function into an extension function of `Grid`.
+I also converted the `nextStep()` function into an extension function of `Grid`. That was it: a few extract to functions later, I had a well-composed function that revealed intent instead of drowning out the signal with a lot of implementation noise.
 
 ## Make the code tell a clear and coherent story
 

@@ -22,23 +22,25 @@ My first goal in refactoring is always to increase the clarity of the code. The 
 
 ### Use words and phrases from the problem domain
 
-Developers are naturally preoccupied with the technical aspects of the solution. This is often reflected in the code as technical terms and jargon from the solution space. While understandable, the problem with having too much technical detail bleeding into the code is that it creates cognitive dissonance for the reader of the code. 
+Developers are naturally preoccupied with the technical aspects of the solution. This is often reflected in the code as technical terms and jargon from the solution space. While understandable, the problem with having too much technical detail in the code, especially the high-level parts, is that it imposes a cognitive load on anyone who reads it. 
 
-Most readers, especially those who are unfamiliar with the code, will be more interested in the abstract concepts represented in the program, not so much in the technical implementation details. That comes later, after gaining a good high-level understanding of the _intent_ of the program. 
+Most readers, especially those who are unfamiliar with the program, will be more interested in the abstract concepts represented and not so much in the technical details. That level of understanding comes later, after a good high-level understanding of the _intent_ of the program is gained. 
 
-The bigger the gap between the abstract ideas of the problem space and the technical details of the solution space, the harder it will be for the reader to bridge that gap and gain a high-level understanding.
+The bigger the gap between the abstract ideas of the problem space and the way these ideas are represented in the code, the harder it will be for the reader to bridge that gap and gain a high-level understanding of the program.
 
-Using words and phrases from the problem space and avoiding technical jargon, especially in the higher levels of code, can greatly reduce that gap and imposes less of a cognitive load on the reader.
+Using words and phrases from the problem space, avoiding technical jargon, and hiding implementation details, especially in the higher levels of code, can greatly reduce that gap and imposes less of a cognitive load on the reader.
+
+In summary, the clearer, simpler, and less technically-oriented code is, the easier it is to relate it to the _intent_ of the program and gain a good understanding of what it does.
 
 ### Cognitive Dissonance: An Example from Day 18
 
 To illustrate the cognitive load imposed by code that is laden with technical details, let's take a look at my initial solution to Part 1 of Day 18.
 
-To recap the problem, we are given a 100x100 grid of lights. The grid will have an initial configuration in which some lights will be on and others will be off. The grid is animated in such a way that the next state of each light is dependent on its current state and the state of its eight neighboring lights.
+To recap the problem we're trying to solve, we are given a 100x100 grid of lights. The grid will have an initial configuration in which some lights will be on and others will be off. The grid is animated in steps from one configuration to the next in such a way that the next state of each light is dependent on its current state and that of its eight neighboring lights.
 
 The task is to figure out how many lights are on after a given number of animation steps (or generations, as it's referred to in the original GoL problem). The example uses a smaller grid animated through 4 steps.
 
-The code below is my first cut. It passed the tests and earned a gold star for Day 18, part 1.
+The code below is my first cut solution. It passed the tests and earned a gold star for Day 18, part 1.
 
     // Works but hard to understand 
 
@@ -50,7 +52,7 @@ The code below is my first cut. It passed the tests and earned a gold star for D
 
 Despite having only a few lines of declarative (vs. imperative) style code, this still doesn't tell a clear story that can be easily connected to the problem statement: "Given an initial configuration (your puzzle input), how many lights are on after 100 steps?"
 
-The only phrase in the problem statement that we can immediately connect the code to is `initialConfiguration`. Other references to `steps`, `nextStep` and `count` functions also hint at a connection but understanding the code as a whole takes a few seconds of parsing and piecing the parts together to form a coherent story in our heads.
+The only phrase in the problem statement that we can immediately connect to the code is `initialConfiguration`. Other references to `steps`, `nextStep` and `count` functions also hint at a connection but understanding the code as a whole takes a few seconds of parsing and piecing the parts together to form a coherent story in our heads.
 
 A big part of the problem is that `fold()` and `flatten()` both sit squarely in the technical solution space rather than the abstract problem space. While they are key parts of the technical solution, they have little to no connection to the abstract ideas from the problem statement.
 
@@ -60,7 +62,7 @@ Compare that to the refactored version of the code:
         .animate(steps)
         .howManyAreOn()
 
-The story this code tells is now very clearly a direct reflection of the ideas present in the problem statement. There is virtually no cognitive load for the reader who is trying to correlate the code to the problem.
+The story this code tells is now very clearly a direct reflection of the ideas presented in the problem statement. There is virtually no cognitive load for the reader who is trying to correlate the code to the problem.
 
 ## Step-by-Step Refactoring/Tidying 
 
@@ -112,13 +114,17 @@ Next, I wanted to clarify the intent of the `fold` operation. Once again, I did 
 
 I also converted the `nextStep()` function into an extension function of `Grid`.
 
-The refactored code in `part1()` now tells a clear story. You can read it a couple of ways:
+## Make the code tell a clear and coherent story
 
-> (_Given an_) **initial configuration** (_of lights_), **animate** (_through the given number of_) **steps** (_and return_) **how many** (_lights_) **are on**.
+The refactored `part1()` code tells a clear story that can be easily mapped to the problem statement. There are a couple of ways you can read it.
+
+> (_Given an_) **initial configuration** (_of lights_), **animate** (_through the given number of_) **steps** (_and count_) **how many** (_lights_) **are on**.
 
 or 
 
 > (_Given an_) **initial configuration** (_of lights, count_) **how many** (_lights_) **are on** (_after_) **animating** (_the grid through the given number of_) **steps**.
+
+Both of these readings are clear and in agreement with the problem statement. 
 
 The italicized words in parentheses are what you might reasonably expect your brain to silently "fill in" as you read the code. Our brains naturally do this, often without us being conscious of it.
 

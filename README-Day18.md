@@ -1,6 +1,6 @@
 # Day 18: Like a GIF For Your Yard
 
-[This problem](https://adventofcode.com/2015/day/18) is basically [Conway's Game of Life](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life) (GoL) except with a grid of lights that are either on (alive) or off (dead). The grid does not wrap around itself, so you need to consider  cells on the edges of the grid when calculating the number of neighbors of a cell.
+[This problem](https://adventofcode.com/2015/day/18) is basically [Conway's Game of Life](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life) (GoL) except with a grid of lights that are either on (alive) or off (dead). The grid does not wrap around itself, so you need to consider  lights on the edges of the grid when checking the neighbors around a light.
 
 ## Part 1
 
@@ -14,7 +14,7 @@ See the ["Sometimes a little judicious hard-coding is better"](#sometimes-a-litt
 
 ## Part 2
 
-This part adds a rule that the cells at the four corners of the grid are always on. Wanting to avoid duplication, I added a `transform` parameter to the `animate()` function. This would be used to decorate the grid with the four lit corners for `part2()`. I used an identity lambda as the default transformation so that it also worked without changing the call in `part1()`.
+This part adds a rule that the lights at the four corners of the grid are always on. Wanting to avoid duplication, I added a `transform` parameter to the `animate()` function. This would be used to decorate the grid with the four lit corners for `part2()`. I used an identity lambda as the default transformation so that it also worked without changing the call in `part1()`.
 
 See notes below for details of the refactoring.
 

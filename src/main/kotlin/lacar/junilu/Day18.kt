@@ -13,9 +13,9 @@ class Day18(private val initialState: Grid, private val steps: Int) : Solution<I
 
     override fun part2(): Int = initialState
         .animate(steps) { grid ->
-            val firstRow = listOf(turnOnEnds(grid.first()))
-            val lastRow = listOf(turnOnEnds(grid.last()))
-            firstRow + grid.subList(1, grid.lastIndex) + lastRow
+            listOf(turnOnEnds(grid.first())) +
+            grid.subList(1, grid.lastIndex) +
+            listOf(turnOnEnds(grid.last()))
         }
         .howManyAreOn()
 

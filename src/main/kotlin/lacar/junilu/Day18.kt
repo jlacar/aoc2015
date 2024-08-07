@@ -3,50 +3,55 @@ package lacar.junilu
 /**
  * AoC 2015 - Day 18: Like a GIF For Your Yard
  */
-class Day18(private val initialConfig: List<List<Boolean>>, private val steps: Int) : Solution<Int> {
-    override fun part1(): Int = initialConfig.stepThrough(steps).howManyAreLit()
 
-    private fun List<List<Boolean>>.howManyAreLit() = this.flatten().count { it }
+private typealias GridRow = List<Boolean>
+private typealias Grid = List<GridRow>
 
-    private fun List<List<Boolean>>.stepThrough(steps: Int): List<List<Boolean>> =
-        (1..steps).fold(this) { config, _ -> nextStep(config) }
+class Day18(private val initialState: Grid, private val steps: Int) : Solution<Int> {
 
-    private fun List<List<Boolean>>.litAround(row: Int, col: Int): Int {
+    override fun part1(): Int = initialState.animate(steps).howManyAreOn()
+
+    override fun part2(): Int = initialState
+        .animate(steps) { grid ->
+            val firstRow = listOf(turnOnEnds(grid.first()))
+            val lastRow = listOf(turnOnEnds(grid.last()))
+            firstRow + grid.subList(1, grid.lastIndex) + lastRow
+        }
+        .howManyAreOn()
+
+    private fun turnOnEnds(row: GridRow) = listOf(true) + row.subList(1, row.lastIndex) + listOf(true)
+
+    private fun Grid.animate(steps: Int, transform: (Grid) -> Grid = { it }): Grid
+        = (1..steps).fold(transform(this)) { grid, _ -> transform(grid.nextStep()) }
+
+    private fun Grid.howManyAreOn() = this.flatten().count { it }
+
+    private fun Grid.litNeighborsOf(row: Int, col: Int): Int {
         val offsets = -1..1
-        return offsets.sumOf { rowOffset ->
-            val r = row + rowOffset
-            offsets.count { colOffset ->
-                val c = col + colOffset
-                if (isValidNeighbor(r, c, row, col))
-                    this[r][c]
-                else
-                    false
+        return offsets.sumOf { rOffset ->
+            offsets.count { cOffset ->
+                if (rOffset != 0 || cOffset != 0) stateOf(row + rOffset, col + cOffset) else false
             }
         }
     }
 
-    private fun List<List<Boolean>>.isValidNeighbor(
-        r: Int,
-        c: Int,
-        row: Int,
-        col: Int
-    ) = r in this.indices && c in this[row].indices && (r != row || c != col)
+    private fun Grid.stateOf(row: Int, col: Int): Boolean {
+        return if (isOnGrid(row, col)) this[row][col] else false
+    }
 
-    private fun nextStep(config: List<List<Boolean>>): List<List<Boolean>> =
-        config.mapIndexed { row, line ->
-            line.mapIndexed { col, on ->
-                val neighbors = config.litAround(row, col)
-                if (on) {
+    private fun Grid.isOnGrid(row: Int, col: Int) = row in this.indices && col in this[row].indices
+
+    private fun Grid.nextStep(): Grid =
+        mapIndexed { row, rowOfLights ->
+            rowOfLights.mapIndexed { col, lightIsOn ->
+                val neighbors = litNeighborsOf(row, col)
+                if (lightIsOn) {
                     neighbors in (2..3)
                 } else {
                     neighbors == 3
                 }
             }
         }
-
-    override fun part2(): Int {
-        TODO("Not yet implemented")
-    }
 
     companion object {
         fun using(input: List<String>, steps: Int) = Day18(

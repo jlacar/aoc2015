@@ -18,8 +18,22 @@ class Day18Test {
                 #....#
                 ..#...
                 #.#..#
-                ####..""".trimIndent().lines()
+                ####..
+                """.trimIndent().lines()
             assertEquals(4, Day18.using(config, 4).part1())
+        }
+        @Test
+        fun part2() {
+            val config =
+                """
+                ##.#.#
+                ...##.
+                #....#
+                ..#...
+                #.#..#
+                ####.#
+                """.trimIndent().lines()
+            assertEquals(17, Day18.using(config, 5).part2())
         }
     }
 
@@ -28,6 +42,11 @@ class Day18Test {
         @Test
         fun `Part 1 - SOLVED`() {
             assertEquals(814, Day18.using(puzzleInput, 100).part1())
+        }
+
+        @Test
+        fun `Part 2 - SOLVED`() {
+            assertEquals(924, Day18.using(puzzleInput, 100).part2())
         }
     }
 }

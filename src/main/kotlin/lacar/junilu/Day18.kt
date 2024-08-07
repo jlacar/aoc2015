@@ -26,16 +26,18 @@ class Day18(private val initialState: Grid, private val steps: Int) : Solution<I
 
     private fun Grid.howManyAreOn() = this.flatten().count { it }
 
-    private fun Grid.litNeighborsOf(row: Int, col: Int): Int {
-        val offsets = -1..1
-        return offsets.sumOf { rOffset ->
-            offsets.count { cOffset ->
-                if (rOffset != 0 || cOffset != 0) stateOf(row + rOffset, col + cOffset) else false
-            }
-        }
-    }
+    private val offsets = listOf(
+        Pair(-1, -1), Pair(-1, 0), Pair(-1, 1),
+        Pair( 0, -1),              Pair( 0, 1),
+        Pair( 1, -1), Pair( 1, 0), Pair( 1, 1)
+    )
 
-    private fun Grid.stateOf(row: Int, col: Int): Boolean {
+    private fun Grid.litNeighborsOf(row: Int, col: Int): Int =
+        offsets.count { (rOffset, cOffset) ->
+            isLightOnAt(row + rOffset, col + cOffset)
+        }
+
+    private fun Grid.isLightOnAt(row: Int, col: Int): Boolean {
         return if (isOnGrid(row, col)) this[row][col] else false
     }
 

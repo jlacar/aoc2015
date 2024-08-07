@@ -37,9 +37,8 @@ class Day18(private val initialState: Grid, private val steps: Int) : Solution<I
             isLightOnAt(row + rOffset, col + cOffset)
         }
 
-    private fun Grid.isLightOnAt(row: Int, col: Int): Boolean {
-        return if (isOnGrid(row, col)) this[row][col] else false
-    }
+    private fun Grid.isLightOnAt(row: Int, col: Int) =
+        if (isOnGrid(row, col)) this[row][col] else false
 
     private fun Grid.isOnGrid(row: Int, col: Int) = row in this.indices && col in this[row].indices
 

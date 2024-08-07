@@ -142,7 +142,7 @@ Notice, too, that the arrangement of the extracted functions follow what Kent Be
 
 As much as possible, I like to put private methods as close as I can to the place where they are first referenced as I read the code from top to bottom. When done consistently, using proximity and reading/encounter order can make it much easier to see how parts of the code are related to each other.
 
-## [Sometimes a little judicious hard-coding is better]
+## Sometimes a little judicious hard-coding is better
 
 As mentioned earlier, my first approach to counting how many neighboring lights were on was to use an `IntRange` and nested loops. 
 

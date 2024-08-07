@@ -12,7 +12,9 @@ This part adds a rule that the cells at four corners of the grid are always on.
 
 ## Notes
 
-Anyone who is familiar with Conway's Game of Life will find this problem relatively easy. I solved both parts relatively quickly. Refactoring for clarity was, as always, the most fun part of this exercise.
+Anyone who is familiar with Conway's Game of Life will find this problem relatively easy. Aside from a little snag I ran into in part 2 which I'll explain in more detail below, it didn't take me long to solve both parts. 
+
+Refactoring for clarity was, as always, the most fun part of this exercise where I spent the bulk of my time messing around.
 
 ### Focus on Clarity First
 

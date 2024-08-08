@@ -25,14 +25,18 @@ class Day18(private val initialConfiguration: Grid, private val steps: Int) : So
     private fun Grid.nextStep(): Grid =
         mapIndexed { row, rowOfLights ->
             rowOfLights.mapIndexed { col, lightIsOn ->
-                val neighbors = litNeighborsOf(row, col)
-                if (lightIsOn) {
-                    neighbors in (2..3)
-                } else {
-                    neighbors == 3
-                }
+                isLightOnInNextStep(row, col, lightIsOn)
             }
         }
+
+    private fun Grid.isLightOnInNextStep(row: Int, col: Int, lightIsOn: Boolean): Boolean {
+        val neighbors = litNeighborsOf(row, col)
+        return if (lightIsOn) {
+            neighbors in (2..3)
+        } else {
+            neighbors == 3
+        }
+    }
 
     private fun Grid.turnOnCorners() =
         listOf(turnOnEnds(first())) + subList(1, lastIndex) + listOf(turnOnEnds(last()))

@@ -41,10 +41,7 @@ class Day18(private val initialConfiguration: Grid, private val steps: Int) : So
         listOf(true) + row.subList(1, row.lastIndex) + listOf(true)
 
     private fun Grid.litNeighborsOf(row: Int, col: Int): Int =
-        neighborsOf(row, col).count { (row, col) -> isLightOnAt(row, col) }
-
-    private fun neighborsOf(row: Int, col: Int): List<Pair<Int, Int>> =
-        neighborOffsets.map { (rOffset, cOffset) -> Pair(row + rOffset, col + cOffset ) }
+        neighborsOf(row, col).count { (neighborRow, neighborCol) -> isLightOnAt(neighborRow, neighborCol) }
 
     private fun Grid.isLightOnAt(row: Int, col: Int) =
         if (isOnGrid(row, col)) this[row][col] else false
@@ -57,6 +54,9 @@ class Day18(private val initialConfiguration: Grid, private val steps: Int) : So
             Pair(0, -1),  /* (0,0) */  Pair(0, 1),
             Pair(1, -1),  Pair(1, 0),  Pair(1, 1)
         )
+
+        private fun neighborsOf(row: Int, col: Int): List<Pair<Int, Int>> =
+            neighborOffsets.map { (rOffset, cOffset) -> Pair(row + rOffset, col + cOffset ) }
 
         fun using(input: List<String>, steps: Int) = Day18(
             input.map { line -> line.map { it == '#' } },

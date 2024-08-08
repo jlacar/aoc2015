@@ -205,7 +205,9 @@ This tidied up the outer loop a little bit but only shifted noise into the inner
         else
             false
 
-The long parameter list for `isLightOnAt` and the redundancy of their values was really starting to bother me. However, it also occurred to me that since there were only eight pairs of offsets to deal with, it might be easier if I just hard-coded those offsets. Here's what I got after a few tweaks:
+The long parameter list for `isLightOnAt` and the redundancy of their values was really starting to bother me. However, it also occurred to me that since there were only eight pairs of offsets to deal with, it might be easier if I just hard-coded those offsets. 
+
+Here's what I got after a few tweaks and renames:
 
     private val offsets = listOf(
         Pair(-1, -1), Pair(-1, 0), Pair(-1, 1),
@@ -218,11 +220,23 @@ The long parameter list for `isLightOnAt` and the redundancy of their values was
             isLightOnAt(row + rOffset, col + cOffset)
         }
 
-IntelliJ IDEA's flexibility in formatting allowed me to format the list of offset pairs to form, creating a visual cue for what they meant. The empty spot in the middle represents the light whose neighbors we're checking. With a few tweaks to the function names, the code is now much easier to read and comprehend.
+As a sanity check, I retell the story in my head to see how well it maps to the code:
 
-This is how I read it:
+> Count how many of the neighbors of (row, col) are lit.
 
-> (_Given the_) **offsets** (_of a light's neighbors_), **count** (_how many of those_) **lights are on**. (That's how many) **lit neighbors of** (_the light at_) **(row, col)** (_has_). 
+It's pretty close but there's still a bit of friction from the offsets list. As my eyes bounce back and forth between the `count` body and the `offsets` list declaration, I realize that the `litNeighborsOf()` function has two responsibilities: counting and calculating the neighbor light's coordinates. These  should probably be separate concerns. 
+
+To do that, I create the `neighborsOf()` function, which uses the list of offsets to calculate the coordinates of the neighbors. Moving the calculation of neighbor coordinates here leaves `litNeighborsOf()` to be concerned solely with counting how many of its neighbors are lit.
+
+    private fun Grid.litNeighborsOf(row: Int, col: Int): Int = neighborsOf(row, col)
+        .count { (neighborRow, neighborCol) -> isLightOnAt(neighborRow, neighborCol) }
+
+    private fun neighborsOf(row: Int, col: Int) =
+        neighborOffsets.map { (rOffset, cOffset) -> Pair(row + rOffset, col + cOffset) }
+
+Now reading and understanding the code is straightforward:
+
+> (_Get the_) **neighbors of** (_the light at_) **(row, column)** (_and_) **count** (_the_) **lights that are on**. 
 
 This refactoring also simplifies the checks I need to make to ensure I'm only checking valid grid coordinates.
 
@@ -231,6 +245,10 @@ This refactoring also simplifies the checks I need to make to ensure I'm only ch
 
     private fun Grid.isOnGrid(row: Int, col: Int) = 
         row in this.indices && col in this[row].indices
+
+### Using companion object to hold static things
+
+One additional refactoring I did was to put the `neighborOffsets` list in the companion object. There was no point in creating the list more than once and the companion object is perfect place to put this kind of stuff. I thought about moving `isOnGrid()` in there as well but decided not to because it had a dependency on the grid itself and rightly belonged in the `Day18` class that encapsulated it.
 
 ## Function parameters and parameter defaults
 

@@ -30,15 +30,13 @@ My first goal in refactoring is always to increase the clarity of the code. The 
 
 ### Use words and phrases from the problem domain
 
-Developers are naturally preoccupied with the technical aspects of the solution. This is often reflected in the code as technical terms and jargon from the solution space. While understandable, the problem with having too much technical detail in the code, especially the high-level parts, is that it imposes a cognitive load on anyone who reads it. 
+The clearer, simpler, and less technically-oriented code is, the easier it is to relate to its _intent_ gain a good understanding of what it does. Developers, however, are naturally preoccupied with the technical aspects of the solution and this is often reflected in the code as technical terms and jargon. While understandable, code that "speaks" to much in technical terms imposes a heavy cognitive load on the reader, especially in the high-level parts. 
 
-Most readers, particularly those who are unfamiliar with the program, will be more interested in the abstract concepts represented and not so much in the technical details. That level of understanding comes later, after a good high-level understanding of the _intent_ of the program is gained. 
+Most readers, particularly those who are unfamiliar with the program, will be more interested in the abstract concepts represented in the code as they start familiarizing themselves with it. Understanding the technical details comes later, after a good high-level understanding of the _intent_ of the program is gained. 
 
 The bigger the gap between the abstract ideas of the problem space and the way these ideas are represented in the code, the harder it will be for the reader to bridge that gap and gain a high-level understanding of the program.
 
-Using words and phrases from the problem space, avoiding technical jargon, and hiding implementation details, especially in the higher levels of code, can greatly reduce that gap and imposes less of a cognitive load on the reader.
-
-In summary, the clearer, simpler, and less technically-oriented code is, the easier it is to relate it to the _intent_ of the program and gain a good understanding of what it does.
+By using words and phrases from the problem space, avoiding technical jargon, and pushing technical details down to the lower layers of abstraction can greatly reduce that gap and imposes less of a cognitive load on the reader.
 
 ### Cognitive Load: An Example from Day 18
 

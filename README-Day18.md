@@ -175,9 +175,9 @@ The first thing that struck me smelly about this code was that it was difficult 
 
 Getting rid of temporary variables can be a good way to reduce noise in code. In this case, `r` and `c` were a little noisy. When you see single-letter variables these, ask yourself why they weren't given better names. 
 
-Sometimes (more often than not?) developers will just use these kinds of short, cryptic names because they can't think of any good ones. That can be a sign that the variable or calculation related to it is either in the wrong place or it's redundant.
+Sometimes (more often than not?) developers will just use these kinds of short, cryptic names because they can't think of any good ones. That can be a sign that the expression related to it is either in the wrong place or it's redundant.
 
-That seems to be the case here. I had struggled with what to name these variables and it only dawned on me in retrospect that since they represented the neighbor's position on the grid, `neighborRow` and `neighborCol` would have been the more appropriate names.
+That seems to be the case here. I had struggled with what to name these variables and it only dawned on me in retrospect that since they represented the neighbor's position on the grid, `neighborRow` and `neighborCol` would have been more appropriate names.
 
 Anyway, inlining `r` and `c` gave me this:
 
@@ -189,11 +189,13 @@ Anyway, inlining `r` and `c` gave me this:
                     this[row + rowOffset][col + colOffset]
                 else
                     false
-                }
             }
         }
+    }
 
-This tidied up the outer loop a little bit but only shifted noise into the inner loop. The code still wasn't clear enough for my eyes to just glide over it. However, I could now see a way to reveal intent by extracting the `if-else` expression.
+This tidied up the outer loop a little bit but only shifted noise into the inner loop. The code still wasn't clear enough for my eyes to just glide over it. However, I could now see a way to reveal intent by extracting the `if-else` expression. 
+
+Again, the guiding question "What does this piece of code do and how can we make it say that in a simpler, more straightforward way?"
 
     private fun Grid.litAround(row: Int, col: Int): Int {
         val offsets = -1..1
@@ -224,15 +226,15 @@ Here's what I got after a few tweaks and renames:
             isLightOnAt(row + rOffset, col + cOffset)
         }
 
-That looks pretty clean but as a sanity check, I retell the story in my head to see how well it maps to the code:
+That looked pretty clean. As a sanity check, I retell the story in my head to see how well it maps to the code:
 
 > Count how many neighbors of the light at (row, col) are lit.
 
-While I've managed to trim the code down quite a bit, I still sense some friction from the offsets list. As I read the code, I notice that I'm bouncing back and forth between the `count` body and the `offsets` list declaration. It seems my brain is trying to figure out the relationship between the addition the offsets in the `isLightOnAt()` call and the offsets list.
+While I had managed to trim the code down quite a bit, I still sensed some friction from the offsets list. As I read the code, I noticed my eyes bouncing back and forth between the `count` body and the `offsets` list declaration. It seems my brain is trying to figure osut the relationship between the addition the offsets in the `isLightOnAt()` call and the offsets list.
 
-This helps me realize that the `litNeighborsOf()` function currently has two responsibilities: counting the lit neighbors and calculating the neighboring light's locations. These two concerns should probably be separated. 
+This made me realize that the `litNeighborsOf()` function was doing two things: counting the lit neighbors and calculating the neighboring light's positions. These two concerns should probably be separated. 
 
-To do that, I create the `neighborsOf()` function. Moving the calculation of neighbors to a separate function leaves `litNeighborsOf()` to be focused only on counting its lit neighbors, just like its name suggests.
+To do that, I created the `neighborsOf()` function. Moving the calculation of neighbors to a separate function leaves `litNeighborsOf()` to be focused only on counting its lit neighbors, just like its name suggests.
 
     private fun Grid.litNeighborsOf(row: Int, col: Int): Int = neighborsOf(row, col)
         .count { (neighborRow, neighborCol) -> isLightOnAt(neighborRow, neighborCol) }

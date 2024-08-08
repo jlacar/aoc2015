@@ -60,7 +60,7 @@ The only thing in the code that we can immediately connect to the problem statem
 
 Most of the cognitive load, which I often refer to as "friction" (the [Carl von Clausewitz](https://clausewitzstudies.org) kind), is caused by the `fold()` and `flatten()` operations. 
 
-The function `part1()` is a high-level function and as a reader, my main focus is gaining a high-level understanding, not so much the implementation details. I want to be able to connect what I'm reading with my understanding of the problem at a very high-level of abstraction. While they are key parts of the technical solution, `fold()` and `flatten()` have little to no connection to the abstract ideas from the problem statement: both of these are ideas from the technical solution space.
+The `part1()` function is a high-level function. As a reader trying to understand what the program does, my focus is on understanding _intent_, not so much the implementation details. I want to be able to connect what I'm reading with my understanding of the problem at a very high-level of abstraction. While `fold()` and `flatten()` are key technical details, the have little to no connection to the abstract ideas from the problem statement.
 
 Compare that to the refactored version below:
 
@@ -68,15 +68,15 @@ Compare that to the refactored version below:
         .animate(steps)
         .howManyAreOn()
 
-This code tells a story that is easily a direct reflection of the problem statement. There is virtually no cognitive load for the reader who is trying to understand how the code relates to the problem.
+This code tells a story that is easily a direct reflection of the problem statement. There is virtually no cognitive load for the reader who is trying to understand the program's intent and how it relates to the problem it solves.
 
 #### One way to read the refactored code
 
+This is how I would read the refactored code: 
+
 > (_Given an_) **initial configuration**, **animate** (_the grid through this many_) **steps** (_and count_) **how many** (_lights_) **are on**.
 
-The italicized words in parentheses are what you might reasonably expect your brain to silently "fill in" as you read the code. Our brains naturally do this, often without us being conscious of it.
-
-The effort of silently filling in gaps like that is what basically constitutes cognitive load. The harder your brain has to work to fill in those gaps to formulate a coherent story, the more cognitive load you experience.
+The italicized words in parentheses are what you might reasonably expect your brain to silently "fill in" as you read the code. Our brains naturally do this, often without us being conscious of it. The amount of effort it takes your brain to fill in gaps like that is what basically constitutes cognitive load. The harder your brain has to work to formulate a coherent story, the more cognitive load you experience.
 
 ## Step-by-Step Refactoring/Tidying 
 

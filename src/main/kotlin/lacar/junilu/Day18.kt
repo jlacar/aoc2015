@@ -28,16 +28,17 @@ class Day18(private val initialConfiguration: Grid, private val steps: Int) : So
 
     private fun Grid.howManyAreOn() = this.flatten().count { it }
 
-    private val offsets = listOf(
-        Pair(-1, -1), Pair(-1, 0), Pair(-1, 1),
-        Pair( 0, -1),              Pair( 0, 1),
-        Pair( 1, -1), Pair( 1, 0), Pair( 1, 1)
-    )
-
     private fun Grid.litNeighborsOf(row: Int, col: Int): Int =
-        offsets.count { (rOffset, cOffset) ->
-            isLightOnAt(row + rOffset, col + cOffset)
-        }
+        neighborsOf(row, col).count { (row, col) -> isLightOnAt(row, col) }
+
+    private fun neighborsOf(row: Int, col: Int): List<Pair<Int, Int>> {
+        val offsets = listOf(
+            Pair(-1, -1), Pair(-1, 0), Pair(-1, 1),
+            Pair(0, -1), /* (0,0) */  Pair(0, 1),
+            Pair(1, -1), Pair(1, 0), Pair(1, 1)
+        )
+        return offsets.map { (rOffset, cOffset) -> Pair(row + rOffset, col + cOffset ) }
+    }
 
     private fun Grid.isLightOnAt(row: Int, col: Int) =
         if (isOnGrid(row, col)) this[row][col] else false

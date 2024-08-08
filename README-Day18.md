@@ -171,9 +171,9 @@ As mentioned earlier, my first approach to counting how many neighboring lights 
         col: Int
     ) = r in this.indices && c in this[row].indices && (r != row || c != col)
 
-The first thing that struck me smelly about this code was that it was difficult to scan and quickly understand. The friction in `Grid.litAround()` cames mostly from everything after the line with `return` on it. Scanning it, `sumOf`, `count`, and `isValidNeighbor()` are what stood out to me, but it was hard to sift through the rest of the code and get a clear idea of what was going on.
+The first thing that struck me smelly about this code was that it was difficult to scan and quickly understand. Scanning the code, `sumOf`, `count`, and `isValidNeighbor()` stood out to me but it was hard to sift through the rest of the code and get a clear idea of what was going on. There was a lot of implementation noise.
 
-Getting rid of temporary variables can be a good way to reduce noise in code. In this case, `r` and `c` were a little noisy. When you see single-letter variables these, ask yourself why they weren't given better names. 
+Getting rid of temporary variables can be a good way to reduce noise in code. In this case, `r` and `c` were noisy. When you see single-letter variables these, ask yourself why they weren't given better names. 
 
 Sometimes (more often than not?) developers will just use these kinds of short, cryptic names because they can't think of any good ones. That can be a sign that the expression related to it is either in the wrong place or it's redundant.
 

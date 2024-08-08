@@ -22,7 +22,7 @@ See notes below for details of the refactoring.
 
 Anyone who is familiar with Conway's Game of Life will find this problem relatively easy to solve. Aside from a little snag I ran into in part 2 which I'll explain in more detail below, it didn't take me long to earn gold stars for both parts. 
 
-Refactoring for clarity was, as always, the most fun part of this exercise and where I spent the bulk of my time messing around with it.
+Refactoring for clarity was, as always, the most fun part of this exercise and where I spent the bulk of my time messing around.
 
 ### Focus on Clarity First
 

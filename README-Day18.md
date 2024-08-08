@@ -171,13 +171,11 @@ As mentioned earlier, my first approach to counting how many neighboring lights 
         col: Int
     ) = r in this.indices && c in this[row].indices && (r != row || c != col)
 
-The first thing that struck me smelly about this code was that it was difficult to scan and quickly understand. Scanning the code, `sumOf`, `count`, and `isValidNeighbor()` stood out to me but it was hard to sift through the rest of the code and get a clear idea of what was going on. There was a lot of implementation noise.
+The first thing that struck me smelly about this code was that it was difficult to scan and quickly understand. Scanning the code, `sumOf`, `count`, and `isValidNeighbor()` stood out to me but it was hard to sift through the rest of it and get a clear idea of what was going on. There was a lot of implementation noise.
 
-Getting rid of temporary variables can be a good way to reduce noise in code. In this case, `r` and `c` were noisy. When you see single-letter variables these, ask yourself why they weren't given better names. 
+Getting rid of temporary variables can be a good way to reduce noise in code. In this case, `r` and `c` were noisy. When you see single-letter variables like these, ask yourself why they don't have better names. Sometimes (more often than not?) developers will just use these kinds of short, cryptic names because they can't think of any good ones. That can be a sign that the expression related to it is either in the wrong place or it's redundant.
 
-Sometimes (more often than not?) developers will just use these kinds of short, cryptic names because they can't think of any good ones. That can be a sign that the expression related to it is either in the wrong place or it's redundant.
-
-That seems to be the case here. I had struggled with what to name these variables and it only dawned on me in retrospect that since they represented the neighbor's position on the grid, `neighborRow` and `neighborCol` would have been more appropriate names.
+That was exactly the case here. I had struggled with what to name these variables and it only dawn on me later that since they represented the neighbor's position on the grid, `neighborRow` and `neighborCol` would be more appropriate names for them.
 
 Anyway, inlining `r` and `c` gave me this:
 
@@ -193,7 +191,7 @@ Anyway, inlining `r` and `c` gave me this:
         }
     }
 
-This tidied up the outer loop a little bit but only shifted noise into the inner loop. The code still wasn't clear enough for my eyes to just glide over it. However, I could now see a way to reveal intent by extracting the `if-else` expression. 
+This tidied up the outer loop a little but only shifted noise into the inner loop. The code still wasn't clear enough for my eyes to just glide over it. However, I could now see a way to reveal intent by extracting the `if-else` expression. 
 
 Again, the guiding question "What does this piece of code do and how can we make it say that in a simpler, more straightforward way?"
 

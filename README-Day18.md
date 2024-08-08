@@ -56,19 +56,19 @@ The code below is my first cut solution. It passed the tests and earned a gold s
 
 Despite having only a few lines of declarative (vs. imperative) style code, this still doesn't tell a clear story that can be easily connected to the problem statement: "Given an initial configuration (your puzzle input), how many lights are on after 100 steps?"
 
-The only phrase in the problem statement that we can immediately connect to the code is `initialConfiguration`. Other references to `steps`, `nextStep` and `count` functions also hint at a connection but understanding the code as a whole takes a few seconds of parsing and piecing the parts together to form a coherent story in our heads.
+The only thing in the code that we can immediately connect to the problem statement is `initialConfiguration`. Other references like `steps`, `nextStep`, and `count` also hint at the problem statement but understanding how those bits and pieces fit together as a whole takes a few seconds of parsing and piecing together to form a coherent story in our head.
 
-Most of the cognitive load, which I often refer to as "friction", is caused by the `fold()` and `flatten()` operations. Both of these sit squarely in the technical solution space rather than the abstract problem space. 
+Most of the cognitive load, which I often refer to as "friction" (the [Carl von Clausewitz](https://clausewitzstudies.org) kind), is caused by the `fold()` and `flatten()` operations. 
 
-The function `part1()` is a high-level function and as a reader, my main focus is gaining a high-level understanding, not so much the implementation details. I want to be able to connect what I'm reading with my understanding of the problem at a very high-level of abstraction. While they are key parts of the technical solution, `fold()` and `flatten()` have little to no connection to the abstract ideas from the problem statement.
+The function `part1()` is a high-level function and as a reader, my main focus is gaining a high-level understanding, not so much the implementation details. I want to be able to connect what I'm reading with my understanding of the problem at a very high-level of abstraction. While they are key parts of the technical solution, `fold()` and `flatten()` have little to no connection to the abstract ideas from the problem statement: both of these are ideas from the technical solution space.
 
-Now, compare that to the refactored version:
+Compare that to the refactored version below:
 
     override fun part1(): Int = initialConfiguration
         .animate(steps)
         .howManyAreOn()
 
-The story this code tells is now very clearly a direct reflection of the ideas presented in the problem statement. There is virtually no cognitive load for the reader who is trying to correlate the code to the problem.
+This code tells a story that is easily a direct reflection of the problem statement. There is virtually no cognitive load for the reader who is trying to understand how the code relates to the problem.
 
 #### One way to read the refactored code
 

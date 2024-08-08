@@ -32,9 +32,7 @@ My first goal in refactoring is always to increase the clarity of the code. The 
 
 The clearer, simpler, and less technically-oriented code is, the easier it is to relate to its _intent_ and gain a good understanding of what it does. Developers, however, are naturally preoccupied with the technical aspects of the solution and this is often reflected in the code as technical terms and jargon. While understandable, code that has too much of a technical focus can impose a heavy cognitive load on the reader and can be an impediment to understanding. 
 
-Most readers, particularly those who are unfamiliar with the program, will be more interested in the abstract concepts represented in the code as they start familiarizing themselves with it. Understanding the technical details comes later, after a good high-level understanding of the _intent_ of the program is gained. 
-
-The bigger the gap between the abstract ideas of the problem space and the way these ideas are represented in the code, the harder it will be for the reader to bridge that gap and gain a high-level understanding of the program.
+Most readers, particularly those who are unfamiliar with the program, will be more interested in the abstract concepts represented in the code as they start familiarizing themselves with it. Understanding the technical details comes later, after a good high-level understanding of the _intent_ of the program is gained. The bigger the gap between the abstract ideas of the problem space and the way these ideas are represented in the code, the harder it will be for the reader to bridge that gap and gain a high-level understanding of the program.
 
 By using words and phrases from the problem space, avoiding technical jargon, and pushing technical details down to the lower layers of abstraction can greatly reduce that gap and imposes less of a cognitive load on the reader.
 

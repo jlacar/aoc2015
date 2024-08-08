@@ -30,7 +30,7 @@ My first goal in refactoring is always to increase the clarity of the code. The 
 
 ### Use words and phrases from the problem domain
 
-The clearer, simpler, and less technically-oriented code is, the easier it is to relate to its _intent_ gain a good understanding of what it does. Developers, however, are naturally preoccupied with the technical aspects of the solution and this is often reflected in the code as technical terms and jargon. While understandable, code that "speaks" to much in technical terms imposes a heavy cognitive load on the reader, especially in the high-level parts. 
+The clearer, simpler, and less technically-oriented code is, the easier it is to relate to its _intent_ and gain a good understanding of what it does. Developers, however, are naturally preoccupied with the technical aspects of the solution and this is often reflected in the code as technical terms and jargon. While understandable, code that "speaks" to much in technical terms imposes a heavy cognitive load on the reader, especially in the high-level parts. 
 
 Most readers, particularly those who are unfamiliar with the program, will be more interested in the abstract concepts represented in the code as they start familiarizing themselves with it. Understanding the technical details comes later, after a good high-level understanding of the _intent_ of the program is gained. 
 

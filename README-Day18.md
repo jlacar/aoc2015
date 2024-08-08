@@ -74,6 +74,10 @@ This code tells a story that is easily a direct reflection of the problem statem
 
 > (_Given an_) **initial configuration**, **animate** (_the grid through this many_) **steps** (_and count_) **how many** (_lights_) **are on**.
 
+The italicized words in parentheses are what you might reasonably expect your brain to silently "fill in" as you read the code. Our brains naturally do this, often without us being conscious of it.
+
+The effort of silently filling in gaps like that is what basically constitutes cognitive load. The harder your brain has to work to fill in those gaps to formulate a coherent story, the more cognitive load you experience.
+
 ## Step-by-Step Refactoring/Tidying 
 
 The refactoring of `part1()` was accomplished in a few small steps. At each step, the guiding question was "What is this piece of code doing and how can we express it in a way that is simple and straightforward?" 
@@ -132,9 +136,7 @@ The refactored `part1()` code tells a clear story that can be easily mapped to t
 
 The point is that the words you're reading have very little to do with the implementation details of the solution but rather with the _intent_ of the program. 
 
-The italicized words in parentheses are what you might reasonably expect your brain to silently "fill in" as you read the code. Our brains naturally do this, often without us being conscious of it.
-
-The effort of silently filling in gaps like that is what basically constitutes cognitive load. The harder your brain has to work to fill in those gaps to formulate a coherent story, the more cognitive load you experience.  
+### Tidying for reading order also helps
 
 Notice, too, that the arrangement of the extracted functions follow what Kent Beck refers to in his "_Tidy First?_" book as the "reading order", with the assumption that you read the code from top to bottom. 
 

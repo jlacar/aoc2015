@@ -58,9 +58,9 @@ Despite having only a few lines of declarative (vs. imperative) style code, this
 
 The only thing in the code that we can immediately connect to the problem statement is `initialConfiguration`. Other references like `steps`, `nextStep`, and `count` also hint at the problem statement but understanding how those bits and pieces fit together as a whole takes a few seconds of parsing and piecing together to form a coherent story in our head.
 
-Most of the cognitive load, which I often refer to as "friction" (the [Carl von Clausewitz](https://clausewitzstudies.org) kind), is caused by the `fold()` and `flatten()` operations. 
+The `part1()` function is a high-level function. As a reader trying to understand what the program does, my focus is on understanding _intent_, not so much the implementation details. I want to be able to connect what I'm reading with my understanding of the problem at a very high-level of abstraction. 
 
-The `part1()` function is a high-level function. As a reader trying to understand what the program does, my focus is on understanding _intent_, not so much the implementation details. I want to be able to connect what I'm reading with my understanding of the problem at a very high-level of abstraction. While `fold()` and `flatten()` are key technical details, the have little to no connection to the abstract ideas from the problem statement.
+Most of the cognitive load, which I often refer to as "friction" (the [Carl von Clausewitz](https://clausewitzstudies.org) kind), is caused by the `fold()` and `flatten()` operations. While they are key parts of the technical solution, introducing them at this level of the program creates more noise than signal for the reader.
 
 Compare that to the refactored version below:
 

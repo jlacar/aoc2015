@@ -34,7 +34,7 @@ The clearer, simpler, and less technically-oriented code is, the easier it is to
 
 Most readers, particularly those who are unfamiliar with the program, will be more interested in the abstract concepts represented in the code as they start familiarizing themselves with it. Understanding the technical details comes later, after a good high-level understanding of the _intent_ of the program is gained. The bigger the gap between the abstract ideas of the problem space and the way these ideas are represented in the code, the harder it will be for the reader to bridge that gap and gain a high-level understanding of the program.
 
-By using words and phrases from the problem space, avoiding technical jargon, and pushing technical details down to the lower layers of abstraction can greatly reduce that gap and imposes less of a cognitive load on the reader.
+Using words and phrases from the problem space, avoiding technical jargon, and pushing technical details down to the lower layers of abstraction can greatly reduce the cognitive load imposed on the reader. Diligent and judicious refactoring/tidying of the code is one of the best ways I know of keeping that gap as small as it can be.
 
 ### Cognitive Load: An Example from Day 18
 

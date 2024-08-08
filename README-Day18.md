@@ -8,7 +8,7 @@ Pretty straightforward GoL implementation: find the state after 100 steps (gener
 
 My first approach was to iterate over the possible offsets using an `IntRange` of `-1..1`. This required nested loops to go through the permutations of row and column offsets. I also needed some checks to ignore off-grid and the "self" coordinates with offsets of `(0, 0)`. 
 
-Later, I realized this was too complicated and it would be simpler to just iterate through a list of eight possible offsets of neighbors. This allowed me to eliminate the check for `(0, 0)` offsets, leaving me with just the on-grid check.
+Later, I realized it would be simpler to just iterate through a list of offsets, since there were only eight neighbors. This allowed me to eliminate the check for the `(0, 0)` offset, leaving just the on-grid check.
 
 See the ["Sometimes a little judicious hard-coding is better"](#sometimes-a-little-judicious-hard-coding-is-better) section below for details of the refactoring.
 

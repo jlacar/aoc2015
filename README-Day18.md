@@ -252,6 +252,14 @@ This refactoring also simplifies the checks needed to make sure only valid grid 
     private fun Grid.isOnGrid(row: Int, col: Int) = 
         row in this.indices && col in this[row].indices
 
+### When you do good things to the code, good things tend to happen in the code 
+
+As I read the code again, I notice that the `isLightOnAt()` function nicely encapsulates the rule in the problem statement about missing neighbors:
+
+> Lights on the edge of the grid might have fewer than eight neighbors; the missing ones always count as "off".
+
+While I didn't do this intentionally, it felt good to see the logic simply fell into its rightful place as a natural consequence of diligent and judicious tidying. It seems almost karmic but then again, if you do good things _to_ the code, good things tend to happen _in_ the code.
+
 ### Using companion object to hold static things
 
 One additional refactoring I did was to give better names to the things related to neighbors.

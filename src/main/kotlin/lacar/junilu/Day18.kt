@@ -50,7 +50,8 @@ class Day18(private val initialConfiguration: Grid, private val steps: Int) : So
     private fun Grid.isLightOnAt(row: Int, col: Int) =
         if (isOnGrid(row, col)) this[row][col] else false
 
-    private fun Grid.isOnGrid(row: Int, col: Int) = row in this.indices && col in this[row].indices
+    private fun Grid.isOnGrid(row: Int, col: Int) =
+        row in this.indices && col in this[row].indices
 
     companion object {
         private val neighborOffsets = listOf(

@@ -17,16 +17,28 @@ class Day18(private val initialConfiguration: Grid, private val steps: Int) : So
         .animate(steps) { grid -> grid.turnOnCorners() }
         .howManyAreOn()
 
+    private fun Grid.animate(steps: Int, transform: (Grid) -> Grid = { it }): Grid
+            = (1..steps).fold(transform(this)) { grid, _ -> transform(grid.nextStep()) }
+
+    private fun Grid.howManyAreOn() = this.flatten().count { it }
+
+    private fun Grid.nextStep(): Grid =
+        mapIndexed { row, rowOfLights ->
+            rowOfLights.mapIndexed { col, lightIsOn ->
+                val neighbors = litNeighborsOf(row, col)
+                if (lightIsOn) {
+                    neighbors in (2..3)
+                } else {
+                    neighbors == 3
+                }
+            }
+        }
+
     private fun Grid.turnOnCorners() =
         listOf(turnOnEnds(first())) + subList(1, lastIndex) + listOf(turnOnEnds(last()))
 
     private fun turnOnEnds(row: GridRow) =
         listOf(true) + row.subList(1, row.lastIndex) + listOf(true)
-
-    private fun Grid.animate(steps: Int, transform: (Grid) -> Grid = { it }): Grid
-        = (1..steps).fold(transform(this)) { grid, _ -> transform(grid.nextStep()) }
-
-    private fun Grid.howManyAreOn() = this.flatten().count { it }
 
     private fun Grid.litNeighborsOf(row: Int, col: Int): Int =
         neighborsOf(row, col).count { (row, col) -> isLightOnAt(row, col) }
@@ -44,18 +56,6 @@ class Day18(private val initialConfiguration: Grid, private val steps: Int) : So
         if (isOnGrid(row, col)) this[row][col] else false
 
     private fun Grid.isOnGrid(row: Int, col: Int) = row in this.indices && col in this[row].indices
-
-    private fun Grid.nextStep(): Grid =
-        mapIndexed { row, rowOfLights ->
-            rowOfLights.mapIndexed { col, lightIsOn ->
-                val neighbors = litNeighborsOf(row, col)
-                if (lightIsOn) {
-                    neighbors in (2..3)
-                } else {
-                    neighbors == 3
-                }
-            }
-        }
 
     companion object {
         fun using(input: List<String>, steps: Int) = Day18(

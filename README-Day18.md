@@ -171,11 +171,15 @@ As mentioned earlier, my first approach to counting how many neighboring lights 
         col: Int
     ) = r in this.indices && c in this[row].indices && (r != row || c != col)
 
-The first thing that struck me smelly about this code was, of course, that it was difficult to scan and quickly understand. The friction in `Grid.litAround()` comes mostly from everything after the line with `return` on it. Scanning it, `sumOf`, `count`, and `isValidNeighbor()` are what stand out to me, but it's hard to sift through the rest of the code and get a clear idea of what's going on.
+The first thing that struck me smelly about this code was that it was difficult to scan and quickly understand. The friction in `Grid.litAround()` cames mostly from everything after the line with `return` on it. Scanning it, `sumOf`, `count`, and `isValidNeighbor()` are what stood out to me, but it was hard to sift through the rest of the code and get a clear idea of what was going on.
 
-In general, one way to reduce the noise in code is to get rid of temporary variables. The poorly-name `r` and `c` got the axe. A hint that I could eliminate them came from how they were being passed to `isValidNeighbor()` along with `row` and `col`, which are part of their respective values. 
+Getting rid of temporary variables can be a good way to reduce noise in code. In this case, `r` and `c` were a little noisy. When you see single-letter variables these, ask yourself why they weren't given better names. 
 
-Inlining `r` and `c` gave me this:
+Sometimes (more often than not?) developers will just use these kinds of short, cryptic names because they can't think of any good ones. That can be a sign that the variable or calculation related to it is either in the wrong place or it's redundant.
+
+That seems to be the case here. I had struggled with what to name these variables and it only dawned on me in retrospect that since they represented the neighbor's position on the grid, `neighborRow` and `neighborCol` would have been the more appropriate names.
+
+Anyway, inlining `r` and `c` gave me this:
 
     private fun Grid.litAround(row: Int, col: Int): Int {
         val offsets = -1..1
@@ -189,7 +193,7 @@ Inlining `r` and `c` gave me this:
             }
         }
 
-This tidied up the outer loop a little bit but only shifted noise into the inner loop. Still not clear enough but now I could see a way to reveal intent by extracting the `if-else` expression.
+This tidied up the outer loop a little bit but only shifted noise into the inner loop. The code still wasn't clear enough for my eyes to just glide over it. However, I could now see a way to reveal intent by extracting the `if-else` expression.
 
     private fun Grid.litAround(row: Int, col: Int): Int {
         val offsets = -1..1
@@ -205,7 +209,7 @@ This tidied up the outer loop a little bit but only shifted noise into the inner
         else
             false
 
-The long parameter list for `isLightOnAt` and the redundancy of their values was really starting to bother me. However, it also occurred to me that since there were only eight pairs of offsets to deal with, it might be easier if I just hard-coded those offsets. 
+The long parameter list for `isLightOnAt` and the redundancy of their values was really starting to bother me now. However, it also occurred to me that since there were only eight pairs of offsets to deal with, it might be easier if I just hard-coded those offsets. 
 
 Here's what I got after a few tweaks and renames:
 
@@ -220,13 +224,15 @@ Here's what I got after a few tweaks and renames:
             isLightOnAt(row + rOffset, col + cOffset)
         }
 
-As a sanity check, I retell the story in my head to see how well it maps to the code:
+That looks pretty clean but as a sanity check, I retell the story in my head to see how well it maps to the code:
 
-> Count how many of the neighbors of (row, col) are lit.
+> Count how many neighbors of the light at (row, col) are lit.
 
-It's pretty close but there's still a bit of friction from the offsets list. As my eyes bounce back and forth between the `count` body and the `offsets` list declaration, I realize that the `litNeighborsOf()` function has two responsibilities: counting and calculating the neighbor light's coordinates. These  should probably be separate concerns. 
+While I've managed to trim the code down quite a bit, I still sense some friction from the offsets list. As I read the code, I notice that I'm bouncing back and forth between the `count` body and the `offsets` list declaration. It seems my brain is trying to figure out the relationship between the addition the offsets in the `isLightOnAt()` call and the offsets list.
 
-To do that, I create the `neighborsOf()` function, which uses the list of offsets to calculate the coordinates of the neighbors. Moving the calculation of neighbor coordinates here leaves `litNeighborsOf()` to be concerned solely with counting how many of its neighbors are lit.
+This helps me realize that the `litNeighborsOf()` function currently has two responsibilities: counting the lit neighbors and calculating the neighboring light's locations. These two concerns should probably be separated. 
+
+To do that, I create the `neighborsOf()` function. Moving the calculation of neighbors to a separate function leaves `litNeighborsOf()` to be focused only on counting its lit neighbors, just like its name suggests.
 
     private fun Grid.litNeighborsOf(row: Int, col: Int): Int = neighborsOf(row, col)
         .count { (neighborRow, neighborCol) -> isLightOnAt(neighborRow, neighborCol) }
@@ -238,7 +244,7 @@ Now reading and understanding the code is straightforward:
 
 > (_Get the_) **neighbors of** (_the light at_) **(row, column)** (_and_) **count** (_the_) **lights that are on**. 
 
-This refactoring also simplifies the checks I need to make to ensure I'm only checking valid grid coordinates.
+This refactoring also simplifies the checks needed to make sure only valid grid coordinates are checked.
 
     private fun Grid.isLightOnAt(row: Int, col: Int) =
         if (isOnGrid(row, col)) this[row][col] else false
@@ -248,7 +254,13 @@ This refactoring also simplifies the checks I need to make to ensure I'm only ch
 
 ### Using companion object to hold static things
 
-One additional refactoring I did was to put the `neighborOffsets` list in the companion object. There was no point in creating the list more than once and the companion object is perfect place to put this kind of stuff. I thought about moving `isOnGrid()` in there as well but decided not to because it had a dependency on the grid itself and rightly belonged in the `Day18` class that encapsulated it.
+One additional refactoring I did was to give better names to the things related to neighbors.
+
+First, I renamed `offsets` to `neighborOffsets`. I also used `neighborRow` and `neighborCol` so it's clear what they represent.
+
+Then, I moved the offset list into the Day18 companion object. There is no point in creating the list more than once and the companion object is the perfect place to put this kind of stuff. 
+
+I thought about moving `isOnGrid()` in there as well but decided not to because it had a dependency on the grid itself and rightly belonged in the `Day18` class that encapsulated it.
 
 ## Function parameters and parameter defaults
 

@@ -4,7 +4,7 @@ A nice [warm-up puzzle](https://adventofcode.com/2015/day/1) to kick things off.
 
 This puzzle involves parsing a series of parentheses (the puzzle input). Santa is delivering presents in a large apartment building. He needs to follow the directions he's been given to find the right floor.  
 
-Each parenthesis in the directions tells Santa which way to go: up one floor if it's an open parenthesis, `(`, one down floor if it's a close parenthesis, `)`.
+Each parenthesis in the directions tells Santa which way to go: one floor up if it's an open parenthesis, `(`, one floor down if it's a close parenthesis, `)`.
 
 # Part 1
 

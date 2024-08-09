@@ -41,9 +41,11 @@ I also extracted the code that calculates the next floor to its own function bec
         currentFloor + if (direction == '(') 1 else -1
     }
 
-For a program this small, it may seem a bit heavy-handed to do this kind of refactoring. However, applying this style of organizing and structuring code in real-world, thousands-of-lines-long and hundreds-of-files-big programs will pave the way for a gentler and more enjoyable experience for readers trying to understand what's going on in the code.
+## Over-engineering vs. practicing good habits 
 
-# Using a sequence for Part 2
+For a program this small, it may seem a bit heavy-handed to do this kind of refactoring. However, applying this style of organizing and structuring code in real-world, thousands-of-lines-long and hundreds-of-files-big programs will pave the way for a gentler and more enjoyable experience for readers trying to understand what's going on in your real-world code.
+
+## Using a sequence for Part 2
 
 When I extracted the `runningFold()` operation in Part 2, I also added `.asSequence()` to the chain to make sure I was operating on a sequence rather than a collection. This allowed the iteration of `runningFold()` to be terminated as soon as the first `-1` floor was found. 
 

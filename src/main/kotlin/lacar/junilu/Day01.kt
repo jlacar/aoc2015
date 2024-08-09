@@ -5,16 +5,21 @@ package lacar.junilu
  *
  * https://adventofcode.com/2015/day/1
  */
-class Day01(private val input: String) : Solution<Int> {
-    override fun part1() = input
-        .fold(0, nextFloor)
+class Day01(private val directions: String) : Solution<Int> {
 
-    override fun part2() = input.asSequence()
-        .runningFold(0, nextFloor)
-        .indexOfFirst { it == -1 }
+    // Solutions
+    override fun part1() = directions.lastFloor()
+    override fun part2() = directions.positionOfFirstTimeInBasement()
 
+    // Extension functions
+    private fun CharSequence.lastFloor() =
+        fold(0, nextFloor)
+
+    private fun CharSequence.positionOfFirstTimeInBasement() =
+        asSequence().runningFold(0, nextFloor).indexOfFirst { it == -1 }
+
+    // Calculate next floor
     private val nextFloor: (Int, Char) -> Int = { currentFloor, direction ->
-        println("At floor: $currentFloor")
         currentFloor + if (direction == '(') 1 else -1
     }
 }

@@ -2,9 +2,9 @@
 
 A nice [warm-up puzzle](https://adventofcode.com/2015/day/1) to kick things off. 
 
-This puzzle involves parsing a series of parentheses (the puzzle input). Santa is delivering gifts to kids who live in an large apartment building. To find the right floor, he needs to follow the directions he's been given.  
+This puzzle involves parsing a series of parentheses (the puzzle input). Santa is delivering presents in a large apartment building. He needs to follow the directions he's been given to find the right floor.  
 
-Each parenthesis in the directions tells Santa which way to go: up one floor if it's an open parenthesis, `(`, down one floor if it's a close parenthesis, `)`.
+Each parenthesis in the directions tells Santa which way to go: up one floor if it's an open parenthesis, `(`, one down floor if it's a close parenthesis, `)`.
 
 # Part 1
 
@@ -42,3 +42,9 @@ I also extracted the code that calculates the next floor to its own function bec
     }
 
 For a program this small, it may seem a bit heavy-handed to do this kind of refactoring. However, applying this style of organizing and structuring code in real-world, thousands-of-lines-long and hundreds-of-files-big programs will pave the way for a gentler and more enjoyable experience for readers trying to understand what's going on in the code.
+
+# Using a sequence for Part 2
+
+When I extracted the `runningFold()` operation in Part 2, I also added `.asSequence()` to the chain to make sure I was operating on a sequence rather than a collection. This allowed the iteration of `runningFold()` to be terminated as soon as the first `-1` floor was found. 
+
+Without the conversion to a sequence, the `runningFold()` would go through the entire set of directions, which would create a very large intermediate list for long inputs. With the sequence, the iterations are terminated as soon as `floor` becomes `-1` and the rest of the characters in the input will not be processed. The sequence essentially allows us to shortcircuit the iteration.  

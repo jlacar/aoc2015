@@ -53,6 +53,7 @@ class Day01Test {
         @CsvSource(
             "),     1",
             "()()), 5",
+            "()))())(()), 3",
         )
         fun `Part 2`(input: String, expectedPosition: Int) {
             assertEquals(expectedPosition, Day01(input).part2())

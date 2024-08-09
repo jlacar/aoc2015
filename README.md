@@ -18,7 +18,7 @@ Whenever possible, I try to find and extract the core logic that can be used to 
 
 These are links to notes on each of my solutions to [Advent of Code 2015](https://adventofcode.com/2015) using [Kotlin](https://kotlinlang.org).
 
-* Day 1
+* [Day 1](README-Day01.md)
 * Day 2
 * Day 3
 * Day 4

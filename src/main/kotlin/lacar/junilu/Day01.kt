@@ -18,7 +18,7 @@ class Day01(private val directions: String) : Solution<Int> {
     private fun CharSequence.positionOfFirstTimeInBasement() =
         asSequence().runningFold(0, nextFloor).indexOfFirst { it == -1 }
 
-    // Calculate next floor
+    // Shared calculation
     private val nextFloor: (Int, Char) -> Int = { currentFloor, direction ->
         currentFloor + if (direction == '(') 1 else -1
     }

@@ -43,7 +43,7 @@ I also extracted the code that calculates the next floor to its own function bec
 
 ## Over-engineering vs. practicing good habits 
 
-For a program this small, it may seem a bit heavy-handed to do this kind of refactoring. However, applying this style of organizing and structuring code in real-world, thousands-of-lines-long and hundreds-of-files-big programs will pave the way for a gentler and more enjoyable experience for readers trying to understand what's going on in your real-world code.
+For a program this small, it may seem a bit heavy-handed to do this kind of refactoring. However, applying this style of organizing and structuring code in real-world, thousands-of-lines-long and hundreds-of-files-big programs will pave the way for a gentler and more enjoyable experience for readers trying to understand what's going on in your program.
 
 ## Using a sequence for Part 2
 
